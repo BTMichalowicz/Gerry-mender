@@ -1,3 +1,3 @@
-#Dinnerbone presents Gerry-mender
+# Dinnerbone presents Gerry-mender
 
-###Jing Zhang, Veronica Quintana, Ian Peitzsch, Benjamin Michalowicz
+### Jing Zhang, Veronica Quintana, Ian Peitzsch, Benjamin Michalowicz
