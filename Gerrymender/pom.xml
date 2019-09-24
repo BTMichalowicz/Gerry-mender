@@ -12,7 +12,7 @@
 	<artifactId>Gerrymender</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Gerrymender</name>
-	<description>CSE 308 Gerrymandering Project</description>
+	<description>CSE 308 Project LET'S GO!</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -21,7 +21,15 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-data-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
 		</dependency>
 
 		<dependency>
