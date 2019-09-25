@@ -6,15 +6,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class GerrymenderApplication extends SpringBootServletInitializer{
+public class GerrymenderApplication{
 	public static void main(String[] args) {
 		SpringApplication.run(GerrymenderApplication.class, args);
 	}
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(GerrymenderApplication.class);
-	}
 
 
 
