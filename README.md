@@ -36,7 +36,7 @@ Project is created with:
 3. R/B view - map will show the election result with red(Republican Party) and blue(Democratic Party) colors
 4. Year selection - user can select to use 2014, 2016 or 2018 election data to do redistrict
 
-### Info content
+### Info content(right)
 This part will show the detail information of user selection, such as population, election result.
 
 
