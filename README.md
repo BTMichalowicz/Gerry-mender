@@ -4,21 +4,17 @@
 
 ## General info
 
-**Gerry-mender** is an online 
-
-**Celeste_Jotto** is an online man-machine interaction Jotto game webapp. User can play Jotto with our game AI.
-
-Every user is required to register a unique user account with legal username and password. Also, Celeste_Jotto will record finished game automatically, so users can look back their game details at any time.
-
+**Gerry-mender** is an online election analysis appliction. User can use Gerry-mender to simulate a "fairer" gerrymander result.
 	
 ## Technologies
 Project is created with:
 * Java Spring Boot - the back end of this webapp, handling webpage request and return data to front end
-* JSP - the front end of this webapp, the User interface and send request to back end
+* HTML - the front end of this webapp, the User interface and send request to back end
 * JQuery - write for web page function
-* MySQL - Celeste_Jotto's database, stored the user information, such as username, password and each game details
+* AJAX - front end content partial update 
+* MySQL - database, stored the state, district and precinct information
 * Microsoft Azure - deploy whole project into Azure to make a real online webapp
-* Java - the game program, to determine the winner and return feedback of each guess
+* Java - the backend program, to simulate the gerrymander and return the result
 	
 
 ## Setup
