@@ -4,7 +4,7 @@
 
 ## General info
 
-**Gerry-mender** is an online election analysis appliction. We provide the Texas, Florida and North Carolina election result for 2014, 2016 and 2018. User can use Gerry-mender to simulate a "fairer" redistrct result.
+**Gerry-mender** is an online election analysis application. We provide the Texas, Florida and North Carolina election result for 2014, 2016 and 2018. User can use Gerry-mender to simulate a "fairer" redistrict result.
 	
 ## Technologies
 Project is created with:
@@ -25,14 +25,14 @@ Project is created with:
 3. Help menu - some basic instruction and user guide
 
 ### Objective function part (left)
-1. Check box - user can select which element will be involved to calculate redistrct result
+1. Check box - user can select which element will be involved to calculate redistrict result
 2. Slider/input text - user can use slider to adjust coefficient for each element or input the coefficient value directly
 3. Time interation - user is able to determine how long graph annealing is done
-4. Apply - collect user setting and calculate the redistrct result
+4. Apply - collect user setting and calculate the redistrict result
 
 ### Map part (center)
 1. Map - interactive map, eg. user can click or hover the area to see the detail information, double click current state to go district level
-2. Drop-down menu - user can select state level, distrct level and precinct levele manually
+2. Drop-down menu - user can select state level, district level and precinct levele manually
 3. R/B view - map will show the election result with red(Republican Party) and blue(Democratic Party) colors
 4. Year selection - user can select to use 2014, 2016 or 2018 election data to do redistrict
 
