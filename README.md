@@ -17,7 +17,7 @@ Project is created with:
 * Java - the backend program, to simulate the gerrymander and return the result
 
 
-![image](https://github.com/BTMichalowicz/Gerry-mender/blob/master/Screen%20Shot%202019-09-29%20at%206.29.48%20PM.png)
+![image](https://github.com/BTMichalowicz/Gerry-mender/blob/master/State%20page.png)
 ## How to use
 ### Menu bar
 1. Home - restore page to default setting, eg. clear the coeffient slider and input coeffient value, map level set to state level.
