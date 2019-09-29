@@ -16,7 +16,14 @@ Project is created with:
 * Microsoft Azure - deploy whole project into Azure to make a real online webapp
 * Java - the backend program, to simulate the gerrymander and return the result
 
+
+![image](https://github.com/BTMichalowicz/Gerry-mender/blob/master/Screen%20Shot%202019-09-29%20at%206.29.48%20PM.png)
 ## How to use
+### Menu bar
+1. Home - restore page to default setting, eg. clear the coeffient slider and input coeffient value, map level set to state level.
+2. Export - user can select to save their result as .csv, .jpeg or .pdf file.
+3. Help menu - some basic instruction and user guide
+
 
 
 ## Contact info
