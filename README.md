@@ -43,4 +43,5 @@ This part will show the detail information of user selection, such as population
 
 ## Contact info
 
-jing.zhang.6@stonybrook.edu
+Dinnerbone@stonybrook.edu
+
