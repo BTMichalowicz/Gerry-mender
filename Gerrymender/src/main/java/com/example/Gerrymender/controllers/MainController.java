@@ -10,7 +10,7 @@ public class MainController {
 
     @RequestMapping("/")
     public String welcome(){
-        return "index";
+        return "GerryMenderTest";
     }
 
 }
