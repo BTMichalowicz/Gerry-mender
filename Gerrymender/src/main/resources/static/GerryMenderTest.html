@@ -7,6 +7,7 @@
 <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
 <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet' />
 <script src='/scripts/us-states.js'></script>
+<script src='/scripts/stateData.js'></script>
 <script src='/scripts/leaflet.ajax.min.js'></script>
 
 <style>
@@ -20,11 +21,10 @@
         border-radius: 8px;
         height:inherit;
     }
-  </style>
 </style>
 </head>
 <body>
-<h1 align="center" style = "font-family: Georgia, 'Times New Roman', Times, serif ">Welcome to GerryMender.<h1>
+<h1 align="center" style = "font-family: Georgia, 'Times New Roman', Times, serif ">Welcome to GerryMender.</h1>
   <div id="map-container">
     <div id="map"></div>
 </div>
@@ -38,10 +38,10 @@ var map = L.mapbox.map('map')
 
 L.geoJson(statesData).addTo(map);
 
-/*var floridaLayer = new L.GeoJSON.AJAX("/Content/geoJSONS/FL.geojson");       
+/*var floridaLayer = new L.GeoJSON.AJAX("/Content/geoJSONS/FL.geojson");
 floridaLayer.addTo(map);
-var floridaLayer = new L.GeoJSON.AJAX("/Content/geoJSONS/NC.geojson");       
-ncarolinaLayer.addTo(map);*/
+var ncarolina = new L.GeoJSON.AJAX("/Content/geoJSONS/NC.geojson");
+ncarolina.addTo(map);*/
 
 </script>
 </body>
