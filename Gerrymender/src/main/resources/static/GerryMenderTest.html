@@ -17,16 +17,48 @@
     }
     #map{ 
         position:inherit;
-        border: 1px solid black;
-        border-radius: 8px;
         height:inherit;
     }
+    .column{
+        float: left;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 8px;
+        height:725px;
+    }
+
+    .left, .right{
+        width: 15%;
+    }
+    .middle{
+        width: 60%;
+    }
+
+    /*clear floats after columns*/
+    .row:after{
+        content: "";
+        display:table;
+        clear: both;
+    }
+
 </style>
 </head>
 <body>
 <h1 align="center" style = "font-family: Georgia, 'Times New Roman', Times, serif ">Welcome to GerryMender.</h1>
-  <div id="map-container">
-    <div id="map"></div>
+ <div class = "row">
+     <div class = "column left">
+         <h2 align = "center" style = "font-family: Georgia, 'Times New Roman', Times, serif">Objective Function Control</h2>
+         <p>((soon there will be BUTTONS))</p>
+     </div>
+     <div class = "column middle">
+            <div id="map-container">
+                    <div id="map"></div>
+            </div>
+     </div>
+     <div class = "column right">
+         <h2 align = "center" style = "font-family: Georgia, 'Times New Roman', Times, serif">Info Panel</h2>
+         <p>voting and things</p>
+     </div>
 </div>
 <script>
 L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
