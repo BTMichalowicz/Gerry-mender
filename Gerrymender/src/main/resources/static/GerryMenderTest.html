@@ -8,6 +8,7 @@
 <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet' />
 <script src='/scripts/us-states.js'></script>
 <script src='/scripts/stateData.js'></script>
+    <script src='/scripts/FL.js'></script>
 <script src='/scripts/leaflet.ajax.min.js'></script>
 
 <style>
@@ -67,8 +68,22 @@ var map = L.mapbox.map('map')
     .setView([37.8, -96], 4)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
-
 L.geoJson(statesData).addTo(map);
+
+var myStyle = {
+    "color": "red",
+    "weight": 3,
+    "opacity": 0.5,
+
+};
+
+var layerGeo = L.geoJson(floridaLayer, {
+    style:myStyle
+}).addTo(map);
+
+
+// floridaLayer = new L.GeoJSON.AJAX("static/geoJSONS/FL.geojson");
+// floridaLayer.addTo(map);
 
 /*var floridaLayer = new L.GeoJSON.AJAX("/Content/geoJSONS/FL.geojson");
 floridaLayer.addTo(map);
