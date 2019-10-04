@@ -1,39 +1,32 @@
-package com.example.Gerrymender;
+package com.example.Gerrymender.db_elements;
 
-/* Explanation for State representation
-in the database
-
- */
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.util.ArrayList;
 
 /**
  * @Author Benjamin Michalowicz
  * @Version 1.0
- * Simple representation of a State Table for each of the three states in our setup
+ * Simple representation of a District Table for each district in a given state in our setup
  */
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-
-enum Pol_Part{
-    DEMOCRAT, REPUBLICAN, INDEPENDENT
-}
-@Entity
-public class State {
+public class District {
 
     @Id
-    private String name; //Name, our key
+    private int id; //Districts have ID's or numbers as opposed to names, based on my research
 
+    private String stateName; //Can't have a state object, as that would bring in circular dependencies.
+    private long population;
 
-    private long population; //population
-    private Pol_Part pol_part; //Reigning political party
+    private Pol_part pol_part; //Reigning political party
 
     private float perc_hispanic;
     private float perc_white;
     private float perc_afr_amer;
     private float perc_asian;
+
+    public String getStateName(){return stateName;}
+    public void setStateName(String stateName){this.stateName=stateName;}
 
 
     public float getPerc_hispanic() {
@@ -68,12 +61,12 @@ public class State {
         this.perc_white = perc_white;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(int id) {
+        this.id = id;
     }
 
     public long getPopulation() {
@@ -84,11 +77,19 @@ public class State {
         this.population = population;
     }
 
-    public Pol_Part getPol_part() {
+    public Pol_part getPol_part() {
         return pol_part;
     }
 
-    public void setPol_part(Pol_Part pol_part) {
+    public void setPol_part(Pol_part pol_part) {
         this.pol_part = pol_part;
+    }
+
+    private ArrayList<Precinct> precincts;
+
+    public ArrayList<Precinct> getPrecincts(){return precincts;}
+    private void setPrecincts(ArrayList<Precinct> precincts){
+        this.precincts= new ArrayList<>(precincts);
+
     }
 }
