@@ -6,10 +6,18 @@
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
 <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet' />
-<script src='/scripts/us-states.js'></script>
-<script src='/scripts/stateData.js'></script>
-    <script src='/scripts/FL.js'></script>
-<script src='/scripts/leaflet.ajax.min.js'></script>
+<script src='./scripts/us-states.js'></script>
+<script src='./scripts/stateData.js'></script>
+<script src='./scripts/FL.js'></script>
+<script src='./scripts/leaflet.ajax.min.js'></script>
+    <!--&lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">-->
+
+    <!--&lt;!&ndash; jQuery library &ndash;&gt;-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+
+    <!--&lt;!&ndash; Latest compiled JavaScript &ndash;&gt;-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>-->
 
 <style>
     #map-container {
@@ -68,7 +76,8 @@ var map = L.mapbox.map('map')
     .setView([37.8, -96], 4)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
-L.geoJson(statesData).addTo(map);
+
+// L.geoJson(statesData).addTo(map);
 
 var myStyle = {
     "color": "red",
@@ -77,14 +86,14 @@ var myStyle = {
 
 };
 
-var layerGeo = L.geoJson(floridaLayer, {
-    style:myStyle
-}).addTo(map);
+// var layerGeo = L.geoJson(floridaLayer, {
+//     style:myStyle
+// }).addTo(map);
 
 
 
-// floridaLayer = new L.GeoJSON.AJAX("static/geoJSONS/FL.geojson");
-// floridaLayer.addTo(map);
+floridaLayer = new L.GeoJSON.AJAX("./static/geoJSONS/FL.geojson");
+floridaLayer.addTo(map);
 
 /*var floridaLayer = new L.GeoJSON.AJAX("/Content/geoJSONS/FL.geojson");
 floridaLayer.addTo(map);
