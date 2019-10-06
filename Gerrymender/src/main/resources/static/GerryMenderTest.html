@@ -6,10 +6,10 @@
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
 <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet' />
-<script src='/scripts/us-states.js'></script>
-<script src='/scripts/stateData.js'></script>
-    <script src='/scripts/FL.js'></script>
-<script src='/scripts/leaflet.ajax.min.js'></script>
+<script src='./scripts/us-states.js'></script>
+<script src='./scripts/stateData.js'></script>
+    <script src='./scripts/FL.js'></script>
+<script src='./scripts/leaflet.ajax.min.js'></script>
 
 <style>
     #map-container {
@@ -65,7 +65,7 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
 var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
 var map = L.mapbox.map('map')
-    .setView([37.8, -96], 4)
+    .setView([32, -90], 4.5)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
 L.geoJson(statesData).addTo(map);
@@ -77,19 +77,15 @@ var myStyle = {
 
 };
 
-var layerGeo = L.geoJson(floridaLayer, {
+/*var layerGeo = L.geoJson(floridaLayer, {
     style:myStyle
-}).addTo(map);
+}).addTo(map);*/
 
 
-
-// floridaLayer = new L.GeoJSON.AJAX("static/geoJSONS/FL.geojson");
-// floridaLayer.addTo(map);
-
-/*var floridaLayer = new L.GeoJSON.AJAX("/Content/geoJSONS/FL.geojson");
+var floridaLayer = new L.GeoJSON.AJAX("./Content/geoJSONS/FL.geojson");
 floridaLayer.addTo(map);
-var ncarolina = new L.GeoJSON.AJAX("/Content/geoJSONS/NC.geojson");
-ncarolina.addTo(map);*/
+var ncarolina = new L.GeoJSON.AJAX("./Content/geoJSONS/NC.geojson");
+ncarolina.addTo(map);
 
 </script>
 </body>
