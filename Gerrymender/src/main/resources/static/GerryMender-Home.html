@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
 <meta charset = utf-8/>
-<title>GerryMenderTest</title>
+<title>GerryMender - Welcome</title>
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
 <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet' />
 <script src='./scripts/us-states.js'></script>
 <script src='./scripts/stateData.js'></script>
-    <script src='./scripts/FL.js'></script>
+<script src='./scripts/FL.js'></script>
 <script src='./scripts/leaflet.ajax.min.js'></script>
+<link rel="stylesheet" href="content/bootstrap.css">
 
 <style>
     #map-container {
@@ -75,11 +76,21 @@ var map = L.mapbox.map('map')
 
 L.geoJson(statesData).addTo(map);
 
+var popup = L.popup()
+	.setLatLng([31.942257, -71.015625])
+	.setContent("Select a state to begin!")
+    .openOn(map);
+
+function onMapClick(e) {
+	alert("You clicked the map! This is to be expanded upon later!");
+}
+
+map.on('click', onMapClick);
+
 var myStyle = {
     "color": "red",
     "weight": 3,
     "opacity": 0.5,
-
 };
 
 /*var layerGeo = L.geoJson(floridaLayer, {
@@ -87,10 +98,10 @@ var myStyle = {
 }).addTo(map);*/
 
 
-var floridaLayer = new L.GeoJSON.AJAX("./Content/geoJSONS/FL.geojson");
+var floridaLayer = new L.GeoJSON.AJAX('./Content/geoJSONS/FL.geojson');
 floridaLayer.addTo(map);
-var ncarolina = new L.GeoJSON.AJAX("./Content/geoJSONS/NC.geojson");
-ncarolina.addTo(map);
+var ncarolinaLayer = new L.GeoJSON.AJAX("./Content/geoJSONS/NC.geojson");
+ncarolinaLayer.addTo(map);
 
 </script>
 </body>
