@@ -41,7 +41,10 @@ for file in os.listdir('.'):
             outputfile.write(line_arr[0])
 
             for i in range(1, len(line_arr)):
-                outputfile.write("," + line_arr[i])
+                if i ==5:
+                    outputfile.write(","+ line_arr[1]+"_"+line_arr[i])
+                else:
+                    outputfile.write("," + line_arr[i])
            # outputfile.write("\n") 
 
             line = inputfile.readline()
