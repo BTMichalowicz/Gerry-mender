@@ -67,6 +67,7 @@
          <p>voting and things</p>
      </div>
 </div> -->
+
 <script>
 L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
 var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
@@ -87,21 +88,18 @@ function onMapClick(e) {
 
 map.on('click', onMapClick);
 
-var myStyle = {
-    "color": "red",
-    "weight": 3,
-    "opacity": 0.5,
-};
+// var myStyle = {
+//     "color": "red",
+//     "weight": 3,
+//     "opacity": 0.5,
+// };
+//
+// var layerGeo = L.geoJson(floridaLayer, {
+//     style:myStyle
+// }).addTo(map);
 
-/*var layerGeo = L.geoJson(floridaLayer, {
-    style:myStyle
-}).addTo(map);*/
 
 
-var floridaLayer = new L.GeoJSON.AJAX('./Content/geoJSONS/FL.geojson');
-floridaLayer.addTo(map);
-var ncarolinaLayer = new L.GeoJSON.AJAX("./Content/geoJSONS/NC.geojson");
-ncarolinaLayer.addTo(map);
 
 </script>
 </body>
