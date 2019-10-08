@@ -75,6 +75,23 @@ var map = L.mapbox.map('map')
     .setView([32, -90], 4.5)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
+map.touchZoom.disable();
+map.doubleClickZoom.disable();
+map.scrollWheelZoom.disable();
+map.boxZoom.disable();
+map.keyboard.disable();
+map.dragging.disable();
+
+function onEachFeature(feature, layer) {
+    //bind click
+    layer.on('click', function (e) {
+
+        alert(feature.properties.name);
+
+    });
+
+}
+
 L.geoJson(statesData, {
         style: function(feature) {
             id = feature.id;
@@ -82,23 +99,24 @@ L.geoJson(statesData, {
                 id == 2  ? {color: '#0000CD', opacity:0.7} :
                     {color: '#2F4F4F', opacity:0.7};
 
-        }
+        },
+        onEachFeature: onEachFeature,
     }
 ).addTo(map);
 
 
 var popup = L.popup()
-	.setLatLng([31.942257, -71.015625])
-	.setContent("Select a state to begin!")
+    .setLatLng([33.942257, -90.015625])
+    .setContent("Please select a state to start!")
     .openOn(map);
 
-function onMapClick(e) {
-	alert("You clicked the map! This is to be expanded upon later!");
-}
+// function onMapClick(e) {
+// 	alert("You clicked the map! This is to be expanded upon later!");
+// }
+//
+// map.on('click', onMapClick);
 
-map.on('click', onMapClick);
 
-    
 
 
 </script>
