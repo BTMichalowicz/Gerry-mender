@@ -75,7 +75,17 @@ var map = L.mapbox.map('map')
     .setView([32, -90], 4.5)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
-L.geoJson(statesData).addTo(map);
+L.geoJson(statesData, {
+        style: function(feature) {
+            id = feature.id;
+            return id  == 1 ? {color: '#FF0000', opacity:0.7} :
+                id == 2  ? {color: '#0000CD', opacity:0.7} :
+                    {color: '#2F4F4F', opacity:0.7};
+
+        }
+    }
+).addTo(map);
+
 
 var popup = L.popup()
 	.setLatLng([31.942257, -71.015625])
@@ -88,17 +98,7 @@ function onMapClick(e) {
 
 map.on('click', onMapClick);
 
-// var myStyle = {
-//     "color": "red",
-//     "weight": 3,
-//     "opacity": 0.5,
-// };
-//
-// var layerGeo = L.geoJson(floridaLayer, {
-//     style:myStyle
-// }).addTo(map);
-
-
+    
 
 
 </script>
