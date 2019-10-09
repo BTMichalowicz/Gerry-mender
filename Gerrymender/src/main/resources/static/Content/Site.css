@@ -26,6 +26,30 @@ textarea {
 }
 
 /*Site Specific Design*/
+
+html,body{
+    height : 100%;
+}
+.dropdown {
+    position: absolute;
+    top: 40px;
+    right: 45px;
+    z-index: 1001;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.navbar-brand
+{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin:0 auto;
+}
+
 #map-container {
     position: relative;
     height: 93vh;
