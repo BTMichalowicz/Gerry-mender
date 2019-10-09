@@ -16,7 +16,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="Content/Site.css">
 
-
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -56,7 +55,15 @@ function onEachFeature(feature, layer) {
     layer.on('click', function (e) {
 
         alert(feature.properties.name);
-
+        if (feature.properties.name == "Texas"){
+            window.location.href = "GM-Texas.html";
+        }
+        else if (feature.properties.name == "North Carolina"){
+            window.location.href = "GM-NC.html";
+        }
+        else if (feature.properties.name == "Florida"){
+            window.location.href = "GM-Florida.html";
+        }
     });
 
 }
