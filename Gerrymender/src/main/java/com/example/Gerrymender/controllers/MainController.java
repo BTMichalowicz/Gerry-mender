@@ -9,7 +9,12 @@ public class MainController {
 
     @RequestMapping("/")
     public String welcome(){
-        return "Test";
+        return "Homepage";
+    }
+
+    @RequestMapping("/Test")
+    public String FLstate(){
+        return "index";
     }
 
 }

@@ -75,16 +75,10 @@ var map = L.mapbox.map('map')
     .setView([32, -90], 4.5)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
-map.touchZoom.disable();
-map.doubleClickZoom.disable();
-map.scrollWheelZoom.disable();
-map.boxZoom.disable();
-map.keyboard.disable();
-map.dragging.disable();
 
 function onEachFeature(feature, layer) {
     //bind click
-    layer.on('click', function (e) {
+    layer.on('dblclick', function (e) {
 
         alert(feature.properties.name);
 
