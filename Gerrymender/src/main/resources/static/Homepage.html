@@ -33,9 +33,9 @@
             Select a state
             <span class="caret"></span></button>
         <ul class="dropdown-menu">
-            <li><a href="#">Florida</a></li>
-            <li><a href="#">North Carolina</a></li>
-            <li><a href="#">Texas</a></li>
+            <li><a href="GM-Florida.html">Florida</a></li>
+            <li><a href="GM-NC.html">North Carolina</a></li>
+            <li><a href="GM-Texas.html">Texas</a></li>
         </ul>
     </div>
     <div id="map"></div>
@@ -54,7 +54,7 @@ function onEachFeature(feature, layer) {
     //bind click
     layer.on('click', function (e) {
 
-        alert(feature.properties.name);
+        //alert(feature.properties.name);
         if (feature.properties.name == "Texas"){
             window.location.href = "GM-Texas.html";
         }
