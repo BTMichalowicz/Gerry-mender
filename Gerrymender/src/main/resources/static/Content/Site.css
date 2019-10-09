@@ -4,10 +4,7 @@
     padding: 20px;
   }
 
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
+
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -32,7 +29,7 @@ textarea {
 /*Site Specific Design*/
 #map-container {
     position: relative;
-    height: 760px;
+    height: 95%;
 }
 #map{ 
     position:inherit;

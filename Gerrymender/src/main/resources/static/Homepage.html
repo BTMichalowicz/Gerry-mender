@@ -10,35 +10,62 @@
 <script src='./scripts/stateData.js'></script>
 <script src='./scripts/FL.js'></script>
 <script src='./scripts/leaflet.ajax.min.js'></script>
-<link rel="stylesheet" href="Content/bootstrap.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="Content/Site.css">
+
+
+
+<style>
+    html,body{
+        height : 100%;
+    }
+    .dropdown {
+        position: absolute;
+        top: 40px;
+        right: 45px;
+        z-index: 1001;
+    }
+    .navbar navbar-inverse{
+
+        bottom : 0px;
+
+    }
+
+</style>
 </head>
 <body>
-<h1 align="center" style = "font-family: Georgia, 'Times New Roman', Times, serif ">Welcome to GerryMender.</h1>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Welcome to GerryMender</a>
+        </div>
+    </div>
+</nav>
+
+
 <div id="map-container">
+    <div class="dropdown">
+        <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
+            Select a state
+            <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Florida</a></li>
+            <li><a href="#">North Carolina</a></li>
+            <li><a href="#">Texas</a></li>
+        </ul>
+    </div>
     <div id="map"></div>
 </div>
- <!--<div class = "row">
-     <div class = "column left">
-         <h2 align = "center" style = "font-family: Georgia, 'Times New Roman', Times, serif">Objective Function Control</h2>
-         <p>((soon there will be BUTTONS))</p>
-     </div>
-     <div class = "column middle">
-            <div id="map-container">
-                    <div id="map"></div>
-            </div>
-     </div>
-     <div class = "column right">
-         <h2 align = "center" style = "font-family: Georgia, 'Times New Roman', Times, serif">Info Panel</h2>
-         <p>voting and things</p>
-     </div>
-</div> -->
+
 
 <script>
 L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
 var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
 var map = L.mapbox.map('map')
-    .setView([32, -90], 4.5)
+    .setView([32, -90], 5)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
 
