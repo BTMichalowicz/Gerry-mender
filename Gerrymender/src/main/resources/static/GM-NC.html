@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset = utf-8/>
-<title>GerryMender - Welcome</title>
+<title>GM-NC</title>
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
 <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet' />
@@ -10,15 +10,13 @@
 <script src='./scripts/stateData.js'></script>
 <script src='./scripts/FL.js'></script>
 <script src='./scripts/leaflet.ajax.min.js'></script>
-<link rel="stylesheet" href="Content/bootstrap.css">
-<link rel="stylesheet" href="Content/Site.css">
+<link rel="stylesheet" href="content/bootstrap.css">
+<link rel="stylesheet" href="content/Site.css">
+
 </head>
 <body>
-<h1 align="center" style = "font-family: Georgia, 'Times New Roman', Times, serif ">Welcome to GerryMender.</h1>
-<div id="map-container">
-    <div id="map"></div>
-</div>
- <!--<div class = "row">
+<h1 align="center" style = "font-family: Georgia, 'Times New Roman', Times, serif ">GerryMender-North Carolina</h1>
+ <div class = "row">
      <div class = "column left">
          <h2 align = "center" style = "font-family: Georgia, 'Times New Roman', Times, serif">Objective Function Control</h2>
          <p>((soon there will be BUTTONS))</p>
@@ -32,23 +30,22 @@
          <h2 align = "center" style = "font-family: Georgia, 'Times New Roman', Times, serif">Info Panel</h2>
          <p>voting and things</p>
      </div>
-</div> -->
+</div>
 
 <script>
 L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
 var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
 var map = L.mapbox.map('map')
-    .setView([32, -90], 4.5)
+    .setView([35, -80], 7.1)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
-
 
 function onEachFeature(feature, layer) {
     //bind click
-    layer.on('click', function (e) {
+    //layer.on('click', function (e) {
 
-        alert(feature.properties.name);
+       // alert(feature.properties.name);
 
-    });
+    //});
 
 }
 
@@ -61,23 +58,7 @@ L.geoJson(statesData, {
 
         },
         onEachFeature: onEachFeature,
-    }
-).addTo(map);
-
-
-var popup = L.popup()
-    .setLatLng([33.942257, -90.015625])
-    .setContent("Please select a state to start!")
-    .openOn(map);
-
-// function onMapClick(e) {
-// 	alert("You clicked the map! This is to be expanded upon later!");
-// }
-//
-// map.on('click', onMapClick);
-
-
-
+    }).addTo(map);
 
 </script>
 </body>

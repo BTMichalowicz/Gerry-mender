@@ -29,3 +29,37 @@ textarea {
     max-width: 280px;
 }
 
+/*Site Specific Design*/
+#map-container {
+    position: relative;
+    height: 760px;
+}
+#map{ 
+    position:inherit;
+    height:inherit;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+.column{
+    float: left;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 8px;
+    height:725px;
+}
+
+.left, .right{
+    width: 15%;
+}
+.middle{
+    width: 65%;
+}
+
+/*clear floats after columns*/
+.row:after{
+    content: "";
+    display:table;
+    clear: both;
+}
+
+
