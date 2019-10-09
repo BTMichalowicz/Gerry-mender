@@ -78,7 +78,7 @@ var map = L.mapbox.map('map')
 
 function onEachFeature(feature, layer) {
     //bind click
-    layer.on('dblclick', function (e) {
+    layer.on('click', function (e) {
 
         alert(feature.properties.name);
 
