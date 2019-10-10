@@ -26,43 +26,25 @@ public class State {
     private long population; //population
     private Pol_part pol_part; //Reigning political party
 
-    private float perc_hispanic;
-    private float perc_white;
-    private float perc_afr_amer;
-    private float perc_asian;
 
+    private float race_perc[] = new float[6];
 
-    public float getPerc_hispanic() {
-        return perc_hispanic;
+    public float[] getRace_perc(){
+        return race_perc;
     }
 
-    public void setPerc_hispanic(float perc_hispanic) {
-        this.perc_hispanic = perc_hispanic;
+    public void setRace_perc(float[] race_perc){
+        assert(race_perc.length==5);
+
+        for(float x: race_perc){
+            assert(x>50 && x<=100);
+        }
+
+        this.race_perc=race_perc;
+
     }
 
-    public float getPerc_asian() {
-        return perc_asian;
-    }
 
-    public void setPerc_asian(float perc_asian) {
-        this.perc_asian = perc_asian;
-    }
-
-    public float getPerc_afr_amer() {
-        return perc_afr_amer;
-    }
-
-    public void setPerc_afr_amer(float perc_afr_amer) {
-        this.perc_afr_amer = perc_afr_amer;
-    }
-
-    public float getPerc_white() {
-        return perc_white;
-    }
-
-    public void setPerc_white(float perc_white) {
-        this.perc_white = perc_white;
-    }
 
     public String getName() {
         return name;
