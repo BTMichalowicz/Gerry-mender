@@ -42,14 +42,17 @@ html,body{
     border-radius: 0px;
 }
 
-.navbar-brand
+.my-navbar-brand
 {
     position: absolute;
-    width: 100%;
-    left: 0;
+    width: 15%;
+    left: 42.5%;
     text-align: center;
     margin:0 auto;
 }
+
+
+
 
 #map-container {
     position: relative;
@@ -83,4 +86,14 @@ html,body{
     clear: both;
 }
 
-
+#slider {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 52px;
+    left: 0;
+    background-color: #343a40;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
