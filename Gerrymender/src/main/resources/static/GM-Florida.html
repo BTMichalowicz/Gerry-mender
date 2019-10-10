@@ -27,10 +27,10 @@
 
 
         <div class="navbar-header">
-            <a class="navbar-brand my-navbar-brand" href="#"> GerryMender Florida </a>
+            <a class="navbar-brand my-navbar-brand"> GerryMender Florida </a>
         </div>
-        <a class="text-white navbar-brand toggle-btn" onclick="toggleSlider()">Menu <span class="glyphicon glyphicon-align-justify"></span></a>
-        <a class="text-white navbar-brand" href="Homepage.html">Back</a>
+        <a class="text-white navbar-brand toggle-btn" data-toggle="tooltip" data-placement="bottom" title="open/close function menu" onclick="toggleSlider()">Menu <span class="glyphicon glyphicon-align-justify"></span></a>
+        <a class="text-white navbar-brand" data-toggle="tooltip" data-placement="bottom" title="return back to homepage" href="Homepage.html">Back</a>
     </div>
 </nav>
 
@@ -55,7 +55,7 @@ var map = L.mapbox.map('map')
     .setView([28, -83], 6.8)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
 
-map.zoomControl.setPosition('topright');
+map.zoomControl.setPosition('topleft');
 
 
 function onEachFeature(feature, layer) {
@@ -79,23 +79,36 @@ L.geoJson(statesData, {
         onEachFeature: onEachFeature,
     }).addTo(map);
 
-$("#menu-toggle").click(function(e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("active");
-});
 
 
 var sliderState = 0;
 function toggleSlider(){
-    if (sliderState===0) { //Open nav
-        document.getElementById("slider").style.width = "300px";
-        //map.zoomControl.setPosition('bottomright');
+    if (sliderState===0) { //Open slider
+        document.getElementById("slider").style.width = "350px";
         sliderState = 1;
+        setTimeout(moveZoomControl, 0);
+
     } else {
         document.getElementById("slider").style.width = "0";
-        //map.zoomControl.setPosition('topright');
-
         sliderState = 0;
+        setTimeout(moveZoomControl, 200);
+
+    }
+}
+
+function moveZoomControl() {
+
+    if (sliderState===1) { //Open slider
+        container = map.zoomControl.getContainer(),
+        containerTop = 350 + 'px';
+        container.style.position = 'absolute';
+        container.style.left = containerTop;
+
+    } else {
+        container = map.zoomControl.getContainer(),
+        containerTop = 0 + 'px';
+        container.style.position = 'absolute';
+        container.style.left = containerTop;
     }
 }
 
