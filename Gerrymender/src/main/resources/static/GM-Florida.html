@@ -58,10 +58,16 @@
     map.zoomControl.setPosition('topleft');
     //map.dragging.disable();
 
+
+
     function onEachFeature(feature, layer) {
 
 
+            layer.bindPopup(feature.properties.NAME);
+
+
     }
+
 
     L.geoJson(floridaLayer, {
         style: function (feature) {
@@ -73,8 +79,9 @@
     }).addTo(map);
 
 
-    var sliderState = 0;
 
+    // active slider menu
+    var sliderState = 0;
     function toggleSlider() {
         if (sliderState === 0) { //Open slider
             document.getElementById("slider").style.width = "350px";
