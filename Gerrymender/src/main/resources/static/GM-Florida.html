@@ -59,14 +59,62 @@
     //map.dragging.disable();
 
 
+    var popup1;
 
     function onEachFeature(feature, layer) {
 
 
-            layer.bindPopup(feature.properties.NAME);
+
+
+            layer.on("mouseover", function (e) {
+
+                var popcontent = feature.properties.NAME  +
+                    "<br/>population : 12312312" +
+                    "<br/>White : 123123" +
+                    "<br/>Minority : 123123" +
+                    "<br/>Hispanic/Latino : 123123" +
+                    "<br/>Asian : 123123";
+
+                lat = e.latlng.lat;
+                lng = e.latlng.lng;
+
+                    popup1 = L.popup()
+                    .setLatLng([lat, lng])
+                    .setContent(popcontent)
+                    .openOn(map);
+
+
+            });
+
+
+            layer.on("mouseout", function (e) {
+
+                $(popup1.remove());
+            });
+
+
+
+
+            layer.bindPopup(feature.properties.NAME  +
+                "<br/>population : 12312312" +
+                "<br/>White : 123123" +
+                "<br/>Minority : 123123" +
+                "<br/>Hispanic/Latino : 123123" +
+                "<br/>Asian : 123123"
+
+            );
 
 
     }
+
+    var marker = L.marker("map");
+    marker.bindPopup("Popup content");
+    marker.on('mouseover', function (e) {
+        this.openPopup();
+    });
+    marker.on('mouseout', function (e) {
+        this.closePopup();
+    });
 
 
     L.geoJson(floridaLayer, {
