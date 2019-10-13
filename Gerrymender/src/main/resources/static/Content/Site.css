@@ -85,16 +85,18 @@ html,body{
 
 #slide-menu {
     height: 100%;
-    width: 0;
+    width: 0px;
     position: fixed;
     z-index: 1;
     top: 50px;
     left: 0;
     background-color: #343a40;
+    color: lightgrey;
     overflow-x: hidden;
     transition: 0.4s;
     text-align: center;
     font-size: 18px;
+    text-emphasis: bold;
 }
 
 .slidecontainer{
@@ -104,4 +106,12 @@ html,body{
     position: relative;
     margin-left: auto;
     margin-right: auto;
+}
+
+.algorithm-controls{
+    align-items: center;
+}
+
+.button{
+    color: black;
 }
