@@ -38,8 +38,8 @@
 
 <div id="map-container">
 
-    <div id="slider" style="width: 0px;">
-
+    <div id="slide-menu" style="width: 0px; color: lightgrey;">
+        <input type="checkbox" name="Maj" value="Maj">  Majority Coeficient<br>
 
     </div>
 
@@ -132,12 +132,12 @@
     var sliderState = 0;
     function toggleSlider() {
         if (sliderState === 0) { //Open slider
-            document.getElementById("slider").style.width = "350px";
+            document.getElementById("slide-menu").style.width = "350px";
             sliderState = 1;
             setTimeout(moveZoomControl, 0);
 
         } else {
-            document.getElementById("slider").style.width = "0";
+            document.getElementById("slide-menu").style.width = "0";
             sliderState = 0;
             setTimeout(moveZoomControl, 200);
 

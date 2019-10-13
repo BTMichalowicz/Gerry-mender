@@ -51,9 +51,6 @@ html,body{
     margin:0 auto;
 }
 
-
-
-
 #map-container {
     position: relative;
     height: 93vh;
@@ -86,7 +83,7 @@ html,body{
     clear: both;
 }
 
-#slider {
+#slide-menu {
     height: 100%;
     width: 0;
     position: fixed;
@@ -96,4 +93,6 @@ html,body{
     background-color: #343a40;
     overflow-x: hidden;
     transition: 0.4s;
+    text-align: center;
+    font-size: 18px;
 }
