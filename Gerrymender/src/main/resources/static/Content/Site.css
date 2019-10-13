@@ -96,3 +96,12 @@ html,body{
     text-align: center;
     font-size: 18px;
 }
+
+.slidecontainer{
+    width: 60%;
+    text-align: center;
+    align-items: center;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
