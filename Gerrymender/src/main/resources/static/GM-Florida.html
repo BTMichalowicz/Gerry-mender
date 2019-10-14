@@ -154,8 +154,8 @@
             <p>Infomation content</p>
             <script id="itemTemplate" type="text/x-jquery-tmpl">
             <tr>
-                <td>${Attr}</td>
-                <td>${Amout}</td>
+                <td width="30%">${Attr}</td>
+                <td width="70%">${Amout}</td>
             </tr>
         </script>
 
@@ -195,31 +195,31 @@
 
 
 
-            layer.on("mouseover", function (e) {
+        layer.on("mouseover", function (e) {
 
-                var popcontent = feature.properties.NAME  +
-                    "<br/>population : 12312312" +
-                    "<br/>White : 123123" +
-                    "<br/>Minority : 123123" +
-                    "<br/>Hispanic/Latino : 123123" +
-                    "<br/>Asian : 123123";
+            var popcontent = feature.properties.NAME  +
+                "<br/>population : 12312312" +
+                "<br/>White : 123123" +
+                "<br/>Minority : 123123" +
+                "<br/>Hispanic/Latino : 123123" +
+                "<br/>Asian : 123123";
 
-                lat = e.latlng.lat;
-                lng = e.latlng.lng;
+            lat = e.latlng.lat;
+            lng = e.latlng.lng;
 
-                    popup1 = L.popup()
-                    .setLatLng([lat, lng])
-                    .setContent(popcontent)
-                    .openOn(map);
-
-
-            });
+            popup1 = L.popup()
+                .setLatLng([lat, lng])
+                .setContent(popcontent)
+                .openOn(map);
 
 
-            layer.on("mouseout", function (e) {
+        });
 
-                $(popup1.remove());
-            });
+
+        layer.on("mouseout", function (e) {
+
+            $(popup1.remove());
+        });
 
 
 
