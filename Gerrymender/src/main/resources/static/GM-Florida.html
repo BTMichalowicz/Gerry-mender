@@ -14,7 +14,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <link rel="stylesheet" href="Content/Site.css">
+    <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
 
 </head>
 <body>
@@ -38,31 +40,139 @@
 
 <div id="map-container">
 
-    <div class = "slide-menu" id="slide-menu">Objective Function Controls<br><br>
+    <div class = "slide-menu" id="slide-menu" style="color: #ba8b00">
+
+        <p>Objective Function Controls</p>
         <!--Majority Threshold-->
-        <input type="checkbox" name="Maj" value="Maj">  Majority Threshold<br>
+        <input type="checkbox" name="Maj" value="Maj">Majority Threshold : <span id="MajVal"></span>
+        <br>
         <div class="slidecontainer">
             <input type="range" min="1" max="100" value="50" class="slider" id="majThreshold">
+
         </div><br>
 
+        <script>
+            var slider = document.getElementById("majThreshold");
+            var output = document.getElementById("MajVal");
+            output.innerHTML = slider.value;
+
+            slider.oninput = function() {
+                output.innerHTML = this.value;
+            }
+        </script>
+
         <!--Minority Threshold-->
-        <input type="checkbox" name="Min" value="Min">  Minority Threshold<br>
+        <input type="checkbox" name="Min" value="Min">  Minority Threshold : <span id="MinVal"></span>
+        <br>
         <div class="slidecontainer">
             <input type="range" min="1" max="100" value="50" class="slider" id="minThreshold">
         </div><br>
 
+        <script>
+            var slider = document.getElementById("minThreshold");
+            var output = document.getElementById("MinVal");
+            output.innerHTML = slider.value;
+
+            slider.oninput = function() {
+                output.innerHTML = this.value;
+            }
+        </script>
+
+        <!--Population Equality-->
+        <input type="checkbox" name="Min" value="Min">  Population Equality : <span id="pplVal"></span> <br>
+        <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="50" class="slider" id="pplEquality">
+        </div><br>
+
+        <script>
+            var slider = document.getElementById("pplEquality");
+            var output = document.getElementById("pplVal");
+            output.innerHTML = slider.value;
+
+            slider.oninput = function() {
+                output.innerHTML = this.value;
+            }
+        </script>
+
+        <!--Compactness-->
+        <input type="checkbox" name="Min" value="Min">  Compactness : <span id="comVal"></span> <br>
+        <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="50" class="slider" id="compactness">
+        </div><br>
+
+        <script>
+            var slider = document.getElementById("compactness");
+            var output = document.getElementById("comVal");
+            output.innerHTML = slider.value;
+
+            slider.oninput = function() {
+                output.innerHTML = this.value;
+            }
+        </script>
+
+        <form>
+            <h4 style="color: deepskyblue">Algorithms Selections</h4>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="gpAL" name="example" value="customEx">
+                <label class="custom-control-label" for="gpAL" style="color: white">Graph partitioning</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="saAL" name="example" value="customEx">
+                <label class="custom-control-label" for="saAL" style="color: white">Simulated annealing</label>
+            </div>
+        </form>
+
+        <form>
+            <h4 style="color: deepskyblue">Data Selections</h4>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="2016D" name="example" value="customEx">
+                <label class="custom-control-label" for="2016D" style="color: white">2016 election result</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="2018D" name="example" value="customEx">
+                <label class="custom-control-label" for="2018D" style="color: white">2018 election result</label>
+            </div>
+        </form>
+
+
         <!--Algorithm Controls-->
         <div class = "algorithm-controls">Algorithm Controls<br>
-            <button type = "button" id ="play-button">PLAY
-            <button type = "button" id ="-button">PAUSE
-            <button type = "button" id ="stop-button">STOP
-            <button type = "button" id ="replay-button">REPLAY
+            <button type = "button" id ="play-button">PLAY </button>
+            <button type = "button" id ="-button">PAUSE </button>
+            <button type = "button" id ="stop-button">STOP </button>
+                <button type = "button" id ="replay-button">REPLAY </button>
         </div>
   
 
     </div>
 
     <div id="map"></div>
+
+
+        <div class = "slide-info" id="slide-info" style="color: #ba8b00">
+
+            <p>Infomation content</p>
+            <script id="itemTemplate" type="text/x-jquery-tmpl">
+            <tr>
+                <td>${Attr}</td>
+                <td>${Amout}</td>
+            </tr>
+        </script>
+
+            <table class="table" id="itemList">
+                <thead>
+                <tr>
+
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <input type="button" class="button" onclick="closeInfo()">
+
+        </div>
+
+
 </div>
 
 
@@ -114,26 +224,15 @@
 
 
 
-            layer.bindPopup(feature.properties.NAME  +
-                "<br/>population : 12312312" +
-                "<br/>White : 123123" +
-                "<br/>Minority : 123123" +
-                "<br/>Hispanic/Latino : 123123" +
-                "<br/>Asian : 123123"
+        layer.on("click", function (e) {
 
-            );
+            $(toggleInfoSlider( feature ));
+        });
+
 
 
     }
 
-    var marker = L.marker("map");
-    marker.bindPopup("Popup content");
-    marker.on('mouseover', function (e) {
-        this.openPopup();
-    });
-    marker.on('mouseout', function (e) {
-        this.closePopup();
-    });
 
 
     L.geoJson(floridaLayer, {
@@ -179,6 +278,56 @@
         }
     }
 
+
+    var infoStat = "null";
+    function toggleInfoSlider( feature ) {
+        if (infoStat === feature.properties.NAME) { //Open slider
+
+            document.getElementById("slide-info").style.width = "0";
+            infoStat = "null";
+
+        } else {
+
+            document.getElementById("slide-info").style.width = "350px";
+            infoStat = feature.properties.NAME;
+            fillOutTable(feature);
+
+        }
+    }
+
+    function closeInfo() {
+
+        document.getElementById("slide-info").style.width = "0";
+        infoStat = "null";
+
+    }
+
+
 </script>
+
+
+<script type="text/javascript">
+    function fillOutTable(feature) {
+        $(document).ready(function () {
+
+            $("#itemList tr").remove();
+
+            var items = [
+                {Attr: "Name", Amout: feature.properties.NAME},
+                {Attr: "population", Amout: "50"},
+                {Attr: "White", Amout: "50"},
+                {Attr: "Minority", Amout: "50"},
+                {Attr: "Hispanic", Amout: "50"},
+                {Attr: "Asian", Amout: "50"},
+                {Attr: "Republican", Amout: "50"},
+                {Attr: "Democratic", Amout: "50"},
+
+            ];
+
+            $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
+        });
+    }
+</script>
+
 </body>
 </html>
