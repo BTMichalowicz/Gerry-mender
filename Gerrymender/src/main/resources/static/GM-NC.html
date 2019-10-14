@@ -2,29 +2,35 @@
 <html lang="en">
 <head>
     <meta charset=utf-8/>
-    <title>GM-North Carolina</title>
+    <title>GM-N. Carolina</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
-    <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
-    <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet'/>
-    <script src='./scripts/us-states.js'></script>
+    
+    <!--Scripts-->
     <script src='./scripts/stateData.js'></script>
     <script src='./scripts/NC.js'></script>
     <script src='./scripts/leaflet.ajax.min.js'></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src='./scripts/functions.js'></script>
+
+    <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <link rel="stylesheet" href="Content/Site.css">
     <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+
+    <!--Links-->
+    <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet'/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Content/Site.css">
+    
 
 </head>
 <body>
 
+<!--Navbar-->
  <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-                <a class="navbar-brand my-navbar-brand"> GerryMender North Carolina </a>
+                <a class="navbar-brand my-navbar-brand"> GerryMender N. Carolina </a>
          </div>
         <a class="text-white navbar-brand toggle-btn" data-toggle="tooltip" data-placement="bottom"
             title="open/close function menu" onclick="toggleSlider()">Menu <span
@@ -34,200 +40,119 @@
     </div>
  </nav>
 
- <div id="map-container">
-
-     <div class = "slide-menu" id="slide-menu" style="color: #ba8b00">
-
-         <p>Objective Function Controls</p>
-         <!--Majority Threshold-->
-         <input type="checkbox" name="Maj" value="Maj">Majority Threshold : <span id="MajVal"></span>
-         <br>
-         <div class="slidecontainer">
-             <input type="range" min="1" max="100" value="50" class="slider" id="majThreshold">
-
-         </div><br>
-
-         <script>
-             var slider = document.getElementById("majThreshold");
-             var output = document.getElementById("MajVal");
-             output.innerHTML = slider.value;
-
-             slider.oninput = function() {
-                 output.innerHTML = this.value;
-             }
-         </script>
-
-         <!--Minority Threshold-->
-         <input type="checkbox" name="Min" value="Min">  Minority Threshold : <span id="MinVal"></span>
-         <br>
-         <div class="slidecontainer">
-             <input type="range" min="1" max="100" value="50" class="slider" id="minThreshold">
-         </div><br>
-
-         <script>
-             var slider = document.getElementById("minThreshold");
-             var output = document.getElementById("MinVal");
-             output.innerHTML = slider.value;
-
-             slider.oninput = function() {
-                 output.innerHTML = this.value;
-             }
-         </script>
-
-         <!--Population Equality-->
-         <input type="checkbox" name="Min" value="Min">  Population Equality : <span id="pplVal"></span> <br>
-         <div class="slidecontainer">
-             <input type="range" min="1" max="100" value="50" class="slider" id="pplEquality">
-         </div><br>
-
-         <script>
-             var slider = document.getElementById("pplEquality");
-             var output = document.getElementById("pplVal");
-             output.innerHTML = slider.value;
-
-             slider.oninput = function() {
-                 output.innerHTML = this.value;
-             }
-         </script>
-
-         <!--Compactness-->
-         <input type="checkbox" name="Min" value="Min">  Compactness : <span id="comVal"></span> <br>
-         <div class="slidecontainer">
-             <input type="range" min="1" max="100" value="50" class="slider" id="compactness">
-         </div><br>
-
-         <script>
-             var slider = document.getElementById("compactness");
-             var output = document.getElementById("comVal");
-             output.innerHTML = slider.value;
-
-             slider.oninput = function() {
-                 output.innerHTML = this.value;
-             }
-         </script>
-
-         <form>
-             <h4 style="color: deepskyblue">Algorithms Selections</h4>
-             <div class="custom-control custom-radio custom-control-inline">
-                 <input type="radio" class="custom-control-input" id="gpAL" name="example" value="customEx">
-                 <label class="custom-control-label" for="gpAL" style="color: white">Graph partitioning</label>
-             </div>
-             <div class="custom-control custom-radio custom-control-inline">
-                 <input type="radio" class="custom-control-input" id="saAL" name="example" value="customEx">
-                 <label class="custom-control-label" for="saAL" style="color: white">Simulated annealing</label>
-             </div>
-         </form>
-
-         <form>
-             <h4 style="color: deepskyblue">Data Selections</h4>
-             <div class="custom-control custom-radio custom-control-inline">
-                 <input type="radio" class="custom-control-input" id="2016D" name="example" value="customEx">
-                 <label class="custom-control-label" for="2016D" style="color: white">2016 election result</label>
-             </div>
-             <div class="custom-control custom-radio custom-control-inline">
-                 <input type="radio" class="custom-control-input" id="2018D" name="example" value="customEx">
-                 <label class="custom-control-label" for="2018D" style="color: white">2018 election result</label>
-             </div>
-         </form>
-
-
-         <!--Algorithm Controls-->
-         <div class = "algorithm-controls">Algorithm Controls<br>
-             <button type = "button" id ="play-button">PLAY </button>
-             <button type = "button" id ="-button">PAUSE </button>
-             <button type = "button" id ="stop-button">STOP </button>
-             <button type = "button" id ="replay-button">REPLAY </button>
-         </div>
-
-
-     </div>
-
-     <div id="map"></div>
-
-
-     <div class = "slide-info" id="slide-info" style="color: #ba8b00">
-
-         <p>Infomation content</p>
-         <script id="itemTemplate" type="text/x-jquery-tmpl">
-            <tr>
-                <td width="40%">${Attr}</td>
-                <td width="60%">${Amout}</td>
-            </tr>
-        </script>
-
-         <table class="table" id="itemList">
-             <thead>
-             <tr>
-
-             </tr>
-             </thead>
-             <tbody>
-             </tbody>
-         </table>
-         <input type="button" class="button" onclick="closeInfo()" value="Close">
-
-     </div>
-
-
- </div>
-
+ <!--Map Container-->
+<div id="map-container">
+        <!--Sliding Menu-->
+        <div class = "slide-menu" id="slide-menu">
+    
+            <h3>Objective Function Controls</h3>
+            <!--Majority Threshold-->
+            <input type="checkbox" name="Maj" value="Maj"> Majority Threshold: <span id="majslider_value"></span>
+            <br>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="0" class="maj-slider" id="majThreshold" onchange="show_value(this.value, 'majslider_value');">
+            </div><br>
+    
+            <!--Minority Threshold-->
+            <input type="checkbox" name="Min" value="Min">  Minority Threshold: <span id="minslider_value"></span>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="0" class="slider" id="minThreshold" onchange="show_value(this.value, 'minslider_value');">
+            </div><br>
+    
+            <!--Population Equality-->
+            <input type="checkbox" name="Pop" value="Pop">  Population Equality: <span id="popslider_value"></span> <br>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="0" class="slider" id="pplEquality" onchange="show_value(this.value,'popslider_value');">
+            </div><br>
+    
+            <!--Compactness-->
+            <input type="checkbox" name="Compactness" value="Compactness">  Compactness: <span id="compactslider_value"></span> <br>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="0" class="slider" id="compactness" onchange="show_value(this.value, 'compactslider_value');">
+            </div><br>
+    
+            <!--Algorithms-->
+            <form>
+                <h4 style="color: deepskyblue">Algorithm Selection</h4>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="gpAL" name="example" value="customEx">
+                    <label class="custom-control-label" for="gpAL" style="color: white">Graph Partitioning</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="saAL" name="example" value="customEx">
+                    <label class="custom-control-label" for="saAL" style="color: white">Simulated Annealing</label>
+                </div>
+            </form>
+    
+            <!--Data-->
+            <form>
+                <h4 style="color: deepskyblue">Data Selection</h4>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="2016D" name="example" value="customEx">
+                    <label class="custom-control-label" for="2016D" style="color: white">2016 election result</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="2018D" name="example" value="customEx">
+                    <label class="custom-control-label" for="2018D" style="color: white">2018 election result</label>
+                </div>
+            </form>
+    
+            <!--Algorithm Controls-->
+            <div class = "algorithm-controls">Algorithm Controls<br>
+                <button type = "button" id ="play-button">PLAY </button>
+                <button type = "button" id ="-button">PAUSE </button>
+                <button type = "button" id ="stop-button">STOP </button>
+                    <button type = "button" id ="replay-button">REPLAY </button>
+            </div>
+        </div>
+    
+        <!--Map-->
+        <div id="map"></div>
+    
+        <!--Information Slider-->
+        <div class = "slide-info" id="slide-info">
+             <h3>Information</h3>
+             <!-- -->
+                <script id="itemTemplate" type="text/x-jquery-tmpl">
+                <tr>
+                    <td width="30%">${Attr}</td>
+                    <td width="70%">${Amout}</td>
+                </tr>
+            </script>
+            <!-- -->
+                <table class="table" id="itemList">
+                    <thead>
+                    <tr>
+    
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <input type="button" class="button" onclick="closeInfo()" value="Close">
+            </div>
+    </div>
 
 <script>
+/*Variables*/
 L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
 var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
+
+//Map
 var map = L.mapbox.map('map')
     .setView([35, -80], 7.1)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
-
  map.zoomControl.setPosition('topleft');
+ //map.dragging.disable()
 
-
+//Popups
 var popup1;
 
+//Sliders
+var sliderState = 0;
+var infoStat = "null";
 
-function onEachFeature(feature, layer) {
-
-
-
-
-    layer.on("mouseover", function (e) {
-
-        var popcontent = feature.properties.NAME  +
-            "<br/>population : 12312312" +
-            "<br/>White : 123123" +
-            "<br/>Minority : 123123" +
-            "<br/>Hispanic/Latino : 123123" +
-            "<br/>Asian : 123123";
-
-        lat = e.latlng.lat;
-        lng = e.latlng.lng;
-
-        popup1 = L.popup()
-            .setLatLng([lat, lng])
-            .setContent(popcontent)
-            .openOn(map);
-
-
-    });
-
-
-    layer.on("mouseout", function (e) {
-
-        $(popup1.remove());
-    });
-
-
-
-
-    layer.on("click", function (e) {
-
-        $(toggleInfoSlider( feature ));
-    });
-
-
-
-}
-
+/*geoJson Manipulation*/
 L.geoJson(ncLayer, {
     style: function (feature) {
 
@@ -236,88 +161,6 @@ L.geoJson(ncLayer, {
     },
     onEachFeature: onEachFeature,
 }).addTo(map);
-
- // active slider menu
-var sliderState = 0;
-function toggleSlider() {
-    if (sliderState === 0) { //Open slider
-        document.getElementById("slide-menu").style.width = "350px";
-        sliderState = 1;
-        setTimeout(moveZoomControl, 0);
-
-    } else {
-        document.getElementById("slide-menu").style.width = "0";
-        sliderState = 0;
-        setTimeout(moveZoomControl, 200);
-
-    }
-}
-
-function moveZoomControl() {
-
-    if (sliderState === 1) { //Open slider
-        container = map.zoomControl.getContainer(),
-            containerTop = 350 + 'px';
-        container.style.position = 'absolute';
-        container.style.left = containerTop;
-
-    } else {
-        container = map.zoomControl.getContainer(),
-            containerTop = 0 + 'px';
-        container.style.position = 'absolute';
-        container.style.left = containerTop;
-    }
-}
-
-
-var infoStat = "null";
-function toggleInfoSlider( feature ) {
-    if (infoStat === feature.properties.NAME) { //Open slider
-
-        document.getElementById("slide-info").style.width = "0";
-        infoStat = "null";
-
-    } else {
-
-        document.getElementById("slide-info").style.width = "350px";
-        infoStat = feature.properties.NAME;
-        fillOutTable(feature);
-
-    }
-}
-
-function closeInfo() {
-
-    document.getElementById("slide-info").style.width = "0";
-    infoStat = "null";
-
-}
-
-
-</script>
-
-
- <script type="text/javascript">
-     function fillOutTable(feature) {
-         $(document).ready(function () {
-
-             $("#itemList tr").remove();
-
-             var items = [
-                 {Attr: "Name", Amout: feature.properties.NAME},
-                 {Attr: "population", Amout: "50"},
-                 {Attr: "White", Amout: "50"},
-                 {Attr: "Minority", Amout: "50"},
-                 {Attr: "Hispanic", Amout: "50"},
-                 {Attr: "Asian", Amout: "50"},
-                 {Attr: "Republican", Amout: "50"},
-                 {Attr: "Democratic", Amout: "50"},
-
-             ];
-
-             $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
-         });
-     }
  </script>
 </body>
 </html>
