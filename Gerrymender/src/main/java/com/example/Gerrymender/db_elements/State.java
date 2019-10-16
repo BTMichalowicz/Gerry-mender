@@ -9,13 +9,15 @@ in the database
  * @Author Benjamin Michalowicz
  * @Version 1.0
  * Simple representation of a State Table for each of the three states in our setup
- */
+ **/
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.ArrayList;
 
 
+@Table(name="State")
 @Entity
 public class State {
 

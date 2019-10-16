@@ -10,6 +10,4 @@ public class GerrymenderApplication{
 	public static void main(String[] args) {
 		SpringApplication.run(GerrymenderApplication.class, args);
 	}
-
-
 }

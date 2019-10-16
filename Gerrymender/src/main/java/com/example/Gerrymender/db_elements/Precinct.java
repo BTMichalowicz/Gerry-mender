@@ -1,8 +1,12 @@
 package com.example.Gerrymender.db_elements;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.ArrayList;
 
+@Table(name="Precinct")
+@Entity
 public class Precinct {
 
     @Id
