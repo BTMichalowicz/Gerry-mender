@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Table(name="State")
@@ -72,5 +74,10 @@ public class State {
         this.pol_part = pol_part;
     }
 
-    private ArrayList<District> districts;
+    private Set<District> districts;
+
+    public Set<District> getDistricts(){return districts;}
+    public void setDistricts(Set<District> districts){
+        this.districts= new HashSet<>(districts);
+    }
 }

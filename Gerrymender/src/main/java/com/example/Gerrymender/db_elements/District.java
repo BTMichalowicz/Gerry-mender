@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author Benjamin Michalowicz
@@ -66,11 +68,11 @@ public class District {
         this.pol_part = pol_part;
     }
 
-    private ArrayList<Precinct> precincts;
+    private Set<Precinct> precincts;
 
-    public ArrayList<Precinct> getPrecincts(){return precincts;}
-    private void setPrecincts(ArrayList<Precinct> precincts){
-        this.precincts= new ArrayList<>(precincts);
+    public Set<Precinct> getPrecincts(){return precincts;}
+    private void setPrecincts(Set<Precinct> precincts){
+        this.precincts= new HashSet<>(precincts);
 
     }
 }
