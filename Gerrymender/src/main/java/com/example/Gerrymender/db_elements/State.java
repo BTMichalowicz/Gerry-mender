@@ -11,73 +11,39 @@ in the database
  * Simple representation of a State Table for each of the three states in our setup
  **/
 
+import com.example.Gerrymender.Abstractions.Area;
+
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 
 @Table(name="State")
 @Entity
-public class State {
-
-    @Id
-    private String name; //Name, our key
-
-
-    private long population; //population
-    private Pol_part pol_part; //Reigning political party
-
-
-    private float race_perc[] = new float[6];
-
-    public float[] getRace_perc(){
-        return race_perc;
-    }
-
-    public void setRace_perc(float[] race_perc){
-        assert(race_perc.length==5);
-
-        for(float x: race_perc){
-            assert(x>50 && x<=100);
-        }
-
-        this.race_perc=race_perc;
-
-    }
-
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getPopulation() {
-        return population;
-    }
-
-    public void setPopulation(long population) {
-        this.population = population;
-    }
-
-    public Pol_part getPol_part() {
-        return pol_part;
-    }
-
-    public void setPol_part(Pol_part pol_part) {
-        this.pol_part = pol_part;
-    }
+public class State extends Area {
 
     private Set<District> districts;
+    private Set<Precinct> precincts;
+    private Set<Cluster> clusters ; //TODO: Define Clusters
 
     public Set<District> getDistricts(){return districts;}
     public void setDistricts(Set<District> districts){
-        this.districts= new HashSet<>(districts);
+        this.districts= districts;
+    }
+
+    public Set<Cluster> getClusters() {
+        return clusters;
+    }
+
+    public void setClusters(Set<Cluster> clusters) {
+        this.clusters = clusters;
+    }
+
+    public Set<Precinct> getPrecincts() {
+        return precincts;
+    }
+
+    public void setPrecincts(Set<Precinct> precincts) {
+        this.precincts = precincts;
     }
 }
