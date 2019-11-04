@@ -1,10 +1,10 @@
-package com.example.Gerrymender.db_elements;
+package com.example.Gerrymender.model;
 
 import com.example.Gerrymender.Abstractions.Area;
-import com.example.Gerrymender.db_elements.Edge;
-import com.example.Gerrymender.db_elements.Precinct;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Set;
 
@@ -12,6 +12,9 @@ import java.util.Set;
 @Entity
 public class Cluster extends Area {
 
+    @Id
+    @Column(name="stateName") //Clusters for specific states
+    private String stateName;
     private Set<Precinct> precincts;
     private Set<Edge> edges;
 
@@ -31,5 +34,13 @@ public class Cluster extends Area {
     public void setPrecincts(Set<Precinct> precincts) {
         assert(precincts!=null);
         this.precincts = precincts;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 }

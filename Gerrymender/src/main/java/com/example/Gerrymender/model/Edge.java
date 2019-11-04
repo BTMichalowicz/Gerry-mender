@@ -1,4 +1,4 @@
-package com.example.Gerrymender.db_elements;
+package com.example.Gerrymender.model;
 
 
 import com.example.Gerrymender.Abstractions.Area;

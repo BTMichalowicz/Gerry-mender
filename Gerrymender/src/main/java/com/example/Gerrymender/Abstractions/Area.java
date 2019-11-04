@@ -1,8 +1,10 @@
 package com.example.Gerrymender.Abstractions;
 
-import com.example.Gerrymender.db_elements.Edge;
-import com.example.Gerrymender.db_elements.Pol_part;
 
+import com.example.Gerrymender.model.Edge;
+import com.example.Gerrymender.model.Pol_part;
+
+import javax.persistence.Column;
 import javax.persistence.Id;
 import java.util.Set;
 
@@ -12,11 +14,16 @@ public abstract class Area {
 
     private Set<Edge> neighbors;
     @Id //ID Annotation for the subclasses
+    @Column(name="areaID")
     private String nameID; //replaces name and ID in state, precinct, district
+
+    @Column(name="totalPop")
     private long totalPop;
+    @Column(name="Pol_Part")
     private Pol_part party;
 
-    private int[] race_Percentage;
+    @Column(name="raceBreakdown")
+    private int[] race_Percentage; //Set valued, perhaps in its own table?
 
 
     public Set<Edge> getNeighbors() {

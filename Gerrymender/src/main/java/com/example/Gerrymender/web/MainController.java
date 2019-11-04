@@ -1,4 +1,4 @@
-package com.example.Gerrymender.controllers;
+package com.example.Gerrymender.web;
 
 
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.example.Gerrymender.db_elements;
+package com.example.Gerrymender.model;
 
 /* Explanation for State representation
 in the database
@@ -25,6 +25,7 @@ public class State extends Area {
     private Set<District> districts;
     private Set<Precinct> precincts;
     private Set<Cluster> clusters ; //TODO: Define Clusters
+    private Set<Precinct> hasVotingBloc;
 
     public Set<District> getDistricts(){return districts;}
     public void setDistricts(Set<District> districts){
@@ -45,5 +46,21 @@ public class State extends Area {
 
     public void setPrecincts(Set<Precinct> precincts) {
         this.precincts = precincts;
+    }
+
+
+    public Set<Precinct> getHasVotingBloc() {
+        return hasVotingBloc;
+    }
+
+    public void setHasVotingBloc(Set<Precinct> hasVotingBloc) {
+        this.hasVotingBloc = hasVotingBloc;
+    }
+
+
+    public void addVotingBloc(Precinct p) {
+        if (!hasVotingBloc.contains(p)) {
+            hasVotingBloc.add(p);
+        }
     }
 }

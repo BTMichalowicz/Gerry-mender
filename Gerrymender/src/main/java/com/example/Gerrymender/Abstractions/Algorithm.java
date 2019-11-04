@@ -1,6 +1,7 @@
 package com.example.Gerrymender.Abstractions;
 
-import com.example.Gerrymender.db_elements.Cluster;
+
+import com.example.Gerrymender.model.Cluster;
 
 public class Algorithm {
     /*objectiveValue -> calculating the objective function for each iteration
