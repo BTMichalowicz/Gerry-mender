@@ -1,8 +1,6 @@
 package com.example.Gerrymender.model;
 
 
-import com.example.Gerrymender.Abstractions.Area;
-
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,7 +14,9 @@ public class Edge {
     private long id; //Edge id; random double, we can probably increment; make it static, perhaps, such that no id is the same, a la autoincrement
 
     private double joinability;
-    private Area neighborhood; //TODO: Define Area for our project
+    //private Area neighborhood; //TODO: Define Area for our project
+
+    private State state;
 
 
     public boolean updateJoinability(float join){

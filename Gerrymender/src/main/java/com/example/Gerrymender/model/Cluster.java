@@ -1,7 +1,5 @@
 package com.example.Gerrymender.model;
 
-import com.example.Gerrymender.Abstractions.Area;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +8,7 @@ import java.util.Set;
 
 @Table(name="Cluster")
 @Entity
-public class Cluster extends Area {
+public class Cluster {
 
     @Id
     @Column(name="stateName") //Clusters for specific states

@@ -1,16 +1,57 @@
 package com.example.Gerrymender.model;
 
-import com.example.Gerrymender.Abstractions.Area;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 @Table(name="Precinct")
 @Entity
-public class Precinct extends Area {
+public class Precinct{
+
+    @Id //ID Annotation for the subclasses
+    @Column(name="precinctId")
+    private String nameID; //replaces name and ID in state, precinct, district
+
+    @Column(name="totalPop")
+    private long totalPop;
+    @Column(name="Pol_Part")
+    private Pol_part party;
+
+    @Column(name="raceBreakdown")
+    private int[] race_Percentage; //Set valued, perhaps in its own table?
+
+
+
+    public String getNameID() {
+        return nameID;
+    }
+
+    public void setNameID(String nameID) {
+        assertNotEquals(nameID, "");
+        this.nameID = nameID;
+    }
+
+    public long getTotalPop() {
+        return totalPop;
+    }
+
+    public void setTotalPop(long totalPop) {
+        assert(totalPop>0);
+        this.totalPop = totalPop;
+    }
+
+
+    public Pol_part getParty() {
+        return party;
+    }
+
+    public void setParty(Pol_part party) {
+        this.party = party;
+    }
 
 
 
