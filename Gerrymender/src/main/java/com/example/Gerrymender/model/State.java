@@ -34,11 +34,18 @@ public class State{
     private long totalPop;
     @Column(name="Pol_Part")
     private Pol_part party;
+    @Column(name="whitePop")
+    private long white_pop;
+    @Column(name="africanAmericanPop")
+    private long africanAmerican_pop;
+    @Column(name="hispanicPop")
+    private long hispanic_pop;
+    @Column(name="asianPop")
+    private long asian_pop;
+    @Column(name="nativePop")
+    private long nativeAmerican_pop;
 
-    @Column(name="raceBreakdown")
-    private int[] race_Percentage; //Set valued, perhaps in its own table?
-
-
+    /*WHITE, AFRICAN_AMERICAN,HISPANIC,ASIAN,NATIVE_AMERICAN*/
 
 
     public String getNameID() {
@@ -57,23 +64,6 @@ public class State{
     public void setTotalPop(long totalPop) {
         assert(totalPop>0);
         this.totalPop = totalPop;
-    }
-
-    public int[] getRace_Percentage() {
-        return race_Percentage;
-    }
-
-    public void setRace_Percentage(int[] race_Percentage) {
-        assert(race_Percentage!=null);
-
-        int sum = 0;
-        for(int i : race_Percentage){
-            assert(i>0);
-            sum+=i;
-        }
-
-        assert(sum==100);
-        this.race_Percentage = race_Percentage;
     }
 
     public Algorithm algo;
@@ -126,5 +116,45 @@ public class State{
         if (!hasVotingBloc.contains(p)) {
             hasVotingBloc.add(p);
         }
+    }
+
+    public long getNativeAmerican_pop() {
+        return nativeAmerican_pop;
+    }
+
+    public void setNativeAmerican_pop(long nativeAmerican_pop) {
+        this.nativeAmerican_pop = nativeAmerican_pop;
+    }
+
+    public long getAsian_pop() {
+        return asian_pop;
+    }
+
+    public void setAsian_pop(long asian_pop) {
+        this.asian_pop = asian_pop;
+    }
+
+    public long getHispanic_pop() {
+        return hispanic_pop;
+    }
+
+    public void setHispanic_pop(long hispanic_pop) {
+        this.hispanic_pop = hispanic_pop;
+    }
+
+    public long getAfricanAmerican_pop() {
+        return africanAmerican_pop;
+    }
+
+    public void setAfricanAmerican_pop(long africanAmerican_pop) {
+        this.africanAmerican_pop = africanAmerican_pop;
+    }
+
+    public long getWhite_pop() {
+        return white_pop;
+    }
+
+    public void setWhite_pop(long white_pop) {
+        this.white_pop = white_pop;
     }
 }
