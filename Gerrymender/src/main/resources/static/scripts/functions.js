@@ -1,8 +1,9 @@
     /*Functions*/    
     function onEachFeature(feature, layer) {
+
         layer.on("mouseover", function (e) {
 
-            var popcontent = feature.properties.NAME  +
+            var popcontent = "District "+feature.properties.DISTRICT  +
                 "<br/>population : 12312312" +
                 "<br/>White : 123123" +
                 "<br/>Minority : 123123" +
@@ -24,6 +25,9 @@
 
         layer.on("click", function (e) {
             $(toggleInfoSlider( feature ));
+
+
+
         });
     }
 
