@@ -156,7 +156,7 @@ var infoStat = "null";
 L.geoJson(txLayer, {
     style: function (feature) {
 
-        return {color: '#2F4F4F', opacity: 0.7};
+        return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
 
     },
     onEachFeature: onEachFeature,
