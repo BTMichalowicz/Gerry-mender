@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Table(name="District")
 @Entity
-public class District{
+public class District implements Serializable {
+
+    private static final long SerializeID = 22L; //or some other ID
+
 
     @Id //ID Annotation for the subclasses
     @Column(name="districtID")
@@ -122,12 +127,12 @@ public class District{
 
 
 
-    private Set<Precinct> precincts;
+    private ArrayList<Precinct> precincts;
 
-    public Set<Precinct> getPrecincts(){return precincts;}
+    public ArrayList<Precinct> getPrecincts(){return precincts;}
     private void setPrecincts(Set<Precinct> precincts){
         assert(precincts!=null);
-        this.precincts= new HashSet<>(precincts);
+        this.precincts= new ArrayList<>(precincts);
 
     }
 }

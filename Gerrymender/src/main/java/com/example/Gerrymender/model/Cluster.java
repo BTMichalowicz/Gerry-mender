@@ -1,11 +1,16 @@
 package com.example.Gerrymender.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Table(name="Cluster")
 @Entity
-public class Cluster {
+public class  Cluster implements Serializable {
+
+    private static final long SerializeID = 222L; //or some other ID
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,8 +21,8 @@ public class Cluster {
     @Id
     @Column(name="stateName") //Clusters for specific state
     private String stateName;
-    private Set<Precinct> precincts;
-    private Set<Edge> edges;
+    private ArrayList<Precinct> precincts;
+    private ArrayList<Edge> edges;
 
     @Column(name="ClusterPop")
     private long population;
@@ -38,20 +43,20 @@ public class Cluster {
     private long nativeAmerican_pop;
 
 
-    public Set<Edge> getEdges() {
+    public ArrayList<Edge> getEdges() {
         return edges;
     }
 
-    public void setEdges(Set<Edge> edges) {
+    public void setEdges(ArrayList<Edge> edges) {
         assert(edges!=null);
         this.edges = edges;
     }
 
-    public Set<Precinct> getPrecincts() {
+    public ArrayList<Precinct> getPrecincts() {
         return precincts;
     }
 
-    public void setPrecincts(Set<Precinct> precincts) {
+    public void setPrecincts(ArrayList<Precinct> precincts) {
         assert(precincts!=null);
         this.precincts = precincts;
     }
@@ -87,7 +92,7 @@ public class Cluster {
         population+=pop;
     }
 
-    public boolean addClusters(Set<Cluster> cl1){
+    public boolean addClusters(ArrayList<Cluster> cl1){
 
         //TODO
 

@@ -15,17 +15,17 @@ public class Edge {
 
     public Edge(){}
 
-    private Cluster c;
-    public Edge(Cluster c){
-
-        this.c=c; //So we can access the data between two clusters
-
-    }
+    //private Cluster c;
+//    public Edge(Cluster c){
+//
+//        this.c=c; //So we can access the data between two clusters
+//
+//    }
 
     private double joinability;
     //private Area neighborhood; //TODO: Define Area for our project
 
-    private State state;
+    //private State state;
 
 
     public boolean updateJoinability(float join){
@@ -35,11 +35,11 @@ public class Edge {
     }
 
 
-    public Cluster getC() {
-        return c;
-    }
-
-    public void setC(Cluster c) {
-        this.c = c;
-    }
+//    public Cluster getC() {
+//        return c;
+//    }
+//
+//    public void setC(Cluster c) {
+//        this.c = c;
+//    }
 }

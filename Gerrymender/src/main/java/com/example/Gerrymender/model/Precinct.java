@@ -4,13 +4,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Table(name="Precinct")
 @Entity
-public class Precinct{
+public class Precinct implements Serializable {
+
+    private static final long SerializeID = 2L; //or some other ID
 
     @Id //ID Annotation for the subclasses
     @Column(name="precinctId")
@@ -109,17 +112,17 @@ public class Precinct{
     @Id //Composite Key for Precincts to know what district they're part of
     @Column(name="districtID")
     private String districtID; //Can't have a state object, as that would bring in circular dependencies.
-    private Set<Race> votingBlockRace;
+    private Race votingBlockRace;
 
     public String getDistrictID(){return districtID;}
     public void setDistrictID(String districtID ){this.districtID=districtID;}
 
 
-    public Set<Race> getVotingBlockRace() {
+    public Race getVotingBlockRace() {
         return votingBlockRace;
     }
 
-    public void setVotingBlockRace(Set<Race> votingBlockRace) {
+    public void setVotingBlockRace(Race votingBlockRace) {
         this.votingBlockRace = votingBlockRace;
     }
 

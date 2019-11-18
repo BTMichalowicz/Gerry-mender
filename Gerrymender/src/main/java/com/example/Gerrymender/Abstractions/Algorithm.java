@@ -22,14 +22,14 @@ public class Algorithm {
         //TODO
     }
 
-    public boolean addPrecinct(State s, Precinct p) {
-        return s.getPrecincts().add(p);
-    }
+//    public boolean addPrecinct(State s, Precinct p) {
+//        return s.getPrecincts().add(p);
+//    }
 
 
     public boolean addEdge(Cluster c1, Cluster c2) {
 
-        return c1.getEdges().add(new Edge(c2));
+        return c1.getEdges().add(new Edge());
 
 
     }
