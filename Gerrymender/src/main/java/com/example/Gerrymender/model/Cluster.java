@@ -18,7 +18,7 @@ public class  Cluster implements Serializable {
     private long clusterid;
 
 
-    @Id
+
     @Column
     private String statename;
 //    private ArrayList<Precinct> precincts;

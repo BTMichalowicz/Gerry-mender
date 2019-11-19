@@ -109,7 +109,7 @@ public class Precinct implements Serializable {
 
 
 
-    @Id //Composite Key for Precincts to know what district they're part of
+    //Composite Key for Precincts to know what district they're part of
     @Column
     private String districtid; //Can't have a state object, as that would bring in circular dependencies.
 

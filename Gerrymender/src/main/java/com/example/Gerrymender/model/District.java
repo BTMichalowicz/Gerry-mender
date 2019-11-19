@@ -114,7 +114,7 @@ public class District implements Serializable {
     }
 
 
-    @Id //Composite Key for Districts
+     //Composite Key for Districts
     @Column
    private String statename;
 

@@ -29,8 +29,8 @@ public class Algorithm {
 
     public boolean addEdge(Cluster c1, Cluster c2) {
 
-        return c1.getEdges().add(new Edge());
-
+        //return c1.getEdges().add(new Edge());
+        return true;
 
     }
 }
