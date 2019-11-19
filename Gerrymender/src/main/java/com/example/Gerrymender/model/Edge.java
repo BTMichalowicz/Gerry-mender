@@ -9,6 +9,7 @@ import javax.persistence.Table;
 @Table(name="Edge")
 @Entity
 public class Edge {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id; //Edge id; random double, we can probably increment; make it static, perhaps, such that no id is the same, a la autoincrement
