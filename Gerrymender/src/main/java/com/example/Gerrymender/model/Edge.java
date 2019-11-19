@@ -24,8 +24,8 @@ public class Edge {
 //    }
 
     private double joinability;
-    //private Area neighborhood; //TODO: Define Area for our project
 
+    //private Area neighborhood; //TODO: Define Area for our project
     //private State state;
 
 
