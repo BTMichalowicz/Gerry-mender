@@ -8,6 +8,7 @@
     <!--Scripts-->
     <script src='./scripts/stateData.js'></script>
     <script src='./scripts/FL.js'></script>
+    <script src='./scripts/FLp.js'></script>
     <script src='./scripts/leaflet.ajax.min.js'></script>
     <script src='./scripts/functions.js'></script>
 
@@ -49,36 +50,40 @@
         <form>
             <h4 style="color: deepskyblue">Data Selection</h4>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="2016D" name="example" value="customEx" onclick="closeInfo()" checked>
-                <label class="custom-control-label" for="2016D" style="color: white">2016 election result</label>
+                <input type="radio" class="custom-control-input" id="2016C" name="example" value="customEx" onclick="closeInfo()" checked>
+                <label class="custom-control-label" for="2016C" style="color: white">2016 Congressional Election</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="2018D" name="example" value="customEx" onclick="closeInfo()">
-                <label class="custom-control-label" for="2018D" style="color: white">2018 election result</label>
+                <input type="radio" class="custom-control-input" id="2016P" name="example" value="customEx" onclick="closeInfo()">
+                <label class="custom-control-label" for="2016P" style="color: white">2016 President Election</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="2018C" name="example" value="customEx" onclick="closeInfo()">
+                <label class="custom-control-label" for="2018C" style="color: white">2018 Congressional Election</label>
             </div>
         </form>
 
         <h4 style="color: deepskyblue">Objective Function Controls</h4>
         <!--Majority Threshold-->
-        <input type="checkbox" name="Maj" value="Maj"> Majority Threshold: <span id="majslider_value"></span>
+        <input type="checkbox" name="Maj" value="Maj"> Maj-Min Threshold: <span id="majslider_value">50</span>
 
         <div class="slidecontainer">
             <input type="range" min="1" max="100" value="50" class="maj-slider" id="majThreshold" onchange="show_value(this.value, 'majslider_value');">
         </div>
-        <!--Minority Threshold-->
-        <input type="checkbox" name="Min" value="Min">  Minority Threshold: <span id="minslider_value"></span>
-        <div class="slidecontainer">
-            <input type="range" min="1" max="100" value="50" class="slider" id="minThreshold" onchange="show_value(this.value, 'minslider_value');">
-        </div>
+<!--        &lt;!&ndash;Minority Threshold&ndash;&gt;-->
+<!--        <input type="checkbox" name="Min" value="Min">  Minority Threshold: <span id="minslider_value"></span>-->
+<!--        <div class="slidecontainer">-->
+<!--            <input type="range" min="1" max="100" value="50" class="slider" id="minThreshold" onchange="show_value(this.value, 'minslider_value');">-->
+<!--        </div>-->
 
         <!--Population Equality-->
-        <input type="checkbox" name="Pop" value="Pop">  Population Equality: <span id="popslider_value"></span> <br>
+        <input type="checkbox" name="Pop" value="Pop">  Population Threshold: <span id="popslider_value">50</span>
         <div class="slidecontainer">
             <input type="range" min="1" max="100" value="50" class="slider" id="pplEquality" onchange="show_value(this.value,'popslider_value');">
         </div>
 
         <!--Compactness-->
-        <input type="checkbox" name="Compactness" value="Compactness">  Compactness: <span id="compactslider_value"></span> <br>
+        <input type="checkbox" name="Compactness" value="Compactness">  Voting Threshold: <span id="compactslider_value">50</span>
         <div class="slidecontainer">
             <input type="range" min="1" max="100" value="50" class="slider" id="compactness" onchange="show_value(this.value, 'compactslider_value');">
         </div>
@@ -89,12 +94,16 @@
         <form>
             <h4 style="color: deepskyblue">Algorithm Selection</h4>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="gpAL" name="example" value="customEx">
-                <label class="custom-control-label" for="gpAL" style="color: white">Graph Partitioning</label>
+                <input type="radio" class="custom-control-input" id="phase0" name="example" value="customEx" checked>
+                <label class="custom-control-label" for="phase0" style="color: white">Phase 0</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="saAL" name="example" value="customEx">
-                <label class="custom-control-label" for="saAL" style="color: white">Simulated Annealing</label>
+                <input type="radio" class="custom-control-input" id="phase1" name="example" value="customEx">
+                <label class="custom-control-label" for="phase1" style="color: white">Phase 1</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="phase2" name="example" value="customEx">
+                <label class="custom-control-label" for="phase2" style="color: white">Phase 2</label>
             </div>
         </form>
 
@@ -174,7 +183,7 @@
     var infoStat = "null";
 
     /*geoJson Manipulation*/
-    L.geoJson(floridaLayer, {
+    L.geoJson(floridaOriDis, {
         style: function (feature) {
 
             return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
@@ -182,6 +191,18 @@
         },
         onEachFeature: onEachFeature,
     }).addTo(map);
+
+
+    L.geoJson(floridaPre, {
+        style: function (feature) {
+
+            return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
+
+        },
+        onEachFeature: onEachFeature,
+    }).addTo(map);
+
+
 
 </script>
 </body>

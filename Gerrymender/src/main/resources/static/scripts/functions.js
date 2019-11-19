@@ -82,7 +82,7 @@
 
             $("#small-info-table tr").remove();
             var year;
-            if($('#2016D').is(':checked'))
+            if($('#2016C').is(':checked') || $('#2016P').is(':checked'))
                 year = 2016;
             else
                 year = 2018;

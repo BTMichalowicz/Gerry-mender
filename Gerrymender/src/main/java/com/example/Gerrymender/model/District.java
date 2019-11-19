@@ -33,7 +33,6 @@ public class District implements Serializable {
     @Column
     private String party;
 
-
     @Column
     private long whitepop;
     @Column

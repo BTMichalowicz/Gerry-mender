@@ -1,11 +1,6 @@
 package com.example.Gerrymender.Abstractions;
 
 
-import com.example.Gerrymender.model.Cluster;
-import com.example.Gerrymender.model.Edge;
-import com.example.Gerrymender.model.Precinct;
-import com.example.Gerrymender.model.State;
-
 public class Algorithm {
     /*objectiveValue -> calculating the objective function for each iteration
         numIterations -> For simulated annealing
