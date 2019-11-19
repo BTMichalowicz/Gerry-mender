@@ -1,7 +1,12 @@
-    /*Functions*/    
+    /*Functions*/
+
+
     function onEachFeature(feature, layer) {
 
         layer.on("mouseover", function (e) {
+
+
+            layer.setStyle({fillColor : "grey"});
 
             document.getElementById("small-info-window").style.width = "220px";
             if(sliderState == 1)
@@ -17,12 +22,12 @@
         layer.on("mouseout", function (e) {
             //$(popup1.remove());
             document.getElementById("small-info-window").style.width = "0";
-
+            layer.setStyle({color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5});
         });
 
         layer.on("click", function (e) {
-            $(toggleInfoSlider( feature ));
 
+            $(toggleInfoSlider( feature ));
 
 
         });
@@ -141,11 +146,11 @@
     district_color.set(9, '#40E0D0');
     district_color.set(10, '#FF6347');
     district_color.set(11, '#6A5ACD');
-    district_color.set(12, '#87CEEB');
+    district_color.set(12, '#0FFD70');
     district_color.set(13, '#B0C4DE');
     district_color.set(14, '#FF0000');
     district_color.set(15, '#50b2ff');
-    district_color.set(16, '#6effa1');
+    district_color.set(16, '#5effc2');
     district_color.set(17, '#20f8ff');
     district_color.set(18, '#ffa71d');
     district_color.set(19, '#ff2fab');

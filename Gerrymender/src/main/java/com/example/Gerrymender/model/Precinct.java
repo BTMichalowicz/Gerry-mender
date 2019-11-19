@@ -113,19 +113,11 @@ public class Precinct implements Serializable {
     @Column
     private String districtid; //Can't have a state object, as that would bring in circular dependencies.
 
-    private Race votingBlockRace;
+
 
     public String getDistrictID(){return districtid;}
     public void setDistrictID(String districtID ){this.districtid=districtID;}
 
-
-    public Race getVotingBlockRace() {
-        return votingBlockRace;
-    }
-
-    public void setVotingBlockRace(Race votingBlockRace) {
-        this.votingBlockRace = votingBlockRace;
-    }
 
     public String getCountyName() {
         return countyname;

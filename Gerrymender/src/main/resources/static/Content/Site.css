@@ -139,7 +139,7 @@ html,body{
 }
 
 #small-info-window {
-    height: 305px;
+    height: 300px;
     width: 0;
     position: fixed;
     z-index: 1;
@@ -148,6 +148,7 @@ html,body{
     background-color: #343a40;
     color: lightgrey;
     overflow-x: hidden;
+    overflow-y: hidden;
     text-align: center;
     font-size: 12px;
 }

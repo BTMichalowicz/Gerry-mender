@@ -8,7 +8,7 @@ public class Algorithm {
     public int objectiveValue;
     public int numIterations;
 
-    public boolean combine(Cluster c) { //TODO
+    public boolean combine(BaseCluster c) { //TODO
         return true; //Combines clusters
     }
 
@@ -22,7 +22,7 @@ public class Algorithm {
 //    }
 
 
-    public boolean addEdge(Cluster c1, Cluster c2) {
+    public boolean addEdge(BaseCluster c1, BaseCluster c2) {
 
         //return c1.getEdges().add(new Edge());
         return true;
