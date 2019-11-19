@@ -3,24 +3,21 @@
 
         layer.on("mouseover", function (e) {
 
-            var popcontent = "District "+feature.properties.DISTRICT  +
-                "<br/>population : 12312312" +
-                "<br/>White : 123123" +
-                "<br/>Minority : 123123" +
-                "<br/>Hispanic/Latino : 123123" +
-                "<br/>Asian : 123123";
+            document.getElementById("small-info-window").style.width = "220px";
+            if(sliderState == 1)
+                document.getElementById("small-info-window").style.left = "370px";
+            else
+                document.getElementById("small-info-window").style.left = "50px";
 
-            lat = e.latlng.lat;
-            lng = e.latlng.lng;
+            $(fillOutSmallWindow(feature));
 
-            popup1 = L.popup()
-                .setLatLng([lat, lng])
-                .setContent(popcontent)
-                .openOn(map);
+
         });
 
         layer.on("mouseout", function (e) {
-            $(popup1.remove());
+            //$(popup1.remove());
+            document.getElementById("small-info-window").style.width = "0";
+
         });
 
         layer.on("click", function (e) {
@@ -61,7 +58,7 @@
     }
 
     function toggleInfoSlider( feature ) {
-        if (infoStat === feature.properties.NAME) { //Open slider
+        if (infoStat === feature.properties.DISTRICT) { //Open slider
 
             document.getElementById("slide-info").style.width = "0";
             infoStat = "null";
@@ -69,7 +66,7 @@
         } else {
 
             document.getElementById("slide-info").style.width = "350px";
-            infoStat = feature.properties.NAME;
+            infoStat = feature.properties.DISTRICT;
             fillOutTable(feature);
 
         }
@@ -80,13 +77,40 @@
         infoStat = "null";
     }
 
+    function fillOutSmallWindow(feature) {
+        $(document).ready(function () {
+
+            $("#small-info-table tr").remove();
+            var year;
+            if($('#2016D').is(':checked'))
+                year = 2016;
+            else
+                year = 2018;
+
+                var items = [
+                {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
+                {Attr: "population", Amout: "50"},
+                {Attr: "White", Amout: "50"},
+                {Attr: "Minority", Amout: "50"},
+                {Attr: "Hispanic", Amout: "50"},
+                {Attr: "Asian", Amout: "50"},
+                {Attr: "Republican", Amout: "50"},
+                {Attr: "Democratic", Amout: "50"},
+                {Attr: "Year", Amout: year},
+
+            ];
+
+            $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
+        });
+    }
+
     function fillOutTable(feature) {
         $(document).ready(function () {
 
             $("#itemList tr").remove();
 
             var items = [
-                {Attr: "Name", Amout: feature.properties.NAME},
+                {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
                 {Attr: "population", Amout: "50"},
                 {Attr: "White", Amout: "50"},
                 {Attr: "Minority", Amout: "50"},

@@ -109,10 +109,8 @@ html,body{
     background-color: #343a40;
     color: lightgrey;
     overflow-x: hidden;
-
     text-align: center;
     font-size: 18px;
-    /*text-emphasis: blod;*/
 }
 
 .slidecontainer{
@@ -131,7 +129,7 @@ html,body{
     margin-right: auto;
     align-items: center;
     position: absolute;
-    bottom: 100px;
+    bottom: 50px;
 }
 
 
@@ -140,3 +138,16 @@ html,body{
     color: black;
 }
 
+#small-info-window {
+    height: 305px;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    left: 20px;
+    bottom: 20px;
+    background-color: #343a40;
+    color: lightgrey;
+    overflow-x: hidden;
+    text-align: center;
+    font-size: 12px;
+}
