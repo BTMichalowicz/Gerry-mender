@@ -46,7 +46,7 @@
         <!--Tabs-->
             <div class="tab">
                 <button class="tablinks" onclick="openTab(event, 'Help')">Help!</button>
-                <button class="tablinks" onclick="openTab(event, 'Data')" >Data</button>
+                <button class="tablinks" onclick="openTab(event, 'Data')">Data</button>
                 <button class="tablinks" onclick="openTab(event, 'Bloc')">Bloc?</button>
                 <button class="tablinks" onclick="openTab(event, 'GM')" >Gerrymend</button>
               </div>
@@ -102,38 +102,52 @@
                         <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx">
                                 <label class="custom-control-label" for="iterate" style="color: white">Iterative</label>
-                                <button class = "disabled" disabled>Next Iteration</button>
+                                <button class = "disabled_r" disabled>Next Iteration</button>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx">
                                 <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br></br>
                         </div>
+                        <button class = "ctr_button" disabled>Start</button><br></br>
                         <h4>Output: </h4><br></br>
-                        <button class = "ctr_button_disabled" onclick="openTab(event, 'P2')">Phase 2</button><br></br>
+                        <button class = "phase2_button" onclick="openTab(event, 'P2')">Phase 2</button><br></br>
                     </div>
             </div>
-            <div id = "P2" class = "tabcontent">
+            <div id = "P2" class = "tabcontent" >
                 <!--Phase 2 ONLY should appear one Phase 1 COMPLETES.-->
                 <div class = "tab_subheader">Phase 2: Simulated Annealing</div><br></br>
-                
-            </div>
-            
-            <!--Algorithms
-            <form>
-                <h4 style="color: deepskyblue">Algorithm Selection</h4>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="gpAL" name="example" value="customEx">
-                    <label class="custom-control-label" for="gpAL" style="color: white">Graph Partitioning</label>
+                <h4>•Objective Function Weights:</h4>
+                <div class = "content_centered">
+                    <select name="Weights">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                    </select>
+                <input type="number" name="popThresh" style = "width: 50px; color: black; ">
                 </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="saAL" name="example" value="customEx">
-                    <label class="custom-control-label" for="saAL" style="color: white">Simulated Annealing</label>
+                <h4>•Minority Populations Considered:.</h4>
+                <div>
+                    <input type="checkbox" name="afr">African American<br>
+                    <input type="checkbox" name="nat" >Native American<br>
+                    <input type="checkbox" name="his">Hispanic<br>
+                    <input type="checkbox" name="asi">Asian<br>
+                    <input type="checkbox" name="whi">White<br>
                 </div>
-            </form>-->
-        
-            <!--Algorithm Controls-->
-            
-        </div>
+                <h4>•Population Percentages:</h4>
+                <form style="overflow: hidden; text-align: center; ">
+                        Maximum:
+                        <input type="number" name="minPercentage" style = "width: 50px; color: black; float: right;"><br></br>
+                        Minimum: 
+                        <input type="number" name="maxPercentage"  style = "width: 50px;  color: black; float: right;"><br></br>
+                </form>
+                <br></br>
+                <div class = "tab_subheader">Output:</div><br></br>
+                <p>((To Be Done: GM Scores, Population/Maj-Min Tables))</p>
+                <button class = "disabled" disabled>Original Districts</button>
+                <button class = "disabled" disabled>Generated Districts</button>
+           </div>         
+        </div>   
     
         <!--Map-->
         <div id="map"></div>

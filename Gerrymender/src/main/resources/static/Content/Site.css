@@ -179,7 +179,17 @@ html,body{
 
 .disabled{
     color: grey;
+}
+.disabled_r{
+    color: grey;
     float: right;
+}
+
+.content_centered{
+    color: black;
+    text-align: center;
+    display: block; 
+    margin: 0 auto;
 }
 
 .ctr_button{
@@ -189,11 +199,12 @@ html,body{
     margin: 0 auto;
 }
 
-.ctr_button_disabled{
+.phase2_button{
     color: grey;
     text-align: center;
     display: block; 
     margin: 0 auto;
+    bottom: 50px;
 }
 
 .button{
