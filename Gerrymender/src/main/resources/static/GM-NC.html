@@ -53,19 +53,37 @@
 
             <!-- Tab content -->
             <div id="Help" class="tabcontent">
-                    <h3 style = "text-align: center;">Need Help?</h3><br></br>
+                    <div class = "tab_header">Need Help?</div><br></br>
                         <h4>•Data: The data tab shows the currently selected state's election data.</h4><br></br>
                         <h4>•Bloc?: The bloc tab determines if any demographics in this state's precincts are voting as a bloc.</h4><br></br>
                         <h4>•Gerrymend: The Gerrymend tab redraws district lines to maximize the number of Minority-Majority Districts.</h4><br></br>
             </div>
             <div id="Data" class="tabcontent">
-                    <h3 style = "text-align: center;">Data Displayed</h3><br></br>
+                    <div class = "tab_header">Data Displayed</div><br></br>
+                    <form>
+                        <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" id="2016P" name="example" value="customEx" checked = "true">
+                                    <label class="custom-control-label" for="2016P" style="color: white;">2016 Presidential Election</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="2016C" name="example" value="customEx">
+                            <label class="custom-control-label" for="2016C" style="color: white;">2016 Congressional Election</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="2018C" name="example" value="customEx">
+                                <label class="custom-control-label" for="2018C" style="color: white;">2018 Congressional Election</label>
+                        </div>
+                    </form><br></br>
+                    <div class = "tab_subheader">State Information</div>
+                    <p>((Here shall be the state info table: Winning Party, Votes for Party, Total Votes, percentage))</p><br><br>
+                    <p>((potentially links to state guidelines, incumbent info, and statewide patterns))</p>
+
             </div>
             <div id="Bloc" class="tabcontent">
-                    <h3 style = "text-align: center;">Calculate Voting Blocs</h3><br></br>
+                    <div class = "tab_header">Calculate Voting Blocs</div><br></br>
             </div>
             <div id="GM" class="tabcontent">
-                    <h3 style = "text-align: center;">Gerrymend</h3><br></br>
+                    <div class = "tab_header">Gerrymend</div><br></br>
             </div>
             
             <!--Algorithms
@@ -80,20 +98,7 @@
                     <label class="custom-control-label" for="saAL" style="color: white">Simulated Annealing</label>
                 </div>
             </form>-->
-    
-            <!--Data
-            <form>
-                <h4 style="color: deepskyblue">Data Selection</h4>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="2016D" name="example" value="customEx">
-                    <label class="custom-control-label" for="2016D" style="color: white">2016 election result</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="2018D" name="example" value="customEx">
-                    <label class="custom-control-label" for="2018D" style="color: white">2018 election result</label>
-                </div>
-            </form>-->
-    
+        
             <!--Algorithm Controls-->
             
         </div>
