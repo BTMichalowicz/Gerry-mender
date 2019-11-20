@@ -12,6 +12,8 @@ public class BasePrecinct {
     private VotingBloc bloc;
     private Race majorityRace;
     private int majorityRacePop;
+    private int clusterId;
+    private Set<BasePrecinct> edges;
 
     public VotingBloc getBloc() {
         return bloc;
@@ -44,4 +46,12 @@ public class BasePrecinct {
     public void setMajorityRace(Race majorityRace) { this.majorityRace = majorityRace;    }
 
     public void setMajorityRacePop(int majorityRacePop) { this.majorityRacePop = majorityRacePop;    }
+
+    public int getClusterId() { return clusterId;    }
+
+    public void setClusterId(int clusterId) { this.clusterId = clusterId;    }
+
+    public Set<BasePrecinct> getEdges() { return edges;    }
+
+    public void setEdges(Set<BasePrecinct> edges) { this.edges = edges;    }
 }

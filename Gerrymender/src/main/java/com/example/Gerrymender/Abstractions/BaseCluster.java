@@ -17,6 +17,15 @@ public class BaseCluster {
     private HashMap<String, BasePrecinct> precincts;
     private HashSet<BaseCluster> edges;
 
+    public BaseCluster(String ID, BaseState state, int population) {
+        this.ID = ID;
+        this.state = state;
+        this.population = population;
+        this.precincts = new HashMap<>();
+        this.votes = new HashMap<>();
+        this.edges = new HashSet<>();
+    }
+
     public String getID() {
         return ID;
     }
@@ -52,5 +61,14 @@ public class BaseCluster {
     public void combine(BaseCluster c) {
         precincts.putAll(c.getPrecincts());
         edges.addAll(c.getEdges());
+        population += c.getPopulation();
+    }
+
+    public void addPrecinct(BasePrecinct p) {
+        precincts.put(p.getID(), p);
+    }
+
+    public void addEdge(BaseCluster c) {
+        edges.add(c);
     }
 }

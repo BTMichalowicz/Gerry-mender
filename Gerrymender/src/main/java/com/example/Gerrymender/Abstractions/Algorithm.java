@@ -2,6 +2,7 @@ package com.example.Gerrymender.Abstractions;
 
 
 import com.example.Gerrymender.model.Pol_part;
+import com.example.Gerrymender.model.Precinct;
 import com.example.Gerrymender.model.Race;
 
 import java.util.HashMap;
@@ -37,7 +38,27 @@ public class Algorithm {
 
     private HashMap<String, BaseCluster> initializeClusters(Set<BasePrecinct> precincts)
     {
-
+        HashMap<String, BaseCluster> clusters = new HashMap<>();
+        int count = 0;
+        for(BasePrecinct p : precincts) {
+            BaseCluster c = new BaseCluster("" + count, curState, p.getPopulation());
+            p.setClusterId(count);
+            c.addPrecinct(p);
+            clusters.put("" + count, c);
+        }
+        for(Map.Entry<String, BaseCluster> clust : clusters.entrySet())
+        {
+            BaseCluster c = clust.getValue();
+            Map<String, BasePrecinct> prec = c.getPrecincts();
+            for(Map.Entry<String, BasePrecinct> p : prec.entrySet())
+            {
+                for(BasePrecinct precinct : p.getValue().getEdges())
+                {
+                    c.addEdge(clusters.get("" + precinct.getClusterId()));
+                }
+            }
+        }
+        return clusters;
     }
 
     public Set<BasePrecinct> phase0(double popThreshold, double voteThreshold)
@@ -78,5 +99,13 @@ public class Algorithm {
         return ret;
     }
 
-
+    public Map<String, String> phase1(int numDistricts, boolean runFull){
+        if(runFull) {
+            // Run the entire phase until the end
+        }
+        else {
+            // Run a single step
+        }
+        return null; // placeholder
+    }
 }
