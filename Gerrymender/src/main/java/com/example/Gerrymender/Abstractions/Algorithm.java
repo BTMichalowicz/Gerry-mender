@@ -4,6 +4,7 @@ package com.example.Gerrymender.Abstractions;
 import com.example.Gerrymender.model.Pol_part;
 import com.example.Gerrymender.model.Race;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -13,8 +14,18 @@ public class Algorithm {
     public int numIterations;
     public BaseState curState;
 
-    public boolean combine(BaseCluster c) { //TODO
-        return true; //Combines clusters
+
+    //  Combines c1 with c2 and removes c2 from the hashmap of clusters
+    private void combine(BaseCluster c1, BaseCluster c2) {
+        c1.combine(c2);
+        for(BaseCluster c : c2.getEdges())
+        {
+            HashSet<BaseCluster> edge = c.getEdges();
+            edge.remove(c2);
+            edge.add(c1);
+        }
+        Map<String, BaseCluster> map = curState.getClusters();
+        map.entrySet().removeIf(entry -> c2.equals(entry.getValue()));
     }
 
     public void annealling() {
@@ -24,9 +35,8 @@ public class Algorithm {
         return s.getPrecincts().add(p);
      }*/
 
-    public boolean addEdge(BaseCluster c1, BaseCluster c2) {
-        //return c1.getEdges().add(new Edge());
-        return true;
+    private HashMap<String, BaseCluster> initializeClusters(Set<BasePrecinct> precincts)
+    {
 
     }
 
@@ -67,4 +77,6 @@ public class Algorithm {
         }
         return ret;
     }
+
+
 }

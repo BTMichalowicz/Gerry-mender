@@ -6,6 +6,7 @@ public class BaseState {
     private String name;
     private Map<String, BaseDistrict> districts;
     private Map<String, BasePrecinct> precincts;
+    private Map<String, BaseCluster> clusters;
     private int population;
 
     public String getName() {
@@ -23,4 +24,8 @@ public class BaseState {
     public int getPopulation() {
         return population;
     }
+
+    public Map<String, BaseCluster> getClusters() { return clusters;    }
+
+    public void setClusters(Map<String, BaseCluster> clusters) { this.clusters = clusters;    }
 }

@@ -15,6 +15,7 @@ public class BaseCluster {
     private int externalEdges = 0;
     private Map<Pol_part, Integer> votes;
     private HashMap<String, BasePrecinct> precincts;
+    private HashSet<BaseCluster> edges;
 
     public String getID() {
         return ID;
@@ -40,7 +41,16 @@ public class BaseCluster {
         return externalEdges;
     }
 
-    public Set<BasePrecinct> getPrecincts() {
-        return precincts == null ? new HashSet<>() : (Set<BasePrecinct>) precincts.values();
+    public HashMap<String, BasePrecinct> getPrecincts() {
+        return precincts == null ? new HashMap<>() :  precincts;
+    }
+
+    public HashSet<BaseCluster> getEdges() { return edges;    }
+
+    public void setEdges(HashSet<BaseCluster> edges) { this.edges = edges;    }
+
+    public void combine(BaseCluster c) {
+        precincts.putAll(c.getPrecincts());
+        edges.addAll(c.getEdges());
     }
 }
