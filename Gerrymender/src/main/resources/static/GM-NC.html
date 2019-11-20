@@ -126,12 +126,20 @@
                 <input type="number" name="popThresh" style = "width: 50px; color: black; ">
                 </div>
                 <h4>•Minority Populations Considered:.</h4>
-                <input type="checkbox" name="Min" value="Min">African American<br>
-                <input type="checkbox" name="Min" value="Min">Native American<br>
-                <input type="checkbox" name="Min" value="Min">Hispanic<br>
-                <input type="checkbox" name="Min" value="Min">Asian<br>
-                <input type="checkbox" name="Min" value="Min">White<br>
+                <div>
+                    <input type="checkbox" name="afr">African American<br>
+                    <input type="checkbox" name="nat" >Native American<br>
+                    <input type="checkbox" name="his">Hispanic<br>
+                    <input type="checkbox" name="asi">Asian<br>
+                    <input type="checkbox" name="whi">White<br>
+                </div>
                 <h4>•Population Percentages:</h4>
+                <form style="overflow: hidden; text-align: center; ">
+                        Maximum:
+                        <input type="number" name="minPercentage" style = "width: 50px; color: black; float: right;"><br></br>
+                        Minimum: 
+                        <input type="number" name="maxPercentage"  style = "width: 50px;  color: black; float: right;"><br></br>
+                </form>
                 <br></br>
                 <div class = "tab_subheader">Output:</div><br></br>
                 <p>((To Be Done: GM Scores, Population/Maj-Min Tables))</p>
