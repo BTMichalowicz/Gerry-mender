@@ -85,6 +85,30 @@
     function fillOutSmallWindow(feature) {
         $(document).ready(function () {
 
+
+    var formData = new FormData();
+    formData.append("params","nihao");
+    formData.append("type",2);
+    var result = $.parseJSON($.ajax({
+        url: "http://localhost:8080/getSelectArea",
+        type: "POST",
+        data:formData,
+        processData : false,
+        contentType : false,
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            //console.log(data[0]);
+        },
+        error: function (result) {
+
+            alert("error");
+        }
+    }).responseText);
+
+            // test output
+            console.log(result[0]);
+
             $("#small-info-table tr").remove();
             var year;
             if($('#2016C').is(':checked') || $('#2016P').is(':checked'))
@@ -94,7 +118,7 @@
 
                 var items = [
                 {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
-                {Attr: "population", Amout: "50"},
+                {Attr: "population", Amout: result[1]},
                 {Attr: "White", Amout: "50"},
                 {Attr: "Minority", Amout: "50"},
                 {Attr: "Hispanic", Amout: "50"},
