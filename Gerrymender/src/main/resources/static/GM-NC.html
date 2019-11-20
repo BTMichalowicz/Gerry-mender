@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="Content/Site.css">
     
-
 </head>
 <body>
 
@@ -44,34 +43,22 @@
 <div id="map-container">
         <!--Sliding Menu-->
         <div class = "slide-menu" id="slide-menu">
-    
-            <h3>Objective Function Controls</h3>
-            <!--Majority Threshold-->
-            <input type="checkbox" name="Maj" value="Maj"> Majority Threshold: <span id="majslider_value"></span>
-            <br>
-            <div class="slidecontainer">
-                <input type="range" min="1" max="100" value="0" class="maj-slider" id="majThreshold" onchange="show_value(this.value, 'majslider_value');">
-            </div><br>
-    
-            <!--Minority Threshold-->
-            <input type="checkbox" name="Min" value="Min">  Minority Threshold: <span id="minslider_value"></span>
-            <div class="slidecontainer">
-                <input type="range" min="1" max="100" value="0" class="slider" id="minThreshold" onchange="show_value(this.value, 'minslider_value');">
-            </div><br>
-    
-            <!--Population Equality-->
-            <input type="checkbox" name="Pop" value="Pop">  Population Equality: <span id="popslider_value"></span> <br>
-            <div class="slidecontainer">
-                <input type="range" min="1" max="100" value="0" class="slider" id="pplEquality" onchange="show_value(this.value,'popslider_value');">
-            </div><br>
-    
-            <!--Compactness-->
-            <input type="checkbox" name="Compactness" value="Compactness">  Compactness: <span id="compactslider_value"></span> <br>
-            <div class="slidecontainer">
-                <input type="range" min="1" max="100" value="0" class="slider" id="compactness" onchange="show_value(this.value, 'compactslider_value');">
-            </div><br>
-    
-            <!--Algorithms-->
+        <!--Tabs-->
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'Help')">Help!</button>
+                <button class="tablinks" >Data</button>
+                <button class="tablinks" >Bloc?</button>
+                <button class="tablinks" >Gerrymend</button>
+              </div>
+
+            <!-- Tab content -->
+            <div id="Help" class="tabcontent">
+                    <h3 style = "text-align: center;">Need Help?</h3><br></br>
+                        <h4>•Data: The data tab shows the currently selected state's election data.</h4><br></br>
+                        <h4>•Bloc?: The bloc tab determines if any demographics in this state's precincts are voting as a bloc.</h4><br></br>
+                        <h4>•Gerrymend: The Gerrymend tab redraws district lines to maximize the number of Minority-Majority Districts.</h4><br></br>
+                  </div>
+            <!--Algorithms
             <form>
                 <h4 style="color: deepskyblue">Algorithm Selection</h4>
                 <div class="custom-control custom-radio custom-control-inline">
@@ -82,9 +69,9 @@
                     <input type="radio" class="custom-control-input" id="saAL" name="example" value="customEx">
                     <label class="custom-control-label" for="saAL" style="color: white">Simulated Annealing</label>
                 </div>
-            </form>
+            </form>-->
     
-            <!--Data-->
+            <!--Data
             <form>
                 <h4 style="color: deepskyblue">Data Selection</h4>
                 <div class="custom-control custom-radio custom-control-inline">
@@ -95,15 +82,10 @@
                     <input type="radio" class="custom-control-input" id="2018D" name="example" value="customEx">
                     <label class="custom-control-label" for="2018D" style="color: white">2018 election result</label>
                 </div>
-            </form>
+            </form>-->
     
             <!--Algorithm Controls-->
-            <div class = "algorithm-controls">Algorithm Controls<br>
-                <button type = "button" id ="play-button">PLAY </button>
-                <button type = "button" id ="-button">PAUSE </button>
-                <button type = "button" id ="stop-button">STOP </button>
-                    <button type = "button" id ="replay-button">REPLAY </button>
-            </div>
+            
         </div>
     
         <!--Map-->
@@ -155,10 +137,7 @@ var infoStat = "null";
 /*geoJson Manipulation*/
 L.geoJson(ncLayer, {
     style: function (feature) {
-
         return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
-
-
     },
     onEachFeature: onEachFeature,
 }).addTo(map);

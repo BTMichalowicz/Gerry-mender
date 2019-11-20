@@ -88,8 +88,6 @@
             <input type="range" min="1" max="100" value="50" class="slider" id="compactness" onchange="show_value(this.value, 'compactslider_value');">
         </div>
 
-
-
         <!--Algorithms-->
         <form>
             <h4 style="color: deepskyblue">Algorithm Selection</h4>
@@ -161,12 +159,9 @@
     /*Variables*/
     L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
     var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
-
-
     // console.log(map1.get('bar'));
     //
     // console.log(map1.get('baz'));
-
 
     //Map
     var map = L.mapbox.map('map')
@@ -185,24 +180,17 @@
     /*geoJson Manipulation*/
     L.geoJson(floridaOriDis, {
         style: function (feature) {
-
             return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
-
         },
         onEachFeature: onEachFeature,
     }).addTo(map);
-
 
     L.geoJson(floridaPre, {
         style: function (feature) {
-
             return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
-
         },
         onEachFeature: onEachFeature,
     }).addTo(map);
-
-
 
 </script>
 </body>
