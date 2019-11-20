@@ -1,35 +1,27 @@
     /*Functions*/
 
-
     function onEachFeature(feature, layer) {
-
+        var currentColor;
         layer.on("mouseover", function (e) {
-
-
+            currentColor = district_color.get(feature.properties.DISTRICT);
             layer.setStyle({fillColor : "grey"});
-
             document.getElementById("small-info-window").style.width = "220px";
             if(sliderState == 1)
                 document.getElementById("small-info-window").style.left = "370px";
             else
                 document.getElementById("small-info-window").style.left = "50px";
-
             $(fillOutSmallWindow(feature));
-
-
         });
 
         layer.on("mouseout", function (e) {
+            layer.setStyle({color:"black", fillColor: currentColor, weight:1, opacity: 0.8, fillOpacity: 0.5});
             //$(popup1.remove());
             document.getElementById("small-info-window").style.width = "0";
-            layer.setStyle({color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5});
+            //not working- why?
         });
 
         layer.on("click", function (e) {
-
             $(toggleInfoSlider( feature ));
-
-
         });
     }
 
@@ -64,12 +56,10 @@
 
     function toggleInfoSlider( feature ) {
         if (infoStat === feature.properties.DISTRICT) { //Open slider
-
             document.getElementById("slide-info").style.width = "0";
             infoStat = "null";
 
         } else {
-
             document.getElementById("slide-info").style.width = "350px";
             infoStat = feature.properties.DISTRICT;
             fillOutTable(feature);
@@ -84,26 +74,23 @@
 
     function fillOutSmallWindow(feature) {
         $(document).ready(function () {
-
-
-    var formData = new FormData();
-    formData.append("params","nihao");
-    formData.append("type",2);
-    var result = $.parseJSON($.ajax({
-        url: "http://localhost:8080/getSelectArea",
-        type: "POST",
-        data:formData,
-        processData : false,
-        contentType : false,
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            //console.log(data[0]);
-        },
-        error: function (result) {
-
-            alert("error");
-        }
+            var formData = new FormData();
+            formData.append("params","nihao");
+            formData.append("type",2);
+            var result = $.parseJSON($.ajax({
+                url: "http://localhost:8080/getSelectArea",
+                type: "POST",
+                data:formData,
+                processData : false,
+                contentType : false,
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    //console.log(data[0]);
+                 },
+                error: function (result) {
+                    alert("error");
+                  }
     }).responseText);
 
             // test output
@@ -115,7 +102,6 @@
                 year = 2016;
             else
                 year = 2018;
-
                 var items = [
                 {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
                 {Attr: "population", Amout: result[1]},
@@ -126,18 +112,14 @@
                 {Attr: "Republican", Amout: "50"},
                 {Attr: "Democratic", Amout: "50"},
                 {Attr: "Year", Amout: year},
-
             ];
-
             $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
         });
     }
 
     function fillOutTable(feature) {
         $(document).ready(function () {
-
             $("#itemList tr").remove();
-
             var items = [
                 {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
                 {Attr: "population", Amout: "50"},
@@ -147,15 +129,13 @@
                 {Attr: "Asian", Amout: "50"},
                 {Attr: "Republican", Amout: "50"},
                 {Attr: "Democratic", Amout: "50"},
-
             ];
-
             $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
         });
     }
 
     function show_value(x, id){
-    document.getElementById(id).innerHTML=x;
+        document.getElementById(id).innerHTML=x;
     }
 
     var district_color = new Map();
