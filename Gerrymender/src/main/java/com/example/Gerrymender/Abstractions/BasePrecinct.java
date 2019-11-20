@@ -9,14 +9,16 @@ public class BasePrecinct {
     private String ID;
     private int population;
     private Map<Pol_part, Integer> votes;
-    private Race votingBlockRace;
+    private VotingBloc bloc;
+    private Race majorityRace;
+    private int majorityRacePop;
 
-    public Race getVotingBlockRace() {
-        return votingBlockRace;
+    public VotingBloc getBloc() {
+        return bloc;
     }
 
-    public void setVotingBlockRace(Race votingBlockRace) {
-        this.votingBlockRace = votingBlockRace;
+    public void setBloc(VotingBloc bloc) {
+        this.bloc = bloc;
     }
 
     public int getPopulation() {
@@ -34,4 +36,12 @@ public class BasePrecinct {
     public String getID() {
         return ID;
     }
+
+    public int getMajorityRacePop() { return majorityRacePop; }
+
+    public Race getMajorityRace() { return majorityRace;    }
+
+    public void setMajorityRace(Race majorityRace) { this.majorityRace = majorityRace;    }
+
+    public void setMajorityRacePop(int majorityRacePop) { this.majorityRacePop = majorityRacePop;    }
 }
