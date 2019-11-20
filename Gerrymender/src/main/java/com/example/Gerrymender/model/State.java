@@ -95,3 +95,4 @@ public class State{
 
     public void setWhite_pop(long white_pop) { this.whitepop = white_pop; }
 }*/
+}
