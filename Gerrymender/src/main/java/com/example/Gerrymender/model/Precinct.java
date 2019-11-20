@@ -12,22 +12,16 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @Table(name="Precinct")
 @Entity
 public class Precinct implements Serializable {
-
     private static final long SerializeID = 2L; //or some other ID
-
     @Id //ID Annotation for the subclasses
     @Column
     private String precinctid; //replaces name and ID in state, precinct, district
-
     @Column
     private long totalpop;
     @Column
     private String party;
-
     @Column
     private String countyname;
-
-
     @Column
     private long whitepop;
     @Column
@@ -42,7 +36,6 @@ public class Precinct implements Serializable {
     public long getNativeAmerican_pop() {
         return nativeamericanpop;
     }
-
     public void setNativeAmerican_pop(long nativeamericanpop) {
         this.nativeamericanpop = nativeamericanpop;
     }
@@ -50,7 +43,6 @@ public class Precinct implements Serializable {
     public long getAsian_pop() {
         return asianpop;
     }
-
     public void setAsian_pop(long asianpop) {
         this.asianpop = asianpop;
     }
@@ -58,7 +50,6 @@ public class Precinct implements Serializable {
     public long getHispanic_pop() {
         return hispanicpop;
     }
-
     public void setHispanic_pop(long hispanicpop) {
         this.hispanicpop = hispanicpop;
     }
@@ -66,7 +57,6 @@ public class Precinct implements Serializable {
     public long getAfricanAmerican_pop() {
         return africanamericanpop;
     }
-
     public void setAfricanAmerican_pop(long africanamericanpop) {
         this.africanamericanpop = africanamericanpop;
     }
@@ -74,7 +64,6 @@ public class Precinct implements Serializable {
     public long getWhite_pop() {
         return whitepop;
     }
-
     public void setWhite_pop(long white_pop) {
         this.whitepop = white_pop;
     }
@@ -83,7 +72,6 @@ public class Precinct implements Serializable {
     public String getNameID() {
         return precinctid;
     }
-
     public void setNameID(String nameID) {
         assertNotEquals(nameID, "");
         this.precinctid = nameID;
@@ -92,37 +80,28 @@ public class Precinct implements Serializable {
     public long getTotalPop() {
         return totalpop;
     }
-
     public void setTotalPop(long totalPop) {
         assert(totalPop>0);
         this.totalpop = totalPop;
     }
 
-
     public String getParty() {
         return party;
     }
-
     public void setParty(String party) {
         this.party = party;
     }
-
-
 
     //Composite Key for Precincts to know what district they're part of
     @Column
     private String districtid; //Can't have a state object, as that would bring in circular dependencies.
 
-
-
     public String getDistrictID(){return districtid;}
     public void setDistrictID(String districtID ){this.districtid=districtID;}
-
 
     public String getCountyName() {
         return countyname;
     }
-
     public void setCountyName(String countyName) {
         this.countyname = countyName;
     }

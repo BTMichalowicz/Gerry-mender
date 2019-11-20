@@ -20,7 +20,6 @@ import java.util.List;
 
 @Controller
 public class MainController {
-
     @Autowired
     StateRepository stateRepository;
 
@@ -29,10 +28,8 @@ public class MainController {
         return "Homepage";
     }
 
-
     @RequestMapping(value="/getSelectArea",method = RequestMethod.POST)
     public @ResponseBody List<String> receiveTest(HttpServletRequest request,String params,Integer type) {
-
         System.out.println(params);
         System.out.println(type);
         List<String> res = new ArrayList<>();

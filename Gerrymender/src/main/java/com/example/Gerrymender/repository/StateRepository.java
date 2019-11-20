@@ -7,6 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
 @EnableJpaRepositories
-public interface StateRepository extends JpaRepository<State, String> {
-
-}
+public interface StateRepository extends JpaRepository<State, String> {}

@@ -25,14 +25,12 @@ public class MeasuresUtil {
                 return -1;
         }
     }
-
     /*
-            Partisan fairness:
-            100% - underrepresented Pol_part's winning margin
-            OR
-            underrepresented Pol_part's losing margin
-            (We want our underrepresented Pol_part to either win by a little or lose by a lot - fewer wasted votes)
-        */
+     * Partisan fairness:
+     * 100% - underrepresented Pol_part's winning margin
+     * OR
+     * underrepresented Pol_part's losing margin
+    */
     public static double calculatePartisanFairness(BaseDistrict d) {
         // Temporary section
         int totalVote = 0;
@@ -40,6 +38,7 @@ public class MeasuresUtil {
         int totalDistricts = 0;
         int totalGOPDistricts = 0;
         BaseState state = d.getState();
+
         for (BaseDistrict sd : state.getDistricts()) {
             totalVote += sd.getVotes().get(Pol_part.REPUBLICAN);
             totalVote += sd.getVotes().get(Pol_part.DEMOCRAT);
@@ -51,48 +50,37 @@ public class MeasuresUtil {
         }
         int idealDistrictChange = ((int) Math.round(totalDistricts * ((1.0 * totalGOPvote) / totalVote))) - totalGOPDistricts;
         // End temporary section
-        if (idealDistrictChange == 0) {
-            return 1.0;
-        }
+
+        if (idealDistrictChange == 0) { return 1.0; }
+
         int gv = d.getVotes().get(Pol_part.REPUBLICAN);
         int dv = d.getVotes().get(Pol_part.DEMOCRAT);
         int tv = gv + dv;
         int margin = gv - dv;
-        if (tv == 0) {
-            return 1.0;
-        }
+
+        if (tv == 0) { return 1.0; }
+
         int win_v = Math.max(gv, dv);
         int loss_v = Math.min(gv, dv);
         int inefficient_V;
-        if (idealDistrictChange * margin > 0) {
-            inefficient_V = win_v - loss_v;
-        } else {
-            inefficient_V = loss_v;
-        }
+
+        if (idealDistrictChange * margin > 0) { inefficient_V = win_v - loss_v; }
+        else { inefficient_V = loss_v; }
         return 1.0 - ((inefficient_V * 1.0) / tv);
     }
 
-
-    /*
-    Compactness:
-    perimeter / (circle perimeter for same area)
-    */
     public static double calculateCompactness(BaseDistrict d) {
         double internalEdges = d.getInternalEdges();
         double totalEdges = internalEdges + d.getExternalEdges();
         return internalEdges / totalEdges;
     }
 
-
-    /*
-    Wasted votes:
-    Statewide: abs(Winning Pol_part margin - losing Pol_part votes)
-    */
     public static double calculateEfficiencyGap(BaseDistrict d) {
         int iv_g = 0;
         int iv_d = 0;
         int tv = 0;
         BaseState state = d.getState();
+
         for (BaseDistrict sd : state.getDistricts()) {
             int gv = d.getVotes().get(Pol_part.REPUBLICAN);
             int dv = d.getVotes().get(Pol_part.DEMOCRAT);
@@ -109,7 +97,6 @@ public class MeasuresUtil {
         return 1.0 - ((Math.abs(iv_g - iv_d) * 1.0) / tv);
     }
 
-
     public static double calculatePopulationEquality(BaseDistrict d) {
         BaseState state = d.getState();
         int idealPopulation = state.getPopulation() / state.getDistricts().size();
@@ -119,7 +106,6 @@ public class MeasuresUtil {
         }
         return ((double) idealPopulation) / truePopulation;
     }
-
 
     /*
     COMPETITIVENESS:
@@ -131,11 +117,6 @@ public class MeasuresUtil {
         return 1.0 - (Math.abs(gv - dv) / (gv + dv));
     }
 
-
-    /*
-        GERRYMANDER_REPUBLICAN:
-        Partisan fairness, but always working in the GOP's favor
-    */
     public static double calculateGerryManderGOP(BaseDistrict d) {
         int gv = d.getVotes().get(Pol_part.REPUBLICAN);
         int dv = d.getVotes().get(Pol_part.DEMOCRAT);
@@ -167,16 +148,9 @@ public class MeasuresUtil {
                 ).sum();
         sqError /= (district.getPrecincts().size());
         double averagePopulation = 2000;
-
-
         return Math.tanh(sqError / (averagePopulation * 200));
     }
 
-
-    /*
-            GERRYMANDER_DEMOCRAT:
-            Partisan fairness, but always working in the DNC's favor
-    */
     public static double calculateGerryManderDEM(BaseDistrict d) {
         int gv = d.getVotes().get(Pol_part.REPUBLICAN);
         int dv = d.getVotes().get(Pol_part.DEMOCRAT);
@@ -195,5 +169,4 @@ public class MeasuresUtil {
         }
         return 1.0 - ((inefficient_V * 1.0) / tv);
     }
-
 }

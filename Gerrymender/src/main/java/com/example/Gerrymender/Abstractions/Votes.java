@@ -1,7 +1,5 @@
 package com.example.Gerrymender.Abstractions;
 
-
-
 import com.example.Gerrymender.model.Pol_part;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class Votes {
     private int year;
-
     private boolean presGen; //Boolean to determine if we are using
     private Pol_part party;
     private long[] votes; //Indexed based on race
@@ -23,7 +20,6 @@ public class Votes {
     public int getYear() {
         return year;
     }
-
     public void setYear(int year) {
         this.year = year;
     }
@@ -31,7 +27,6 @@ public class Votes {
     public boolean isPresGen() {
         return presGen;
     }
-
     public void setPresGen(boolean presGen) {
         this.presGen = presGen;
     }
@@ -39,7 +34,6 @@ public class Votes {
     public long[] getVotes() {
         return votes;
     }
-
     public void setVotes(long[] votes) {
         assert(votes!=null);
         assert(votes.length==5);
@@ -47,7 +41,6 @@ public class Votes {
         for(long voteset : votes){
             i+=voteset;
         }
-
         assertEquals(i, totalVotes);
         this.votes = votes;
     }
@@ -55,7 +48,6 @@ public class Votes {
     public Pol_part getParty() {
         return party;
     }
-
     public void setParty(Pol_part party) {
         this.party = party;
     }
@@ -63,7 +55,6 @@ public class Votes {
     public long getTotalVotes() {
         return totalVotes;
     }
-
     public void setTotalVotes(long totalVotes) {
         this.totalVotes = totalVotes;
     }

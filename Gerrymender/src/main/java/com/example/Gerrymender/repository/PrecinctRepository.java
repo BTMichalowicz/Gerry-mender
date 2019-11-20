@@ -8,6 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @EnableJpaRepositories
-public interface PrecinctRepository extends JpaRepository<Precinct, String> {
-
-}
+public interface PrecinctRepository extends JpaRepository<Precinct, String> {}

@@ -8,14 +8,12 @@ import java.util.Map;
 import java.util.Set;
 
 public class BaseCluster {
-
     private String ID;
     private BaseState state;
     private int population;
     private int internalEdges = 0;
     private int externalEdges = 0;
     private Map<Pol_part, Integer> votes;
-
     private HashMap<String, BasePrecinct> precincts;
 
     public String getID() {

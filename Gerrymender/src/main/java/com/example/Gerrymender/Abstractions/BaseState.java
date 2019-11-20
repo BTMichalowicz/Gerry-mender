@@ -3,12 +3,10 @@ package com.example.Gerrymender.Abstractions;
 import java.util.*;
 
 public class BaseState {
-
     private String name;
     private Map<String, BaseDistrict> districts;
     private Map<String, BasePrecinct> precincts;
     private int population;
-
 
     public String getName() {
         return name;

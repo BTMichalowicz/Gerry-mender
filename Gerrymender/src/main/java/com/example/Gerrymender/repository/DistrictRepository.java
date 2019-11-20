@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @EnableJpaRepositories
-public interface DistrictRepository extends JpaRepository<District, String> {
-
-}
+public interface DistrictRepository extends JpaRepository<District, String> {}

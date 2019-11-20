@@ -12,7 +12,6 @@ public class BaseDistrict {
     private int internalEdges = 0;
     private int externalEdges = 0;
     private Map<Pol_part, Integer> votes;
-
     private HashMap<String, BasePrecinct> precincts;
 
     public String getID() {

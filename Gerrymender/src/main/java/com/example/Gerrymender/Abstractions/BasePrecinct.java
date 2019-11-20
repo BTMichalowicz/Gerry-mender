@@ -9,8 +9,8 @@ public class BasePrecinct {
     private String ID;
     private int population;
     private Map<Pol_part, Integer> votes;
-
     private Race votingBlockRace;
+
     public Race getVotingBlockRace() {
         return votingBlockRace;
     }
