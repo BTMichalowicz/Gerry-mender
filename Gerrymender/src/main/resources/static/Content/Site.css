@@ -179,6 +179,7 @@ html,body{
 
 .button{
     color: black;
+    text-align: center;
 }
 
 #small-info-window {
