@@ -26,7 +26,16 @@
     }
 
     // active slider menu
+    var firstTimeClick = true;
     function toggleSlider() {
+        //first click
+        if(firsttime){
+
+            var tablinks = document.getElementsByClassName("tablinks");
+            tablinks[0].click();
+            firsttime = false;
+        }
+
         if (sliderState === 0) { //Open slider
             document.getElementById("slide-menu").style.width = "350px";
             sliderState = 1;
@@ -67,8 +76,10 @@
         }
     }
 
+    var firsttime = true;
     function openTab(evt, tabName) {
         // Declare all variables
+
         var i, tabcontent, tablinks;
       
         // Get all elements with class="tabcontent" and hide them
@@ -94,10 +105,12 @@
     }
 
     function fillOutSmallWindow(feature) {
+
         $(document).ready(function () {
             var formData = new FormData();
             formData.append("params","nihao");
             formData.append("type",2);
+
             var result = $.parseJSON($.ajax({
                 url: "http://localhost:8080/getSelectArea",
                 type: "POST",
@@ -107,12 +120,13 @@
                 dataType: "json",
                 async: false,
                 success: function (data) {
-                    //console.log(data[0]);
+                    console.log(data);
                  },
                 error: function (result) {
-                    alert("error");
-                  }
-    }).responseText);
+                    alert("???");
+                 }
+
+            }).responseText);
 
             // test output
             console.log(result[0]);
@@ -123,7 +137,7 @@
                 year = 2016;
             else
                 year = 2018;
-                var items = [
+            var items = [
                 {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
                 {Attr: "population", Amout: result[1]},
                 {Attr: "White", Amout: "50"},
