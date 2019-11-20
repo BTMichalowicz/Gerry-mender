@@ -46,9 +46,9 @@
         <!--Tabs-->
             <div class="tab">
                 <button class="tablinks" onclick="openTab(event, 'Help')">Help!</button>
-                <button class="tablinks" >Data</button>
-                <button class="tablinks" >Bloc?</button>
-                <button class="tablinks" >Gerrymend</button>
+                <button class="tablinks" onclick="openTab(event, 'Data')" >Data</button>
+                <button class="tablinks" onclick="openTab(event, 'Bloc')">Bloc?</button>
+                <button class="tablinks" onclick="openTab(event, 'GM')" >Gerrymend</button>
               </div>
 
             <!-- Tab content -->
@@ -57,7 +57,17 @@
                         <h4>•Data: The data tab shows the currently selected state's election data.</h4><br></br>
                         <h4>•Bloc?: The bloc tab determines if any demographics in this state's precincts are voting as a bloc.</h4><br></br>
                         <h4>•Gerrymend: The Gerrymend tab redraws district lines to maximize the number of Minority-Majority Districts.</h4><br></br>
-                  </div>
+            </div>
+            <div id="Data" class="tabcontent">
+                    <h3 style = "text-align: center;">Data Displayed</h3><br></br>
+            </div>
+            <div id="Bloc" class="tabcontent">
+                    <h3 style = "text-align: center;">Calculate Voting Blocs</h3><br></br>
+            </div>
+            <div id="GM" class="tabcontent">
+                    <h3 style = "text-align: center;">Gerrymend</h3><br></br>
+            </div>
+            
             <!--Algorithms
             <form>
                 <h4 style="color: deepskyblue">Algorithm Selection</h4>
