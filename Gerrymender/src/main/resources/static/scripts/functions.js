@@ -4,7 +4,7 @@
         var currentColor;
         layer.on("mouseover", function (e) {
             currentColor = district_color.get(feature.properties.DISTRICT);
-            layer.setStyle({fillColor : "grey"});
+            layer.setStyle({fillColor : "white"});
             document.getElementById("small-info-window").style.width = "220px";
             if(sliderState == 1)
                 document.getElementById("small-info-window").style.left = "370px";
