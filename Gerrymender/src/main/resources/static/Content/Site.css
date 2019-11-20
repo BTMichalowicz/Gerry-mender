@@ -177,6 +177,25 @@ html,body{
     bottom: 50px;
 }
 
+.disabled{
+    color: grey;
+    float: right;
+}
+
+.ctr_button{
+    color: black;
+    text-align: center;
+    display: block; 
+    margin: 0 auto;
+}
+
+.ctr_button_disabled{
+    color: grey;
+    text-align: center;
+    display: block; 
+    margin: 0 auto;
+}
+
 .button{
     color: black;
     text-align: center;

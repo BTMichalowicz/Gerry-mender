@@ -88,12 +88,32 @@
                             Voting % Threshold: 
                             <input type="number" name="voteThresh"  style = "width: 50px;  color: black; float: right;"><br></br>
                     </form>
-                    <button class = "button" style="display: block; margin: 0 auto;">Calculate</button><br></br>
+                    <button class = "ctr_button">Calculate</button><br></br>
                     <div class = "tab_subheader">Output:</div><br></br>
                             <p>((Displays the output table, or "No Blocs Found"))</p>
             </div>
+
             <div id="GM" class="tabcontent">
                     <div class = "tab_header">Gerrymend</div><br></br>
+                    <div class = "tab_subheader">Phase 1: Graph Partitioning</div><br></br>
+                    <div>
+                        <h4>Please Select an Update Mode:</h4>
+                        <!--If iterative is selected, then the next button should enable-->
+                        <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx">
+                                <label class="custom-control-label" for="iterate" style="color: white">Iterative</label>
+                                <button class = "disabled" disabled>Next Iteration</button>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx">
+                                <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br></br>
+                        </div>
+                        <h4>Output: </h4><br></br>
+                        <button class = "ctr_button_disabled" disabled>Phase 2</button><br></br>
+
+                    </div>
+                    <!--Phase 2 ONLY should appear one Phase 1 COMPLETES.-->
+                    <div class = "tab_subheader">Phase 2: Simulated Annealing</div><br></br>
             </div>
             
             <!--Algorithms
