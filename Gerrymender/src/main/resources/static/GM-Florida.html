@@ -217,21 +217,21 @@
     var sliderState = 0;
     var infoStat = "null";
 
-    /*geoJson Manipulation*/
-    // L.geoJson(floridaOriDis, {
-    //     style: function (feature) {
-    //         return {color:'black', fillColor: "red", weight:1, opacity: 0.8, fillOpacity: 0.5};
-    //     },
-    //     onEachFeature: onEachFeature,
-    // }).addTo(map);
+    //geoJson Manipulation
+    L.geoJson(floridaOriDis, {
+        style: function (feature) {
+        return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
+        },
+        onEachFeature: onEachFeature,
+    }).addTo(map);
 
 
-    L.geoJson(flp, {
+    /*L.geoJson(flp, {
         style: function (feature) {
             return {color:'black', fillColor: 'red', weight:1, opacity: 0.8, fillOpacity: 0.5};
         },
         onEachFeature: onEachFeature,
-    }).addTo(map);
+    }).addTo(map);*/
 
 
 
