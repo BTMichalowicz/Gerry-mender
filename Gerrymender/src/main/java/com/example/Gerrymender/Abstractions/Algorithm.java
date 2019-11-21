@@ -11,11 +11,11 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.Comparator;
 public class Algorithm {
-   /* public int objectiveValue;
+   public int objectiveValue;
     public int numIterations;
     public BaseState curState;
 
-
+/*
     //  Combines c1 with c2 and removes c2 from the hashmap of clusters
     private void combine(BaseCluster c1, BaseCluster c2) {
         c1.combine(c2);
@@ -61,6 +61,65 @@ public class Algorithm {
         return clusters;
     }
 
+
+
+    public Map<String, String> phase1(int numDistricts, boolean runFull){
+        if(runFull) {
+            // Run the entire phase until the end
+        }
+        else {
+            // Run a single step
+        }
+        return null; // placeholder
+    }*/
+
+    private void combine(BaseCluster c1, BaseCluster c2) {
+        c1.combine(c2);
+        for(BaseCluster c : c2.getEdges())
+        {
+            HashSet<BaseCluster> edge = c.getEdges();
+            edge.remove(c2);
+            edge.add(c1);
+        }
+        Map<String, BaseCluster> map = curState.getClusters();
+        map.entrySet().removeIf(entry -> c2.equals(entry.getValue()));
+    }
+
+
+    private HashMap<String, BaseCluster> initializeClusters(Set<BasePrecinct> precincts)
+    {
+        HashMap<String, BaseCluster> clusters = new HashMap<>();
+        int count = 0;
+        for(BasePrecinct p : precincts) {
+            BaseCluster c = new BaseCluster("" + count, curState, p.getPopulation());
+            p.setClusterId(count);
+            c.addPrecinct(p);
+            clusters.put("" + count, c);
+        }
+        for(Map.Entry<String, BaseCluster> clust : clusters.entrySet())
+        {
+            BaseCluster c = clust.getValue();
+            Map<String, BasePrecinct> prec = c.getPrecincts();
+            for(Map.Entry<String, BasePrecinct> p : prec.entrySet())
+            {
+                for(BasePrecinct BasePrecinct : p.getValue().getEdges())
+                {
+                    c.addEdge(clusters.get("" + BasePrecinct.getClusterId()));
+                }
+            }
+        }
+        return clusters;
+    }
+
+    public Map<String, String> phase1(int numDistricts, boolean runFull) {
+        if (runFull) {
+            // Run the entire phase until the end
+        } else {
+            // Run a single step
+        }
+        return null; // placeholder
+    }
+
     public Set<BasePrecinct> phase0(double popThreshold, double voteThreshold)
     {
         if(curState == null)
@@ -68,11 +127,13 @@ public class Algorithm {
             return null;
         }
 
-        Map<String, BasePrecinct> precints = curState.getPrecincts();
+        //Map<String, BasePrecinct> precints = curState.getPrecincts();
+        Set<BasePrecinct> precints = curState.getPrecincts();
         Set<BasePrecinct> ret = new HashSet<BasePrecinct>();
-        for(Map.Entry<String, BasePrecinct> entry : precints.entrySet())
+
+
+        for(BasePrecinct p : precints)
         {
-            BasePrecinct p = entry.getValue();
             Race r = p.getMajorityRace();
             double perc = (double) p.getMajorityRacePop() / (double) p.getPopulation();
             if(perc >= popThreshold)
@@ -98,17 +159,6 @@ public class Algorithm {
         }
         return ret;
     }
-
-    public Map<String, String> phase1(int numDistricts, boolean runFull){
-        if(runFull) {
-            // Run the entire phase until the end
-        }
-        else {
-            // Run a single step
-        }
-        return null; // placeholder
-    }*/
-
 
     private BaseState BaseState;
     private HashMap<String, String> precinctDistrictMap; //precinctID --> districtID
