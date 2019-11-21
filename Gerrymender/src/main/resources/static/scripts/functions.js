@@ -123,7 +123,7 @@
 //             formData.append("id", feature.properties.id);
 //             formData.append("level", document.getElementById("mapLevel"));
             formData.append("id", feature.properties.id);
-            formData.append("level", "districtLevel");
+            formData.append("mapLevel", "districtLevel");
             formData.append("year", year);
             formData.append("electionType", etype);
 
