@@ -63,12 +63,7 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.locationtech/jts-core -->
-		<dependency>
-			<groupId>org.locationtech</groupId>
-			<artifactId>jts-core</artifactId>
-			<version>1.16.0-RC1</version>
-		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.locationtech.jts/jts-modules -->
 		<dependency>
 			<groupId>org.locationtech.jts</groupId>
