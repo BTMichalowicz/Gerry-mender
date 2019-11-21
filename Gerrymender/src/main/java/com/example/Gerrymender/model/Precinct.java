@@ -17,6 +17,8 @@ public class Precinct implements Serializable {
     @Column
     private String precinctid; //replaces name and ID in state, precinct, district
     @Column
+    private int districtid; //Can't have a state object, as that would bring in circular dependencies.
+    @Column
     private long totalpop;
     @Column
     private String party;
@@ -32,6 +34,7 @@ public class Precinct implements Serializable {
     private long asianpop;
     @Column
     private long nativeamericanpop;
+
 
     public long getNativeAmerican_pop() {
         return nativeamericanpop;
@@ -80,9 +83,12 @@ public class Precinct implements Serializable {
     public long getTotalPop() {
         return totalpop;
     }
+
     public void setTotalPop(long totalPop) {
-        assert(totalPop>0);
-        this.totalpop = totalPop;
+        if(totalPop <= 0)
+            this.totalpop = 0;
+        else
+            this.totalpop = totalPop;
     }
 
     public String getParty() {
@@ -92,12 +98,10 @@ public class Precinct implements Serializable {
         this.party = party;
     }
 
-    //Composite Key for Precincts to know what district they're part of
-    @Column
-    private String districtid; //Can't have a state object, as that would bring in circular dependencies.
 
-    public String getDistrictID(){return districtid;}
-    public void setDistrictID(String districtID ){this.districtid=districtID;}
+
+    public int getDistrictID(){return districtid;}
+    public void setDistrictID(int districtID ){this.districtid=districtID;}
 
     public String getCountyName() {
         return countyname;

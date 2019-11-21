@@ -3,7 +3,7 @@
     function onEachFeature(feature, layer) {
         var currentColor;
         layer.on("mouseover", function (e) {
-            currentColor = district_color.get(feature.properties.DISTRICT);
+            currentColor = district_color.get(1);
             layer.setStyle({fillColor : "white"});
             document.getElementById("small-info-window").style.width = "220px";
             if(sliderState == 1)
@@ -64,13 +64,13 @@
     }
 
     function toggleInfoSlider( feature ) {
-        if (infoStat === feature.properties.DISTRICT) { 
+        if (infoStat === feature.properties.id) {
             document.getElementById("slide-info").style.width = "0";
             infoStat = "null";
 
         } else {
             document.getElementById("slide-info").style.width = "350px";
-            infoStat = feature.properties.DISTRICT;
+            infoStat = feature.properties.id;
             fillOutTable(feature);
 
         }
@@ -108,8 +108,25 @@
 
         $(document).ready(function () {
             var formData = new FormData();
-            formData.append("params","nihao");
-            formData.append("type",2);
+            var year;
+
+            if($('#2016C').is(':checked') || $('#2016P').is(':checked'))
+                year = 2016;
+            else
+                year = 2018;
+
+            var etype;
+            if($('#2016C').is(':checked') || $('#2018C').is(':checked'))
+                etype = "C";
+            else
+                etype = "P";
+
+//             formData.append("id", feature.properties.id);
+//             formData.append("level", document.getElementById("mapLevel"));
+            formData.append("id", feature.properties.id);
+            formData.append("level", "districtLevel");
+            formData.append("year", year);
+            formData.append("electionType", etype);
 
             var result = $.parseJSON($.ajax({
                 url: "http://localhost:8080/getSelectArea",
@@ -123,8 +140,8 @@
                     console.log(data);
                  },
                 error: function (result) {
-                    alert("???");
-                 }
+                    alert("error");
+                }
 
             }).responseText);
 
@@ -132,21 +149,16 @@
             console.log(result[0]);
 
             $("#small-info-table tr").remove();
-            var year;
-            if($('#2016C').is(':checked') || $('#2016P').is(':checked'))
-                year = 2016;
-            else
-                year = 2018;
+
             var items = [
-                {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
-                {Attr: "population", Amout: result[1]},
-                {Attr: "White", Amout: "50"},
-                {Attr: "Minority", Amout: "50"},
-                {Attr: "Hispanic", Amout: "50"},
-                {Attr: "Asian", Amout: "50"},
-                {Attr: "Republican", Amout: "50"},
-                {Attr: "Democratic", Amout: "50"},
-                {Attr: "Year", Amout: year},
+            {Attr: "Name", Amout: result[0]},
+            {Attr: "population", Amout: result[7]},
+            {Attr: "White", Amout: result[1]},
+            {Attr: "Minority", Amout: result[2]},
+            {Attr: "Hispanic", Amout: result[3]},
+            {Attr: "Asian", Amout: result[4]},
+            {Attr: "Republican", Amout: result[5]},
+            {Attr: "Democratic", Amout: result[6]},
             ];
             $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
         });
@@ -156,14 +168,14 @@
         $(document).ready(function () {
             $("#itemList tr").remove();
             var items = [
-                {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
-                {Attr: "population", Amout: "50"},
-                {Attr: "White", Amout: "50"},
-                {Attr: "Minority", Amout: "50"},
-                {Attr: "Hispanic", Amout: "50"},
-                {Attr: "Asian", Amout: "50"},
-                {Attr: "Republican", Amout: "50"},
-                {Attr: "Democratic", Amout: "50"},
+                {Attr: "Name", Amout: result[0]},
+                {Attr: "population", Amout: result[7]},
+                {Attr: "White", Amout: result[1]},
+                {Attr: "Minority", Amout: result[2]},
+                {Attr: "Hispanic", Amout: result[3]},
+                {Attr: "Asian", Amout: result[4]},
+                {Attr: "Republican", Amout: result[5]},
+                {Attr: "Democratic", Amout: result[6]},
             ];
             $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
         });

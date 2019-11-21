@@ -74,12 +74,12 @@ L.geoJson(statesData, {
                     {color: '#2F4F4F', opacity:0.7};
 
         },
-        onEachFeature: onEachFeature,
+        onEachFeature: onEachStateFeature,
     }
 ).addTo(map);
 
 
-function onEachFeature(feature, layer) {
+function onEachStateFeature(feature, layer) {
     //bind click
     layer.on('click', function (e) {
 
