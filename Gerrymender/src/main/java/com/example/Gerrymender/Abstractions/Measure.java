@@ -1,5 +1,6 @@
 package com.example.Gerrymender.Abstractions;
 
+import com.example.Gerrymender.Abstractions.AbstrInterface.MeasureFunction;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.MultiPolygon;
 

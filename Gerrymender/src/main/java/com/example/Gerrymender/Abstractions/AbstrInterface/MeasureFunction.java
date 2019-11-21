@@ -12,4 +12,4 @@ public interface MeasureFunction<Precinct extends PrecinctInterface, District ex
     }
 }
 
-}
+

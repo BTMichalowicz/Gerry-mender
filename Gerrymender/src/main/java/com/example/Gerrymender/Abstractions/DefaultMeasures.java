@@ -1,4 +1,6 @@
-package com.example.Gerrymender;
+package com.example.Gerrymender.Abstractions;
+
+import com.example.Gerrymender.Abstractions.AbstrInterface.MeasureFunction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +9,7 @@ import java.util.function.Function;
 
 public class DefaultMeasures implements MeasureFunction<BasePrecinct, BaseDistrict> {
 
-    // a map that gives a function to generate the "weights" for a given measure, usually just a constant function f(District) = C.
+    // a map that gives a function to generate the "weights" for a given measure, usually just a constant function f(BaseDistrict) = C.
     private Map<Measure, Function<BaseDistrict, Double>> weightGenerator;
 
     // an activation function that is run, piecewise on each measure cost, before the weight is applied.
@@ -24,7 +26,7 @@ public class DefaultMeasures implements MeasureFunction<BasePrecinct, BaseDistri
     public void updateConstantWeights(Map<Measure,Double> weights) {
         this.weightGenerator = new HashMap<>();
         for (Measure measure : weights.keySet()) {
-            this.weightGenerator.put(measure, (district) -> weights.get(measure));
+            this.weightGenerator.put(measure, (BaseDistrict) -> weights.get(measure));
         }
     }
 
@@ -39,14 +41,14 @@ public class DefaultMeasures implements MeasureFunction<BasePrecinct, BaseDistri
 
 
     @Override
-    public double calculateMeasure(BaseDistrict district) {
+    public double calculateMeasure(BaseDistrict BaseDistrict) {
         double sum = 0;
         for (Map.Entry<Measure, Function<BaseDistrict,Double>> entry: weightGenerator.entrySet()) {
             Measure measure = entry.getKey();
             //the weight is applied as a seperate factor
-            double weight = entry.getValue().apply(district);
+            double weight = entry.getValue().apply(BaseDistrict);
             //calculate the measure, run it through the activation function, multiply it by the weight.
-            sum += defaultActivationFunction.apply(measure.calculateMeasure(district)) *
+            sum += defaultActivationFunction.apply(measure.calculateMeasure(BaseDistrict)) *
                     weight;
         }
         return sum;

@@ -4,11 +4,15 @@ import com.example.Gerrymender.model.Pol_part;
 public class MeasuresUtil {
 
     public static double calculateMeasure(Measure measure, BaseDistrict district) {
-        switch (measure) {
+
+        return measure.calculateMeasure(district);
+        /*switch (measure) {
             case PARTISAN_FAIRNESS:
                 return calculatePartisanFairness(district);
-            case COMPACTNESS:
-                return calculateCompactness(district);
+            case EDGE_COMPACTNESS:
+            case REOCK_COMPACTNESS:
+            case CONVEX_HULL_COMPACTNESS:
+                return measure.calculateMeasure(district);
             case EFFICIENCY_GAP:
                 return calculateEfficiencyGap(district);
             case POPULATION_EQUALITY:
@@ -23,7 +27,7 @@ public class MeasuresUtil {
                 return calculateGerryManderDEM(district);
             default:
                 return -1;
-        }
+        }*/
     }
     /*
      * Partisan fairness:
@@ -31,7 +35,7 @@ public class MeasuresUtil {
      * OR
      * underrepresented Pol_part's losing margin
     */
-    public static double calculatePartisanFairness(BaseDistrict d) {
+ /*   public static double calculatePartisanFairness(BaseDistrict d) {
         // Temporary section
         int totalVote = 0;
         int totalGOPvote = 0;
@@ -107,10 +111,10 @@ public class MeasuresUtil {
         return ((double) idealPopulation) / truePopulation;
     }
 
-    /*
+    *//*
     COMPETITIVENESS:
     1.0 - margin of victory
-    */
+    *//*
     public static double calculateCompetitiveness(BaseDistrict d) {
         int gv = d.getVotes().get(Pol_part.REPUBLICAN);
         int dv = d.getVotes().get(Pol_part.DEMOCRAT);
@@ -168,5 +172,5 @@ public class MeasuresUtil {
             inefficient_V = loss_v;
         }
         return 1.0 - ((inefficient_V * 1.0) / tv);
-    }
+    }*/
 }
