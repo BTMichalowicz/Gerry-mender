@@ -31,6 +31,7 @@ package com.example.Gerrymender.Abstractions;
 //}
 
 import com.example.Gerrymender.Abstractions.AbstrInterface.StateInterface;
+import com.example.Gerrymender.model.State;
 //import edu.stonybrook.politech.annealing.measures.StateInterface;
 import java.util.*;
 
@@ -60,6 +61,11 @@ public class BaseState
             this.precincts.put(p.getID(), p);
         }
         this.population = districts.values().stream().mapToInt(BaseDistrict::getPopulation).sum();
+    }
+
+    public BaseState(State s) {
+        //TODO add converting here
+        population = (int)(s.getTotalPop());
     }
 
     public Set<BasePrecinct> getPrecincts() {

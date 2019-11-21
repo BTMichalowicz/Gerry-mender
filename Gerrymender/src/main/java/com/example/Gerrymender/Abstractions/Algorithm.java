@@ -10,6 +10,7 @@ import com.example.Gerrymender.model.Race;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.Comparator;
+
 public class Algorithm {
     public int objectiveValue;
     public int numIterations;
@@ -72,10 +73,13 @@ public class Algorithm {
         return null; // placeholder
     }*/
 
+    public Algorithm(BaseState s) {
+        BaseState = s;
+    }
+
     private void combine(BaseCluster c1, BaseCluster c2) {
         c1.combine(c2);
-        for(BaseCluster c : c2.getEdges())
-        {
+        for (BaseCluster c : c2.getEdges()) {
             HashSet<BaseCluster> edge = c.getEdges();
             edge.remove(c2);
             edge.add(c1);
@@ -87,25 +91,21 @@ public class Algorithm {
     /*
         Should be called before calling phase1 to ensure the clusters have been created
      */
-    public void initializeClusters()
-    {
+    public void initializeClusters() {
         Set<BasePrecinct> precincts = BaseState.getPrecincts();
         HashMap<String, BaseCluster> clusters = new HashMap<>();
         int count = 0;
-        for(BasePrecinct p : precincts) {
+        for (BasePrecinct p : precincts) {
             BaseCluster c = new BaseCluster("" + count, BaseState, p.getPopulation());
             p.setClusterId(count);
             c.addPrecinct(p);
             clusters.put("" + count, c);
         }
-        for(Map.Entry<String, BaseCluster> clust : clusters.entrySet())
-        {
+        for (Map.Entry<String, BaseCluster> clust : clusters.entrySet()) {
             BaseCluster c = clust.getValue();
             Map<String, BasePrecinct> prec = c.getPrecincts();
-            for(Map.Entry<String, BasePrecinct> p : prec.entrySet())
-            {
-                for(BasePrecinct BasePrecinct : p.getValue().getEdges())
-                {
+            for (Map.Entry<String, BasePrecinct> p : prec.entrySet()) {
+                for (BasePrecinct BasePrecinct : p.getValue().getEdges()) {
                     c.addEdge(clusters.get("" + BasePrecinct.getClusterId()));
                 }
             }
@@ -122,40 +122,31 @@ public class Algorithm {
         return null; // placeholder
     }
 
-    public Set<BasePrecinct> phase0(double popThreshold, double voteThreshold)
-    {
-        if(BaseState == null)
-        {
+    public List<VotingBlocInfo> phase0(double popThreshold, double voteThreshold) {
+        if (BaseState == null) {
             return null;
         }
-
-        //Map<String, BasePrecinct> precints = curState.getPrecincts();
         Set<BasePrecinct> precints = BaseState.getPrecincts();
-        Set<BasePrecinct> ret = new HashSet<BasePrecinct>();
-
-
-        for(BasePrecinct p : precints)
-        {
+        List<VotingBlocInfo> ret = new ArrayList<>();
+        for (BasePrecinct p : precints) {
             Race r = p.getMajorityRace();
             double perc = (double) p.getMajorityRacePop() / (double) p.getPopulation();
-            if(perc >= popThreshold)
-            {
+            if (perc >= popThreshold) {
                 int max = 0;
                 Pol_part maxParty = null;
-                for(Map.Entry<Pol_part, Integer> voteEntry  : p.getVotes().entrySet())
-                {
-                    if(voteEntry.getValue() > max)
-                    {
+                int acc = 0;
+                for (Map.Entry<Pol_part, Integer> voteEntry : p.getVotes().entrySet()) {
+                    if (voteEntry.getValue() > max) {
                         max = voteEntry.getValue();
                         maxParty = voteEntry.getKey();
                     }
+                    acc += voteEntry.getValue();
                 }
 
                 double votePerc = (double) max / (double) p.getPopulation();
-                if(votePerc >= voteThreshold)
-                {
+                if (votePerc >= voteThreshold) {
                     p.setBloc(new VotingBloc(r, max, maxParty));
-                    ret.add(p);
+                    ret.add(new VotingBlocInfo(p.getID(), maxParty, max, acc));
                 }
             }
         }
@@ -226,7 +217,7 @@ public class Algorithm {
                 BasePrecinct curPrec = ptp.get(0);
                 curPop += curPrec.getPopulation();
                 DistrictInterface curDist =
-                        myDistricts.get((int)Math.ceil((curPop * 1.0) / BaseState.getPopulation() * num_districts) - 1);
+                        myDistricts.get((int) Math.ceil((curPop * 1.0) / BaseState.getPopulation() * num_districts) - 1);
                 // Add the current BasePrecinct to the current BaseDistrict
                 System.out.println(ptp.size() + " " + unallocatedPrecincts.size());
                 precinctDistrictMap.put(curPrec.getID(), curDist.getID());
@@ -407,7 +398,7 @@ public class Algorithm {
         }
         double to_score = rateDistrict(to);
         double from_score = rateDistrict(from);
-        double final_score = (to_score + from_score );
+        double final_score = (to_score + from_score);
         double change = final_score - initial_score;
         if (change <= 0) {
             m.undo();
@@ -462,7 +453,7 @@ public class Algorithm {
         //districts.remove(0);
         while (districts.size() > 0) {
             BaseDistrict startDistrict = districts.get(0);
-            Move m  = getMoveFromDistrict(startDistrict);
+            Move m = getMoveFromDistrict(startDistrict);
             if (m != null) {
                 return m;
             }
@@ -474,14 +465,14 @@ public class Algorithm {
     // Returns a list of districts sorted from worst to best
     public List<BaseDistrict> getWorstDistricts() {
         List<Map.Entry<BaseDistrict, Double>> list = new LinkedList<>(currentScores.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<BaseDistrict, Double>>(){
+        Collections.sort(list, new Comparator<Map.Entry<BaseDistrict, Double>>() {
             @Override
-            public int compare(Entry<BaseDistrict, Double> o1, Entry<BaseDistrict, Double> o2){
+            public int compare(Entry<BaseDistrict, Double> o1, Entry<BaseDistrict, Double> o2) {
                 return o1.getValue().compareTo(o2.getValue());
             }
         });
         List<BaseDistrict> to_return = new ArrayList<BaseDistrict>();
-        for(Entry<BaseDistrict, Double> entry : list)
+        for (Entry<BaseDistrict, Double> entry : list)
             to_return.add(entry.getKey());
         return to_return;
     }
@@ -497,9 +488,10 @@ public class Algorithm {
     public double rateDistrict(BaseDistrict d) {
         return districtScoreFunction.calculateMeasure(d);
     }
+
     public void updateScores() {
         currentScores = new HashMap<BaseDistrict, Double>();
-        for (BaseDistrict d : BaseState.getDistricts()){
+        for (BaseDistrict d : BaseState.getDistricts()) {
             // TODO = resovlve districtRating
             currentScores.put(d, rateDistrict(d));
         }
@@ -507,6 +499,7 @@ public class Algorithm {
 
     /**
      * Check contiguity for moving BasePrecinct p out of BaseDistrict d
+     *
      * @param p BasePrecinct to move
      * @param d BaseDistrict to move p out of
      * @return true if contiguous
@@ -553,7 +546,7 @@ public class Algorithm {
                     if (!exploredNeighbors.contains(neighbor)) {
                         //if its a border BasePrecinct we need to check it otherwise we DONT
                         //EXCEPT -- we didn't actually execute the move at this point
-                        if(d.getBorderPrecincts().contains(neighbor)) {
+                        if (d.getBorderPrecincts().contains(neighbor)) {
                             neighborsToExplore.add(neighbor);
                         } else {
                             exploredNeighbors.add(neighbor);

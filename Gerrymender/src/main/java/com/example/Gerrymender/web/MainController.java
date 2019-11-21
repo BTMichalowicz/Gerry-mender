@@ -2,6 +2,9 @@ package com.example.Gerrymender.web;
 
 
 import com.example.Gerrymender.Abstractions.Algorithm;
+import com.example.Gerrymender.Abstractions.BaseState;
+import com.example.Gerrymender.Abstractions.VotingBloc;
+import com.example.Gerrymender.Abstractions.VotingBlocInfo;
 import com.example.Gerrymender.exception.ResourceNotFoundException;
 import com.example.Gerrymender.model.District;
 import com.example.Gerrymender.model.Precinct;
@@ -37,22 +40,17 @@ public class MainController {
     @Autowired
     VoteRepository voteRepository;
 
+    Algorithm alg;
+
     @RequestMapping("/")
     public String welcome(){
         return "Homepage";
     }
 
     @RequestMapping(value="/getSelectArea",method = RequestMethod.POST)
-    public @ResponseBody List<String> updateSmallInfoWindow(HttpServletRequest request,
-                                                  String id, String mapLevel,
-                                                  int year, String electionType) {
-        System.out.println("id " + id);
-        System.out.println(mapLevel);
-
+    public @ResponseBody List<String> updateSmallInfoWindow(HttpServletRequest request, String id, String mapLevel, int year, String electionType) {
         List<String> res = new ArrayList<>();
-
         switch(mapLevel){
-
             case "districtLevel":
                 District founddis = districtRepository.findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
@@ -63,13 +61,9 @@ public class MainController {
                         .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
                 setPrecinctInfo(res, foundpre);
         }
-
         String voteid = id + String.valueOf(year) + electionType;
         Vote v = voteRepository.findById(voteid)
                 .orElseThrow(() -> new ResourceNotFoundException("vote", "record", id));
-
-
-
         res.add(" Name ");
         res.add("123");
         res.add("123");
@@ -87,7 +81,6 @@ public class MainController {
     }
 
     public void setDistrictInfo(List<String> res, District d){
-
         res.add(d.getNameID());
         res.add(String.valueOf(d.getTotalPop()));
         res.add(d.getParty());
@@ -100,7 +93,6 @@ public class MainController {
     }
 
     public void setPrecinctInfo(List<String> res, Precinct p){
-
         res.add(p.getNameID());
         res.add(String.valueOf(p.getTotalPop()));
         res.add(p.getParty());
@@ -117,12 +109,17 @@ public class MainController {
     public List<State> stateList(){ return stateRepository.findAll(); }
 
     @ResponseBody
-    @RequestMapping(value="/loadAlg",method = RequestMethod.POST)
-    public void loadAlg(HttpServletRequest request, String params, Integer type) {
-
+    @RequestMapping(value="/phase0",method = RequestMethod.POST)
+    public List<VotingBlocInfo> loadAlg(HttpServletRequest request, String id, double popThreshold, double voteThreshold) {
+        return alg.phase0(popThreshold, voteThreshold);
     }
 
-
+    @ResponseBody
+    @RequestMapping(value="/updateState", method=RequestMethod.GET)
+    public void updateState(HttpServletRequest req, String id) {
+        State s = stateRepository.findById(id).orElse(null);
+        alg = new Algorithm(new BaseState(s));
+    }
 
 
 }
