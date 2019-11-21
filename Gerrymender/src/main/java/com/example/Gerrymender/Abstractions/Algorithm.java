@@ -13,7 +13,6 @@ import java.util.Comparator;
 public class Algorithm {
    public int objectiveValue;
     public int numIterations;
-    public BaseState curState;
 
 /*
     //  Combines c1 with c2 and removes c2 from the hashmap of clusters
@@ -81,17 +80,20 @@ public class Algorithm {
             edge.remove(c2);
             edge.add(c1);
         }
-        Map<String, BaseCluster> map = curState.getClusters();
+        Map<String, BaseCluster> map = BaseState.getClusters();
         map.entrySet().removeIf(entry -> c2.equals(entry.getValue()));
     }
 
-
-    private HashMap<String, BaseCluster> initializeClusters(Set<BasePrecinct> precincts)
+    /*
+        Should be called before calling phase1 to ensure the clusters have been created
+     */
+    public void initializeClusters()
     {
+        Set<BasePrecinct> precincts = BaseState.getPrecincts();
         HashMap<String, BaseCluster> clusters = new HashMap<>();
         int count = 0;
         for(BasePrecinct p : precincts) {
-            BaseCluster c = new BaseCluster("" + count, curState, p.getPopulation());
+            BaseCluster c = new BaseCluster("" + count, BaseState, p.getPopulation());
             p.setClusterId(count);
             c.addPrecinct(p);
             clusters.put("" + count, c);
@@ -108,7 +110,7 @@ public class Algorithm {
                 }
             }
         }
-        return clusters;
+        BaseState.setClusters(clusters);
     }
 
     public Map<String, String> phase1(int numDistricts, boolean runFull) {
@@ -122,13 +124,13 @@ public class Algorithm {
 
     public Set<BasePrecinct> phase0(double popThreshold, double voteThreshold)
     {
-        if(curState == null)
+        if(BaseState == null)
         {
             return null;
         }
 
         //Map<String, BasePrecinct> precints = curState.getPrecincts();
-        Set<BasePrecinct> precints = curState.getPrecincts();
+        Set<BasePrecinct> precints = BaseState.getPrecincts();
         Set<BasePrecinct> ret = new HashSet<BasePrecinct>();
 
 
