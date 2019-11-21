@@ -3,6 +3,7 @@ package com.example.Gerrymender.Abstractions.AbstrInterface;
 import java.util.Set;
 
 public interface PrecinctInterface {
+
     String getID();
 
     //Object getGeometry();

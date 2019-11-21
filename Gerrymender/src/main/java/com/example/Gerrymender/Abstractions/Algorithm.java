@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.Comparator;
 public class Algorithm {
-   public int objectiveValue;
+    public int objectiveValue;
     public int numIterations;
 
 /*

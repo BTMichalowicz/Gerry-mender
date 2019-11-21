@@ -13,6 +13,7 @@ import java.util.*;
 
 
 public class BasePrecinct implements PrecinctInterface {
+
     private String ID;
     //private int population;
     private Map<Pol_part, Integer> votes;

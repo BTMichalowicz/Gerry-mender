@@ -8,10 +8,11 @@
     <!--Scripts-->
     <script src='./scripts/stateData.js'></script>
     <script src='./scripts/FL.js'></script>
-    <script src='./scripts/FLp.js'></script>
+    <script src='./scripts/FLP.js'></script>
     <script src='./scripts/leaflet.ajax.min.js'></script>
     <script src='./scripts/functions.js'></script>
 
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <script src="https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -200,9 +201,7 @@
     /*Variables*/
     L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
     var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
-    // console.log(map1.get('bar'));
-    //
-    // console.log(map1.get('baz'));
+
 
     //Map
     var map = L.mapbox.map('map')
@@ -218,20 +217,21 @@
     var sliderState = 0;
     var infoStat = "null";
 
-    /*geoJson Manipulation*/
+    //geoJson Manipulation
     L.geoJson(floridaOriDis, {
         style: function (feature) {
-            return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
+        return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
         },
         onEachFeature: onEachFeature,
     }).addTo(map);
 
-    L.geoJson(floridaPre, {
+
+    /*L.geoJson(flp, {
         style: function (feature) {
-            return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
+            return {color:'black', fillColor: 'red', weight:1, opacity: 0.8, fillOpacity: 0.5};
         },
         onEachFeature: onEachFeature,
-    }).addTo(map);
+    }).addTo(map);*/
 
 
 
