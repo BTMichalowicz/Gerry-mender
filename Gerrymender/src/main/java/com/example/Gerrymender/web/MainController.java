@@ -2,7 +2,10 @@ package com.example.Gerrymender.web;
 
 
 import com.example.Gerrymender.exception.ResourceNotFoundException;
+import com.example.Gerrymender.model.Precinct;
 import com.example.Gerrymender.model.State;
+import com.example.Gerrymender.repository.DistrictRepository;
+import com.example.Gerrymender.repository.PrecinctRepository;
 import com.example.Gerrymender.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -22,6 +25,10 @@ import java.util.List;
 public class MainController {
     @Autowired
     StateRepository stateRepository;
+//    DistrictRepository districtRepository;
+    @Autowired
+    PrecinctRepository precinctRepository;
+
 
     @RequestMapping("/")
     public String welcome(){
@@ -41,8 +48,12 @@ public class MainController {
 
     @ResponseBody
     @RequestMapping("/Test")
-    public List<State> stateList(){
-        return stateRepository.findAll();
+    public List<State> stateList(){ return stateRepository.findAll(); }
+
+    @ResponseBody
+    @RequestMapping(value="/loadAlg",method = RequestMethod.POST)
+    public void loadAlg(HttpServletRequest request, String params, Integer type) {
+
     }
 
 
