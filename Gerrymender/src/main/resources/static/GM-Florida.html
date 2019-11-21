@@ -6,7 +6,6 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
 
     <!--Scripts-->
-<!--    <script src='./scripts/proj4leaflet.js'></script>-->
     <script src='./scripts/stateData.js'></script>
     <script src='./scripts/FL.js'></script>
     <script src='./scripts/FLP.js'></script>
@@ -219,20 +218,20 @@
     var infoStat = "null";
 
     /*geoJson Manipulation*/
-    L.geoJson(floridaOriDis, {
-        style: function (feature) {
-            return {color:'black', fillColor: "red", weight:1, opacity: 0.8, fillOpacity: 0.5};
-        },
-        onEachFeature: onEachFeature,
-    }).addTo(map);
-
-
-    // L.geoJson(flp, {
+    // L.geoJson(floridaOriDis, {
     //     style: function (feature) {
-    //         return {color:'black', fillColor: 'red', weight:1, opacity: 0.8, fillOpacity: 0.5};
+    //         return {color:'black', fillColor: "red", weight:1, opacity: 0.8, fillOpacity: 0.5};
     //     },
     //     onEachFeature: onEachFeature,
     // }).addTo(map);
+
+
+    L.geoJson(flp, {
+        style: function (feature) {
+            return {color:'black', fillColor: 'red', weight:1, opacity: 0.8, fillOpacity: 0.5};
+        },
+        onEachFeature: onEachFeature,
+    }).addTo(map);
 
 
 
