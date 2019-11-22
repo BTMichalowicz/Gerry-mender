@@ -126,7 +126,33 @@ function dropdown() {
       }
 
 /***********************************************************************************/
-    /*function fillOutSmallWindow(feature) {
+      function fillOutSmallWindow(feature){
+        $(document).ready(function () {
+
+            $("#small-info-table tr").remove();
+            var year;
+            if($('#2016D').is(':checked'))
+                year = 2016;
+            else
+                year = 2018;
+
+                var items = [
+                {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
+                {Attr: "population", Amout: "50"},
+                {Attr: "White", Amout: "50"},
+                {Attr: "Minority", Amout: "50"},
+                {Attr: "Hispanic", Amout: "50"},
+                {Attr: "Asian", Amout: "50"},
+                {Attr: "Republican", Amout: "50"},
+                {Attr: "Democratic", Amout: "50"},
+                {Attr: "Year", Amout: year},
+
+            ];
+
+            $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
+        });
+      }
+   /* function fillOutSmallWindow(feature) {
         $(document).ready(function () {
             var formData = new FormData();
             var year;
@@ -178,7 +204,7 @@ function dropdown() {
     }*/
     /*************************************************************************************** */
 
-    function fillOutTable(feature) {
+   /*function fillOutTable(feature) {
         $(document).ready(function () {
             $("#itemList tr").remove();
             var items = [
@@ -193,7 +219,25 @@ function dropdown() {
             ];
             $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
         });
+    }*/
+    function fillOutTable(feature) {
+        $(document).ready(function () {
+            $("#itemList tr").remove();
+            var items = [
+                {Attr: "Name", Amout: "District " + feature.properties.DISTRICT},
+                {Attr: "population", Amout: "50"},
+                {Attr: "White", Amout: "50"},
+                {Attr: "Minority", Amout: "50"},
+                {Attr: "Hispanic", Amout: "50"},
+                {Attr: "Asian", Amout: "50"},
+                {Attr: "Republican", Amout: "50"},
+                {Attr: "Democratic", Amout: "50"},
+            ];
+            $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
+        });
     }
+
+
 
     var district_color = new Map();
 district_color.set(1, '#ff6d3a');
