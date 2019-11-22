@@ -52,31 +52,25 @@ public class MainController {
         List<String> res = new ArrayList<>();
         switch(mapLevel){
             case "districtLevel":
-                District founddis = districtRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
+//                District founddis = districtRepository.findById(id)
+//                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
+                District founddis = new District();
+                founddis.setTotalPop(100);
                 setDistrictInfo(res, founddis);
                 break;
             default:
-                Precinct foundpre = precinctRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
+//                Precinct foundpre = precinctRepository.findById(id)
+//                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
+                Precinct foundpre = new Precinct();
                 setPrecinctInfo(res, foundpre);
         }
-        String voteid = id + String.valueOf(year) + electionType;
-        Vote v = voteRepository.findById(voteid)
-                .orElseThrow(() -> new ResourceNotFoundException("vote", "record", id));
-        res.add(" Name ");
-        res.add("123");
-        res.add("123");
-        res.add("121");
-        res.add("121");
-        res.add("121");
-        res.add("121");
-        res.add("121");
-        res.add("121");
-        res.add(String.valueOf(v.getTotalvote()));
-        res.add(String.valueOf(v.getDemvote()));
-        res.add(String.valueOf(v.getRepvote()));
-        res.add(v.getWinner());
+//        String voteid = id + String.valueOf(year) + electionType;
+//        Vote v = voteRepository.findById(voteid)
+//                .orElseThrow(() -> new ResourceNotFoundException("vote", "record", id));
+//        res.add(String.valueOf(v.getTotalvote()));
+//        res.add(String.valueOf(v.getDemvote()));
+//        res.add(String.valueOf(v.getRepvote()));
+//        res.add(v.getWinner());
         return res;
     }
 
