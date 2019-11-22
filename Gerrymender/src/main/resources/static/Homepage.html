@@ -13,10 +13,36 @@
 <script src='./scripts/stateData.js'></script>
 <script src='./scripts/leaflet.ajax.min.js'></script>
 <script src='./scripts/functions.js'></script>
+<!--Links-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel='stylesheet' href="https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css"  />
+<link rel="stylesheet" href="Content/Site.css">
+</head>
+<body>
+
+<!--Navbar-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand my-navbar-brand" style="width: 18%;left:41%">Welcome to GerryMender</a>
+        </div>
+    </div>
+</nav>
+
+<!--Map-->
+<div id="map-container">
+    <div class="dropdown">
+        <button onclick = "dropdown()" class = "dropbtn">Select State:</button>
+        <div id = "stateDropdown" class="dropdown-content">
+            <a href="GM-Florida.html">Florida</a>
+            <a href="GM-NC.html">North Carolina</a>
+            <a href="GM-Texas.html">Texas</a>
+        </div>
+    </div>
+    <div id="map"></div>
 
 <!-- Leaflet -->
 <script>
-    /*Variables*/
     L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
     var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
     var map = L.mapbox.map('map')
@@ -38,36 +64,5 @@
         }
     ).addTo(map);
     </script>
-
-<!--Links-->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<link rel='stylesheet' href="https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css"  />
-<link rel="stylesheet" href="Content/Site.css">
-</head>
-<body>
-
-<!--Navbar-->
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand my-navbar-brand" style="width: 18%;left:41%">Welcome to GerryMender</a>
-        </div>
-    </div>
-</nav>
-
-<!--Map-->                                                                                                                                                                  <!--fix this-->
-<div id="map-container">
-    <div class="dropdown">
-        <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
-            Select a state
-            <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            <li><a href="GM-Florida.html">Florida</a></li>
-            <li><a href="GM-NC.html">North Carolina</a></li>
-            <li><a href="GM-Texas.html">Texas</a></li>
-        </ul>
-    </div>
-    <div id="map"></div>
-</div>
 </body>
 </html>
