@@ -10,7 +10,6 @@
     <script src='./scripts/NC.js'></script>
     <script src='./scripts/leaflet.ajax.min.js'></script>
     <script src='./scripts/functions.js'></script>
-
     <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -100,9 +99,9 @@
                         <h4>Please Select an Update Mode:</h4>
                         <!--If iterative is selected, then the next button should enable-->
                         <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx">
+                                <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx" onselect="iterative()">
                                 <label class="custom-control-label" for="iterate" style="color: white">Iterative</label>
-                                <button class = "disabled_r" disabled>Next Iteration</button>
+                                <button id = "iterateButton" class = "disabled_r" disabled>Next Iteration</button>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx">
@@ -151,6 +150,22 @@
     
         <!--Map-->
         <div id="map"></div>
+        <div class = "small-info-window" id = "small-info-window">
+            <script id="smallInfoTemplate" type="text/x-jquery-tmpl">
+                <tr>
+                    <td width="30%">${Attr}</td>
+                    <td width="70%">${Amout}</td>
+                </tr>
+            </script>
+            <table class="table" id="small-info-table">
+                <thead>
+                <tr>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     
         <!--Information Slider-->
         <div class = "slide-info" id="slide-info">

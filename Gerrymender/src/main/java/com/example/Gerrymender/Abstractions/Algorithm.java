@@ -10,7 +10,6 @@ import com.example.Gerrymender.model.Race;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.Comparator;
-
 public class Algorithm {
     public int objectiveValue;
     public int numIterations;
@@ -499,7 +498,6 @@ public class Algorithm {
 
     /**
      * Check contiguity for moving BasePrecinct p out of BaseDistrict d
-     *
      * @param p BasePrecinct to move
      * @param d BaseDistrict to move p out of
      * @return true if contiguous

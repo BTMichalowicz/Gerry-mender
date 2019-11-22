@@ -10,15 +10,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
 <script src='./scripts/stateData.js'></script>
 <script src='./scripts/leaflet.ajax.min.js'></script>
-
+<script src='./scripts/functions.js'></script>
 <!--Links-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <link rel='stylesheet' href="https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css"  />
 <link rel="stylesheet" href="Content/Site.css">
-
 </head>
 <body>
 
@@ -34,68 +32,37 @@
 <!--Map-->
 <div id="map-container">
     <div class="dropdown">
-        <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
-            Select a state
-            <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            <li><a href="GM-Florida.html">Florida</a></li>
-            <li><a href="GM-NC.html">North Carolina</a></li>
-            <li><a href="GM-Texas.html">Texas</a></li>
-        </ul>
+        <button onclick = "dropdown()" class = "dropbtn">Select State:</button>
+        <div id = "stateDropdown" class="dropdown-content">
+            <a href="GM-Florida.html">Florida</a>
+            <a href="GM-NC.html">North Carolina</a>
+            <a href="GM-Texas.html">Texas</a>
+        </div>
     </div>
     <div id="map"></div>
-</div>
 
-
+<!-- Leaflet -->
 <script>
-
-
-/*Variables*/
-L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
-var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
-var map = L.mapbox.map('map')
-    .setView([32, -90], 5)
-    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
-
-
-var popup = L.popup()
-    .setLatLng([33.942257, -90.015625])
-    .setContent("Please select a state to start!")
-    .openOn(map);
-
-/*Functions*/
-
-//Load State Data
-L.geoJson(statesData, {
-        style: function(feature) {
-            id = feature.id;
-            return id  == 1 ? {color: '#FF7F50', opacity:0.7} :
-                id == 2  ? {color: '#0000CD', opacity:0.7} :
-                    {color: '#2F4F4F', opacity:0.7};
-
-        },
-        onEachFeature: onEachStateFeature,
-    }
-).addTo(map);
-
-
-function onEachStateFeature(feature, layer) {
-    //bind click
-    layer.on('click', function (e) {
-
-        //alert(feature.properties.name);
-        if (feature.properties.name == "Texas"){
-            window.location.href = "GM-Texas.html";
+    L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
+    var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
+    var map = L.mapbox.map('map')
+        .setView([32, -90], 5)
+        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+    
+    var popup = L.popup()
+        .setLatLng([33.942257, -90.015625])
+        .setContent("Please select a state to start!")
+        .openOn(map);
+    L.geoJson(statesData, {
+            style: function(feature) {
+                id = feature.id;
+                return id  == 1 ? {color: '#FF7F50', opacity:0.7} :
+                    id == 2  ? {color: '#0000CD', opacity:0.7} :
+                        {color: '#2F4F4F', opacity:0.7};
+            },
+            onEachFeature: onEachStateFeature,
         }
-        else if (feature.properties.name == "North Carolina"){
-            window.location.href = "GM-NC.html";
-        }
-        else if (feature.properties.name == "Florida"){
-            window.location.href = "GM-Florida.html";
-        }
-    });
-
-}
-</script>
+    ).addTo(map);
+    </script>
 </body>
 </html>
