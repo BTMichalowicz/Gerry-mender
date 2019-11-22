@@ -92,16 +92,9 @@ function dropdown() {
     }
 
     function toggleInfoSlider( feature ) {
-        if (infoStat === feature.properties.id) {
-            document.getElementById("slide-info").style.width = "0";
-            infoStat = "null";
-
-        } else {
             document.getElementById("slide-info").style.width = "350px";
             infoStat = feature.properties.id;
             fillOutTable(feature);
-
-        }
     }
 
     function closeInfo() {
