@@ -6,10 +6,7 @@ import com.example.Gerrymender.Abstractions.BaseState;
 import com.example.Gerrymender.Abstractions.VotingBloc;
 import com.example.Gerrymender.Abstractions.VotingBlocInfo;
 import com.example.Gerrymender.exception.ResourceNotFoundException;
-import com.example.Gerrymender.model.District;
-import com.example.Gerrymender.model.Precinct;
-import com.example.Gerrymender.model.State;
-import com.example.Gerrymender.model.Vote;
+import com.example.Gerrymender.model.*;
 import com.example.Gerrymender.repository.DistrictRepository;
 import com.example.Gerrymender.repository.PrecinctRepository;
 import com.example.Gerrymender.repository.StateRepository;
@@ -27,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 @Controller
@@ -50,18 +48,35 @@ public class MainController {
     @RequestMapping(value="/getSelectArea",method = RequestMethod.POST)
     public @ResponseBody List<String> updateSmallInfoWindow(HttpServletRequest request, String id, String mapLevel, int year, String electionType) {
         List<String> res = new ArrayList<>();
+        Random rand = new Random();
         switch(mapLevel){
-            case "districtLevel":
+            case "district":
 //                District founddis = districtRepository.findById(id)
 //                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
                 District founddis = new District();
-                founddis.setTotalPop(100);
+
+                founddis.setTotalPop(rand.nextInt());
+                founddis.setParty("OTHER");
+                founddis.setAfricanAmerican_pop(rand.nextInt());
+                founddis.setAsian_pop(rand.nextInt());
+                founddis.setHispanic_pop(rand.nextInt());
+                founddis.setWhite_pop(rand.nextInt());
+                founddis.setNameID("DISTRICT" + rand.nextInt(10));
+                founddis.setNativeAmerican_pop(rand.nextInt());
                 setDistrictInfo(res, founddis);
                 break;
             default:
 //                Precinct foundpre = precinctRepository.findById(id)
 //                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
                 Precinct foundpre = new Precinct();
+                foundpre.setTotalPop(rand.nextInt());
+                foundpre.setParty("OTHER");
+                foundpre.setAfricanAmerican_pop(rand.nextInt());
+                foundpre.setAsian_pop(rand.nextInt());
+                foundpre.setHispanic_pop(rand.nextInt());
+                foundpre.setWhite_pop(rand.nextInt());
+                foundpre.setNameID("PRECINCT" + rand.nextInt(50));
+                foundpre.setNativeAmerican_pop(rand.nextInt());
                 setPrecinctInfo(res, foundpre);
         }
 //        String voteid = id + String.valueOf(year) + electionType;
