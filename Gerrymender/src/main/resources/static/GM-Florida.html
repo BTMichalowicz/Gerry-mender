@@ -102,6 +102,14 @@
             <div class = "tab_header">Gerrymend</div><br></br>
             <div class = "tab_subheader">Phase 1: Graph Partitioning</div><br></br>
             <div>
+                <h4>Population Percentages:</h4>
+                    <form style="overflow: hidden; text-align: center; ">
+                            Maximum:
+                            <input type="number" name="minPercentage" style = "width: 50px; color: black; float: right;"><br></br>
+                            Minimum: 
+                            <input type="number" name="maxPercentage"  style = "width: 50px;  color: black; float: right;"><br></br>
+                    </form>
+                    <br>
                 <h4>Please Select an Update Mode:</h4>
                 <!--If iterative is selected, then the next button should enable-->
                 <div class="custom-control custom-radio custom-control-inline">
@@ -121,7 +129,7 @@
     <div id = "P2" class = "tabcontent" >
         <!--Phase 2 ONLY should appear one Phase 1 COMPLETES.-->
         <div class = "tab_subheader">Phase 2: Simulated Annealing</div><br></br>
-        <h4>•Objective Function Weights:</h4>
+        <h4>Objective Function Weights:</h4>
         <div class = "content_centered">
             <select name="Weights">
                     <option value="1">1</option>
@@ -129,9 +137,9 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
             </select>
-        <input type="number" name="popThresh" style = "width: 50px; color: black; ">
+        <input type="number" name="weights" style = "width: 50px; color: black; ">
         </div>
-        <h4>•Minority Populations Considered:.</h4>
+        <h4>Minority Populations Considered:.</h4>
         <div>
             <input type="checkbox" name="afr">African American<br>
             <input type="checkbox" name="nat" >Native American<br>
@@ -139,14 +147,9 @@
             <input type="checkbox" name="asi">Asian<br>
             <input type="checkbox" name="whi">White<br>
         </div>
-        <h4>•Population Percentages:</h4>
-        <form style="overflow: hidden; text-align: center; ">
-                Maximum:
-                <input type="number" name="minPercentage" style = "width: 50px; color: black; float: right;"><br></br>
-                Minimum: 
-                <input type="number" name="maxPercentage"  style = "width: 50px;  color: black; float: right;"><br></br>
-        </form>
-        <br></br>
+        <h4>Desired # of Districts:
+        <input type="number" name="districts" style = "width: 50px; color: black; float: right"></h4>
+        </br>
         <div class = "tab_subheader">Output:</div><br></br>
         <p>((To Be Done: GM Scores, Population/Maj-Min Tables))</p>
         <button class = "disabled" disabled>Original Districts</button>
@@ -223,7 +226,7 @@
     }).addTo(map);
 
     
-    var precincts = L.geoJson(FLP, {
+    var precincts = L.geoJson(flp, {
         style: function (feature) {
             return {color:'black', fillColor: 'red', weight:1, opacity: 0.8, fillOpacity: 0.5};
         },
