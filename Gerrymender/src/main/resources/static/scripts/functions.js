@@ -122,59 +122,89 @@ function dropdown() {
       function fillOutSmallWindow(feature){
         $(document).ready(function () {
             $("#small-info-table tr").remove();
-            var year;
-            if($('#2016D').is(':checked'))
-                year = 2016;
-            else
-                year = 2018;
                 if (map.hasLayer(precincts)){
+                    var formData = new FormData();
+                    formData.append("id", "12");
+                    formData.append("mapLevel", "precinct");
+                    formData.append("year", "2016");
+                    formData.append("electionType", "Pres");
+                    var result = $.parseJSON($.ajax({
+                        url: "http://localhost:8080/getSelectArea",
+                        type: "POST",
+                        data:formData,
+                        processData : false,
+                        contentType : false,
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            console.log(data);
+                        },
+                        error: function (result) {
+                            alert(result);
+                        }
+                    }).responseText);
+                    // test output
+                    console.log(result[0]);
+                    $("#small-info-table tr").remove();
                     var items = [
-                        {Attr: "Name", Amout: "Precinct "+feature.properties.PRECINCT},
-                        {Attr: "population", Amout: "50"},
-                        {Attr: "White", Amout: "50"},
-                        {Attr: "Minority", Amout: "50"},
-                        {Attr: "Hispanic", Amout: "50"},
-                        {Attr: "Asian", Amout: "50"},
-                        {Attr: "Republican", Amout: "50"},
-                        {Attr: "Democratic", Amout: "50"},
-                        {Attr: "Year", Amout: year},
+                        {Attr: "Name", Amout: result[0]},
+                        {Attr: "population", Amout: result[7]},
+                        {Attr: "White", Amout: result[1]},
+                        {Attr: "Minority", Amout: result[2]},
+                        {Attr: "Hispanic", Amout: result[3]},
+                        {Attr: "Asian", Amout: result[4]},
+                        {Attr: "Republican", Amout: result[5]},
+                        {Attr: "Democratic", Amout: result[6]},
                     ];
                 }
                 else{
-                var items = [
-                {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
-                {Attr: "population", Amout: "50"},
-                {Attr: "White", Amout: "50"},
-                {Attr: "Minority", Amout: "50"},
-                {Attr: "Hispanic", Amout: "50"},
-                {Attr: "Asian", Amout: "50"},
-                {Attr: "Republican", Amout: "50"},
-                {Attr: "Democratic", Amout: "50"},
-                {Attr: "Year", Amout: year},
-            ];
+                    var formData = new FormData();
+                    formData.append("id", "12");
+                    formData.append("mapLevel", "district");
+                    formData.append("year", "2016");
+                    formData.append("electionType", "Pres");
+                    var result = $.parseJSON($.ajax({
+                        url: "http://localhost:8080/getSelectArea",
+                        type: "POST",
+                        data:formData,
+                        processData : false,
+                        contentType : false,
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            console.log(data);
+                        },
+                        error: function (result) {
+                            alert(result);
+                        }
+                    }).responseText);
+                    // test output
+                    console.log(result[0]);
+                    $("#small-info-table tr").remove();
+                    var items = [
+                        {Attr: "Name", Amout: result[0]},
+                        {Attr: "population", Amout: result[7]},
+                        {Attr: "White", Amout: result[1]},
+                        {Attr: "Minority", Amout: result[2]},
+                        {Attr: "Hispanic", Amout: result[3]},
+                        {Attr: "Asian", Amout: result[4]},
+                        {Attr: "Republican", Amout: result[5]},
+                        {Attr: "Democratic", Amout: result[6]},
+                    ];
         }
 
             $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
         });
       }
-   /* function fillOutSmallWindow(feature) {
+
+    function fillOutTable(feature) {
         $(document).ready(function () {
+            $("#itemList tr").remove();
             var formData = new FormData();
-            var year;
-            if($('#2016C').is(':checked') || $('#2016P').is(':checked'))
-                year = 2016;
-            else
-                year = 2018;
-            var etype;
-            if($('#2016C').is(':checked') || $('#2018C').is(':checked'))
-                etype = "C";
-            else
-                etype = "P";
-            formData.append("level", document.getElementById("mapLevel"));
-            formData.append("id", feature.properties.id);
-            formData.append("mapLevel", "districtLevel");
-            formData.append("year", year);
-            formData.append("electionType", etype);
+            formData.append("id", "12");
+            formData.append("mapLevel", "district");
+            formData.append("year", "2016");
+            formData.append("electionType", "PRES");
 
             var result = $.parseJSON($.ajax({
                 url: "http://localhost:8080/getSelectArea",
@@ -186,7 +216,7 @@ function dropdown() {
                 async: false,
                 success: function (data) {
                     console.log(data);
-                 },
+                },
                 error: function (result) {
                     alert("error");
                 }
@@ -195,48 +225,14 @@ function dropdown() {
             console.log(result[0]);
             $("#small-info-table tr").remove();
             var items = [
-            {Attr: "Name", Amout: result[0]},
-            {Attr: "population", Amout: result[7]},
-            {Attr: "White", Amout: result[1]},
-            {Attr: "Minority", Amout: result[2]},
-            {Attr: "Hispanic", Amout: result[3]},
-            {Attr: "Asian", Amout: result[4]},
-            {Attr: "Republican", Amout: result[5]},
-            {Attr: "Democratic", Amout: result[6]},
-            ];
-            $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
-        });
-    }*/
-    /*************************************************************************************** */
-
-   /*function fillOutTable(feature) {
-        $(document).ready(function () {
-            $("#itemList tr").remove();
-            var items = [
-                {Attr: "Name", Amount: result[0]},
-                {Attr: "population", Amount: result[7]},
-                {Attr: "White", Amount: result[1]},
-                {Attr: "Minority", Amount: result[2]},
-                {Attr: "Hispanic", Amount: result[3]},
-                {Attr: "Asian", Amount: result[4]},
-                {Attr: "Republican", Amount: result[5]},
-                {Attr: "Democratic", Amount: result[6]},
-            ];
-            $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
-        });
-    }*/
-    function fillOutTable(feature) {
-        $(document).ready(function () {
-            $("#itemList tr").remove();
-            var items = [
-                {Attr: "Name", Amout: "District " + feature.properties.DISTRICT},
-                {Attr: "population", Amout: "50"},
-                {Attr: "White", Amout: "50"},
-                {Attr: "Minority", Amout: "50"},
-                {Attr: "Hispanic", Amout: "50"},
-                {Attr: "Asian", Amout: "50"},
-                {Attr: "Republican", Amout: "50"},
-                {Attr: "Democratic", Amout: "50"},
+                {Attr: "Name", Amout: result[0]},
+                {Attr: "population", Amout: result[7]},
+                {Attr: "White", Amout: result[1]},
+                {Attr: "Minority", Amout: result[2]},
+                {Attr: "Hispanic", Amout: result[3]},
+                {Attr: "Asian", Amout: result[4]},
+                {Attr: "Republican", Amout: result[5]},
+                {Attr: "Democratic", Amout: result[6]},
             ];
             $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
         });

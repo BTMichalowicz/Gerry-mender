@@ -46,47 +46,45 @@ public class MainController {
     }
 
     @RequestMapping(value="/getSelectArea",method = RequestMethod.POST)
-    public @ResponseBody List<String> updateSmallInfoWindow(HttpServletRequest request, String id, String mapLevel, int year, String electionType) {
+    public @ResponseBody List<String> updateSmallInfoWindow(HttpServletRequest req, String id, String mapLevel, String year, String electionType) {
         List<String> res = new ArrayList<>();
-        res.add("3");
+        switch(mapLevel){
+            case "district":
+//                District founddis = districtRepository.findById(id)
+//                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
+                District founddis = new District();
 
-//        switch(mapLevel){
-//            case "district":
-////                District founddis = districtRepository.findById(id)
-////                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
-//                District founddis = new District();
-//
-//                founddis.setTotalPop(100);
-//                founddis.setParty("OTHER");
-//                founddis.setAfricanAmerican_pop(100);
-//                founddis.setAsian_pop(100);
-//                founddis.setHispanic_pop(100);
-//                founddis.setWhite_pop(100);
-//                founddis.setNameID("DISTRICT" + 12);
-//                founddis.setNativeAmerican_pop(100);
-//                setDistrictInfo(res, founddis);
-//                break;
-//            default:
-////                Precinct foundpre = precinctRepository.findById(id)
-////                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
-//                Precinct foundpre = new Precinct();
-//                foundpre.setTotalPop(100);
-//                foundpre.setParty("OTHER");
-//                foundpre.setAfricanAmerican_pop(100);
-//                foundpre.setAsian_pop(100);
-//                foundpre.setHispanic_pop(100);
-//                foundpre.setWhite_pop(100);
-//                foundpre.setNameID("PRECINCT" + 10);
-//                foundpre.setNativeAmerican_pop(100);
-//                setPrecinctInfo(res, foundpre);
-//        }
+                founddis.setTotalPop(100);
+                founddis.setParty("OTHER");
+                founddis.setAfricanAmerican_pop(100);
+                founddis.setAsian_pop(100);
+                founddis.setHispanic_pop(100);
+                founddis.setWhite_pop(100);
+                founddis.setNameID("DISTRICT" + 12);
+                founddis.setNativeAmerican_pop(100);
+                setDistrictInfo(res, founddis);
+                break;
+            default:
+//                Precinct foundpre = precinctRepository.findById(id)
+//                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
+                Precinct foundpre = new Precinct();
+                foundpre.setTotalPop(100);
+                foundpre.setParty("OTHER");
+                foundpre.setAfricanAmerican_pop(100);
+                foundpre.setAsian_pop(100);
+                foundpre.setHispanic_pop(100);
+                foundpre.setWhite_pop(100);
+                foundpre.setNameID("PRECINCT" + 10);
+                foundpre.setNativeAmerican_pop(100);
+                setPrecinctInfo(res, foundpre);
+        }
 //        String voteid = id + String.valueOf(year) + electionType;
 //        Vote v = voteRepository.findById(voteid)
 //                .orElseThrow(() -> new ResourceNotFoundException("vote", "record", id));
-//        res.add(String.valueOf(v.getTotalvote()));
-//        res.add(String.valueOf(v.getDemvote()));
-//        res.add(String.valueOf(v.getRepvote()));
-//        res.add(v.getWinner());
+        res.add("12345");
+        res.add("1234");
+        res.add(String.valueOf(12345-1234));
+        res.add("DEM");
         return res;
     }
 
