@@ -54,8 +54,7 @@ function dropdown() {
         });
     }
 
-
-    //Mouseover                                                                                                                         <-FIX THIS!
+    //Mouseover                                                                                                                        
     function onEachFeature(feature, layer) {
         var currentColor;
         layer.on("mouseover", function (e) {
