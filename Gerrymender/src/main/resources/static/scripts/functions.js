@@ -80,9 +80,10 @@ function dropdown() {
     /*Sliding Menus*/
     function toggleSlider() {
         if (sliderState === 0) { //Open slider
-            document.getElementById("slide-menu").style.width = "350px";
+            document.getElementById("slide-menu").style.width = "360px";
             sliderState = 1;
             setTimeout(moveZoomControl, 0);
+            document.getElementsByClassName('tablinks')[1].click();
         } else {
             document.getElementById("slide-menu").style.width = "0";
             sliderState = 0;
@@ -120,14 +121,26 @@ function dropdown() {
 /***********************************************************************************/
       function fillOutSmallWindow(feature){
         $(document).ready(function () {
-
             $("#small-info-table tr").remove();
             var year;
             if($('#2016D').is(':checked'))
                 year = 2016;
             else
                 year = 2018;
-
+                if (map.hasLayer(precincts)){
+                    var items = [
+                        {Attr: "Name", Amout: "Precinct "+feature.properties.PRECINCT},
+                        {Attr: "population", Amout: "50"},
+                        {Attr: "White", Amout: "50"},
+                        {Attr: "Minority", Amout: "50"},
+                        {Attr: "Hispanic", Amout: "50"},
+                        {Attr: "Asian", Amout: "50"},
+                        {Attr: "Republican", Amout: "50"},
+                        {Attr: "Democratic", Amout: "50"},
+                        {Attr: "Year", Amout: year},
+                    ];
+                }
+                else{
                 var items = [
                 {Attr: "Name", Amout: "District "+feature.properties.DISTRICT},
                 {Attr: "population", Amout: "50"},
@@ -138,8 +151,8 @@ function dropdown() {
                 {Attr: "Republican", Amout: "50"},
                 {Attr: "Democratic", Amout: "50"},
                 {Attr: "Year", Amout: year},
-
             ];
+        }
 
             $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
         });
