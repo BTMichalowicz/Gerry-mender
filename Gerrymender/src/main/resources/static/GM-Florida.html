@@ -8,7 +8,7 @@
     <!--Scripts-->
     <script src='./scripts/stateData.js'></script>
     <script src='./scripts/FL.js'></script>
-<!--    <script src='./scripts/FLP.js'></script>-->
+    <!--    <script src='./scripts/FLP.js'></script>-->
     <script src='./scripts/Florida_precincts.js'></script>
     <script src='./scripts/leaflet.ajax.min.js'></script>
     <script src='./scripts/functions.js'></script>
@@ -24,7 +24,7 @@
     <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet'/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="Content/Site.css">
-    
+
 </head>
 <body>
 
@@ -38,180 +38,200 @@
            title="open/close function menu" onclick="toggleSlider()">Menu <span
                 class="glyphicon glyphicon-align-justify"></span></a>
         <a class="text-white navbar-brand" data-toggle="tooltip" data-placement="bottom" title="return back to homepage"
-           href="Homepage.html" style = "float: right">Back</a>
+           href="Homepage.html" style="float: right">Back</a>
     </div>
 </nav>
 
 <!--Map Container-->
 <div id="map-container">
     <!--Sliding Menu-->
-    <div class = "slide-menu active" id="slide-menu">
-<!--Tabs-->
-<div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'Help')">Help!</button>
-        <button class="tablinks" onclick="openTab(event, 'Data')">Data</button>
-        <button class="tablinks" onclick="openTab(event, 'Bloc')">Bloc?</button>
-        <button class="tablinks" onclick="openTab(event, 'GM')" >Gerrymend</button>
-      </div>
+    <div class="slide-menu active" id="slide-menu">
+        <!--Tabs-->
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Help')">Help!</button>
+            <button class="tablinks" onclick="openTab(event, 'Data')">Data</button>
+            <button class="tablinks" onclick="openTab(event, 'Bloc')">Bloc?</button>
+            <button class="tablinks" onclick="openTab(event, 'GM')">Gerrymend</button>
+        </div>
 
-    <!-- Tab content -->
-    <div id="Help" class="tabcontent">
-            <div class = "tab_header">Need Help?</div><br></br>
-                <h4>Data: The data tab shows the currently selected state's election data.</h4><br></br>
-                <h4>Bloc?: The bloc tab determines if any demographics in this state's precincts are voting as a bloc.</h4><br></br>
-                <h4>Gerrymend: The Gerrymend tab redraws district lines to maximize the number of Minority-Majority Districts.</h4><br></br>
-    </div>
-    <div id="Data" class="tabcontent">
-            <div class = "tab_header">Data Displayed</div><br>
+        <!-- Tab content -->
+        <div id="Help" class="tabcontent">
+            <div class="tab_header">Need Help?</div>
+            <br></br>
+            <h4>Data: The data tab shows the currently selected state's election data.</h4><br></br>
+            <h4>Bloc?: The bloc tab determines if any demographics in this state's precincts are voting as a bloc.</h4>
+            <br></br>
+            <h4>Gerrymend: The Gerrymend tab redraws district lines to maximize the number of Minority-Majority
+                Districts.</h4><br></br>
+        </div>
+        <div id="Data" class="tabcontent">
+            <div class="tab_header">Data Displayed</div>
+            <br>
             <form>
                 <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
-                            <input type="radio" class="custom-control-input" id="2016P" name="example" value="customEx">
-                            <label class="custom-control-label" for="2016P" style="color: white;">2016 Presidential Election</label>
+                    <input type="radio" class="custom-control-input" id="2016P" name="example" value="customEx">
+                    <label class="custom-control-label" for="2016P" style="color: white;">2016 Presidential
+                        Election</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
                     <input type="radio" class="custom-control-input" id="2016C" name="example" value="customEx">
-                    <label class="custom-control-label" for="2016C" style="color: white;">2016 Congressional Election</label>
+                    <label class="custom-control-label" for="2016C" style="color: white;">2016 Congressional
+                        Election</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
-                        <input type="radio" class="custom-control-input" id="2018C" name="example" value="customEx" checked = "true">
-                        <label class="custom-control-label" for="2018C" style="color: white;">2018 Congressional Election</label>
+                    <input type="radio" class="custom-control-input" id="2018C" name="example" value="customEx"
+                           checked="true">
+                    <label class="custom-control-label" for="2018C" style="color: white;">2018 Congressional
+                        Election</label>
                 </div>
             </form>
             <br>
 
-            <div class = "tab_subheader">State Information</div>
+            <div class="tab_subheader">State Information</div>
             <!--Dummy Data Voting-->
             <table style="width:100%;">
-                    <caption>Voting Data</caption>
-                    <tr>
-                      <th>Party</th>
-                      <th>Votes for Party</th>
-                    </tr>
-                    <tr>
-                      <td>Republican</td>
-                      <td>623</td>
-                    </tr>
-                    <tr>
-                      <td>Democrat</td>
-                      <td>419</td>
-                    </tr>
-            </table><br>
+                <caption>Voting Data</caption>
+                <tr>
+                    <th>Party</th>
+                    <th>Votes for Party</th>
+                </tr>
+                <tr>
+                    <td>Republican</td>
+                    <td>623</td>
+                </tr>
+                <tr>
+                    <td>Democrat</td>
+                    <td>419</td>
+                </tr>
+            </table>
+            <br>
             <h4>Winning Party: Republican</h4>
             <h4>Total Votes: 1042</h4>
             <!--Dummy Data Demographics-->
             <table style="width:100%;">
                 <caption>Demographic Data</caption>
-                    <tr>
-                      <th>Demographic</th>
-                      <th>Population</th>
-                     </tr>
-                    <tr>
-                      <td>White</td>
-                      <td>419,000</td>
-                    </tr>
-                    <tr>
-                      <td>African American</td>
-                      <td>40,000</td>
-                    </tr>
-                    <tr>
-                      <td>Hispanic</td>
-                      <td>200,000</td>
-                    </tr>                   
-                     <tr>
-                      <td>Native American</td>
-                      <td>5,000</td>
-                    </tr>
-                     <tr>
-                      <td>Asian</td>
-                      <td>20,000</td>
-                    </tr>
+                <tr>
+                    <th>Demographic</th>
+                    <th>Population</th>
+                </tr>
+                <tr>
+                    <td>White</td>
+                    <td>419,000</td>
+                </tr>
+                <tr>
+                    <td>African American</td>
+                    <td>40,000</td>
+                </tr>
+                <tr>
+                    <td>Hispanic</td>
+                    <td>200,000</td>
+                </tr>
+                <tr>
+                    <td>Native American</td>
+                    <td>5,000</td>
+                </tr>
+                <tr>
+                    <td>Asian</td>
+                    <td>20,000</td>
+                </tr>
             </table>
             <br><br>
             <br><br>
             <p>((potentially links to state guidelines, incumbent info, and statewide patterns))</p>
 
-    </div>
-    <div id="Bloc" class="tabcontent">
-            <div class = "tab_header">Calculate Voting Blocs</div><br></br>
-            <div class = "tab_subheader">Please Input Values Below:<br></br></div>
+        </div>
+        <div id="Bloc" class="tabcontent">
+            <div class="tab_header">Calculate Voting Blocs</div>
+            <br></br>
+            <div class="tab_subheader">Please Input Values Below:<br></br></div>
             <form style="overflow: hidden; ">
-                    Population % Threshold:
-                    <input type="number" name="popThresh" style = "width: 50px; color: black; float: right;"><br></br>
-                    Voting % Threshold: 
-                    <input type="number" name="voteThresh"  style = "width: 50px;  color: black; float: right;"><br></br>
+                Population % Threshold:
+                <input type="number" name="popThresh" style="width: 50px; color: black; float: right;"><br></br>
+                Voting % Threshold:
+                <input type="number" name="voteThresh" style="width: 50px;  color: black; float: right;"><br></br>
             </form>
-            <button class = "ctr_button">Calculate</button><br></br>
-            <div class = "tab_subheader">Output:</div><br></br>
-                    <p>((Displays the output table, or "No Blocs Found"))</p>
-    </div>
+            <button class="ctr_button">Calculate</button>
+            <br></br>
+            <div class="tab_subheader">Output:</div>
+            <br></br>
+            <p>((Displays the output table, or "No Blocs Found"))</p>
+        </div>
 
-    <div id="GM" class="tabcontent">
-            <div class = "tab_header">Gerrymend</div><br></br>
-            <div class = "tab_subheader">Phase 1: Graph Partitioning</div><br></br>
+        <div id="GM" class="tabcontent">
+            <div class="tab_header">Gerrymend</div>
+            <br></br>
+            <div class="tab_subheader">Phase 1: Graph Partitioning</div>
+            <br></br>
             <div>
                 <h4>Population Percentages:</h4>
-                    <form style="overflow: hidden; text-align: center; ">
-                            Maximum:
-                            <input type="number" name="minPercentage" style = "width: 50px; color: black; float: right;"><br></br>
-                            Minimum: 
-                            <input type="number" name="maxPercentage"  style = "width: 50px;  color: black; float: right;"><br></br>
-                    </form>
-                    <br>
+                <form style="overflow: hidden; text-align: center; ">
+                    Maximum:
+                    <input type="number" name="minPercentage" style="width: 50px; color: black; float: right;"><br></br>
+                    Minimum:
+                    <input type="number" name="maxPercentage"
+                           style="width: 50px;  color: black; float: right;"><br></br>
+                </form>
+                <br>
                 <h4>Please Select an Update Mode:</h4>
                 <!--If iterative is selected, then the next button should enable-->
                 <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx">
-                        <label class="custom-control-label" for="iterate" style="color: white">Iterative</label>
-                        <button class = "disabled_r" disabled>Next Iteration</button>
+                    <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx">
+                    <label class="custom-control-label" for="iterate" style="color: white">Iterative</label>
+                    <button class="disabled_r" disabled>Next Iteration</button>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx">
-                        <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br></br>
+                    <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx">
+                    <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br></br>
                 </div>
-                <button class = "ctr_button" disabled>Start</button><br></br>
+                <button class="ctr_button" disabled>Start</button>
+                <br></br>
                 <h4>Output: </h4><br></br>
-                <button class = "phase2_button" onclick="openTab(event, 'P2')">Phase 2</button><br></br>
+                <button class="phase2_button" onclick="openTab(event, 'P2')">Phase 2</button>
+                <br></br>
             </div>
-    </div>
-    <div id = "P2" class = "tabcontent" >
-        <!--Phase 2 ONLY should appear one Phase 1 COMPLETES.-->
-        <div class = "tab_subheader">Phase 2: Simulated Annealing</div><br></br>
-        <h4>Objective Function Weights:</h4>
-        <div class = "content_centered">
-            <select name="Weights">
+        </div>
+        <div id="P2" class="tabcontent">
+            <!--Phase 2 ONLY should appear one Phase 1 COMPLETES.-->
+            <div class="tab_subheader">Phase 2: Simulated Annealing</div>
+            <br></br>
+            <h4>Objective Function Weights:</h4>
+            <div class="content_centered">
+                <select name="Weights">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
-            </select>
-        <input type="number" name="weights" style = "width: 50px; color: black; ">
+                </select>
+                <input type="number" name="weights" style="width: 50px; color: black; ">
+            </div>
+            <h4>Minority Populations Considered:.</h4>
+            <div>
+                <input type="checkbox" name="afr">African American<br>
+                <input type="checkbox" name="nat">Native American<br>
+                <input type="checkbox" name="his">Hispanic<br>
+                <input type="checkbox" name="asi">Asian<br>
+                <input type="checkbox" name="whi">White<br>
+            </div>
+            <h4>Desired # of Districts:
+                <input type="number" name="districts" style="width: 50px; color: black; float: right"></h4>
+            </br>
+            <div class="tab_subheader">Output:</div>
+            <br></br>
+            <p>((To Be Done: GM Scores, Population/Maj-Min Tables))</p>
+            <button class="disabled" disabled>Original Districts</button>
+            <button class="disabled" disabled>Generated Districts</button>
         </div>
-        <h4>Minority Populations Considered:.</h4>
-        <div>
-            <input type="checkbox" name="afr">African American<br>
-            <input type="checkbox" name="nat" >Native American<br>
-            <input type="checkbox" name="his">Hispanic<br>
-            <input type="checkbox" name="asi">Asian<br>
-            <input type="checkbox" name="whi">White<br>
-        </div>
-        <h4>Desired # of Districts:
-        <input type="number" name="districts" style = "width: 50px; color: black; float: right"></h4>
-        </br>
-        <div class = "tab_subheader">Output:</div><br></br>
-        <p>((To Be Done: GM Scores, Population/Maj-Min Tables))</p>
-        <button class = "disabled" disabled>Original Districts</button>
-        <button class = "disabled" disabled>Generated Districts</button>
-   </div>         
-</div>   
+    </div>
 
     <!--Map-->
     <div id="map"></div>
-    <div class = "small-info-window" id = "small-info-window">
+    <div class="small-info-window" id="small-info-window">
         <script id="smallInfoTemplate" type="text/x-jquery-tmpl">
             <tr>
                 <td width="30%">${Attr}</td>
                 <td width="70%">${Amout}</td>
             </tr>
+
         </script>
         <table class="table" id="small-info-table">
             <thead>
@@ -223,26 +243,27 @@
         </table>
     </div>
     <!--Information Slider-->
-    <div class = "slide-info" id="slide-info">
-         <h3>Information</h3>
-         <!-- -->
-            <script id="itemTemplate" type="text/x-jquery-tmpl">
+    <div class="slide-info" id="slide-info">
+        <h3>Information</h3>
+        <!-- -->
+        <script id="itemTemplate" type="text/x-jquery-tmpl">
             <tr>
                 <td width="30%">${Attr}</td>
                 <td width="70%">${Amout}</td>
             </tr>
+
         </script>
         <!-- -->
-            <table class="table" id="itemList">
-                <thead>
-                <tr>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <input type="button" class="button" onclick="closeInfo()" value="Close">
-        </div>
+        <table class="table" id="itemList">
+            <thead>
+            <tr>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <input type="button" class="button" onclick="closeInfo()" value="Close">
+    </div>
 </div>
 <script>
 
@@ -267,33 +288,40 @@
     //geoJson Manipulation
     var districts = L.geoJson(floridaOriDis, {
         style: function (feature) {
-        return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
+            return {
+                color: 'black',
+                fillColor: district_color.get(feature.properties.DISTRICT),
+                weight: 1,
+                opacity: 0.8,
+                fillOpacity: 0.5
+            };
         },
         onEachFeature: onEachFeature,
     }).addTo(map);
 
-    
+
     var precincts = L.geoJson(flp, {
         style: function (feature) {
-            return {color:'black', fillColor: 'red', weight:1, opacity: 0.8, fillOpacity: 0.5};
+            return {color: 'black', fillColor: 'red', weight: 1, opacity: 0.8, fillOpacity: 0.5};
         },
         onEachFeature: onEachFeature,
     });
-    map.on('zoomend', function(){
+    map.on('zoomend', function () {
         var zoomlevel = map.getZoom();
         //zoomlevel increases as zoom in
-        if (zoomlevel  > 8 ){
+        if (zoomlevel > 8) {
             if (map.hasLayer(districts)) {
                 map.removeLayer(districts);
                 map.addLayer(precincts);
             }
         }
-        if (zoomlevel <= 8){
-            if (map.hasLayer(precincts)){
+        if (zoomlevel <= 8) {
+            if (map.hasLayer(precincts)) {
                 map.removeLayer(precincts);
                 map.addLayer(districts);
-            } 
+            }
         }
     });
 </script>
 </body>
+</html>
