@@ -268,15 +268,16 @@
         //zoomlevel increases as zoom in
         if (zoomlevel > 8) {
             if (map.hasLayer(districts)) {
-                console.log("Districts layer exists\n");
                 map.removeLayer(districts);
                 map.addLayer(precincts);
+                setPLayer();
             }
         }
         if (zoomlevel <= 8) {
             if (map.hasLayer(precincts)) {
                 map.removeLayer(precincts);
                 map.addLayer(districts);
+                setDLayer();
             }
         }
     });

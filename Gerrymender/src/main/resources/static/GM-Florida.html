@@ -8,7 +8,6 @@
     <!--Scripts-->
     <script src='./scripts/stateData.js'></script>
     <script src='./scripts/FL.js'></script>
-    <!--    <script src='./scripts/FLP.js'></script>-->
     <script src='./scripts/Florida_precincts.js'></script>
     <script src='./scripts/leaflet.ajax.min.js'></script>
     <script src='./scripts/functions.js'></script>
@@ -313,12 +312,14 @@
             if (map.hasLayer(districts)) {
                 map.removeLayer(districts);
                 map.addLayer(precincts);
+                setPLayer();
             }
         }
         if (zoomlevel <= 8) {
             if (map.hasLayer(precincts)) {
                 map.removeLayer(precincts);
                 map.addLayer(districts);
+                setDLayer();
             }
         }
     });

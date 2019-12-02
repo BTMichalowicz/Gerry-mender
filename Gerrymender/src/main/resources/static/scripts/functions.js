@@ -54,10 +54,32 @@ function dropdown() {
         });
     }
 
+    //Layer functions
+    var pLayer;
+    //called when layer is precincts
+    function setPLayer(){
+        pLayer = true;
+    }
+
+    //called when layer is districts
+    function setDLayer(){
+        pLayer = false;
+    }
+
     //Mouseover                                                                                                                        
     function onEachFeature(feature, layer) {
         var currentColor;
-        layer.on("mouseover", function (e) {
+        layer.on("mouseover", function (e) {    
+            //hey howdy my head hurts but imma do my best to explain, check out the layer functions above too pls
+
+            //if the precinct layer is active, search for the countypct feature
+            if (pLayer){
+                alert("feature id=" + feature.properties.countypct);
+            }
+            //if not, use districts.
+            else{
+                alert("feature id=" + feature.properties.DISTRICT);
+            }        
             currentColor = district_color.get(feature.properties.DISTRICT);
             layer.setStyle({fillColor : "white"});
             document.getElementById("small-info-window").style.width = "220px";
