@@ -147,7 +147,7 @@ function dropdown() {
                     if($('#2016C').is(':checked') || $('#2018C').is(':checked'))
                         etype = "CONGRESSIONAL";
                     else
-                        etype = "Presidential";
+                        etype = "PRESIDENT";
                     var formData = new FormData();
                     formData.append("id", feature.properties.countypct);
                     formData.append("mapLevel", "precinct");
@@ -191,7 +191,7 @@ function dropdown() {
                     if($('#2016C').is(':checked') || $('#2018C').is(':checked'))
                         etype = "CONGRESSIONAL";
                     else
-                        etype = "Presidential";
+                        etype = "PRESIDENT";
                     var formData = new FormData();
                     formData.append("id", feature.properties.DISTRICT);
                     formData.append("mapLevel", "district");
