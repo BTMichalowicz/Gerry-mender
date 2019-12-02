@@ -24,7 +24,7 @@ public class VoteId  implements Serializable {
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof VoteId) {
-            return precinctid == ((VoteId) obj).precinctid && electionyear == ((VoteId) obj).electionyear && electionname == ((VoteId) obj).electionname;
+            return precinctid.equalsIgnoreCase(((VoteId) obj).precinctid) && electionyear.equalsIgnoreCase(((VoteId) obj).electionyear) && electionname.equalsIgnoreCase(((VoteId) obj).electionname);
         }
         return false;
     }
