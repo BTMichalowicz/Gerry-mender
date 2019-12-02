@@ -17,7 +17,7 @@ public class Precinct implements Serializable {
     @Column
     private String precinctid; //replaces name and ID in state, precinct, district
     @Column
-    private int districtid; //Can't have a state object, as that would bring in circular dependencies.
+    private String statename; //Can't have a state object, as that would bring in circular dependencies.
     @Column
     private long totalpop;
     @Column
@@ -100,8 +100,8 @@ public class Precinct implements Serializable {
 
 
 
-    public int getDistrictID(){return districtid;}
-    public void setDistrictID(int districtID ){this.districtid=districtID;}
+    public String getStateName(){return statename;}
+    public void setStateName(String districtID ){this.statename=districtID;}
 
     public String getCountyName() {
         return countyname;

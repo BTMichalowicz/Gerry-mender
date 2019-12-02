@@ -3,28 +3,21 @@ package com.example.Gerrymender.web;
 
 import com.example.Gerrymender.Abstractions.Algorithm;
 import com.example.Gerrymender.Abstractions.BaseState;
-import com.example.Gerrymender.Abstractions.VotingBloc;
 import com.example.Gerrymender.Abstractions.VotingBlocInfo;
 import com.example.Gerrymender.exception.ResourceNotFoundException;
 import com.example.Gerrymender.model.*;
-import com.example.Gerrymender.repository.DistrictRepository;
-import com.example.Gerrymender.repository.PrecinctRepository;
-import com.example.Gerrymender.repository.StateRepository;
-import com.example.Gerrymender.repository.VoteRepository;
+import com.example.Gerrymender.repository.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.persistence.Column;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 
 @Controller
@@ -37,6 +30,8 @@ public class MainController {
     PrecinctRepository precinctRepository;
     @Autowired
     VoteRepository voteRepository;
+    @Autowired
+    VoteDisRepository voteDisRepository;
 
     Algorithm alg;
 
@@ -46,8 +41,9 @@ public class MainController {
     }
 
     @RequestMapping(value="/getSelectArea",method = RequestMethod.POST)
-    public @ResponseBody List<String> updateSmallInfoWindow(HttpServletRequest req, String id, String mapLevel, String year, String electionType) {
-        List<String> res = new ArrayList<>();
+    public @ResponseBody String updateSmallInfoWindow(HttpServletRequest req, String id, String mapLevel, String year, String electionType) {
+        ObjectMapper obj = new ObjectMapper();
+        List res = new ArrayList();
         switch(mapLevel){
             case "district":
 //                District founddis = districtRepository.findById(id)
@@ -60,55 +56,34 @@ public class MainController {
                 founddis.setAsian_pop(100);
                 founddis.setHispanic_pop(100);
                 founddis.setWhite_pop(100);
-                founddis.setNameID("DISTRICT" + 12);
+                founddis.setNameID(id);
                 founddis.setNativeAmerican_pop(100);
-                setDistrictInfo(res, founddis);
+                founddis.setStateName("FLORIDA");
+                res.add(founddis);
+                VoteDis dv = voteDisRepository.findByVoteid(new VoteDisId(id, founddis.getStateName(), "" + year, electionType));
+                if(dv == null) {
+                    dv = new VoteDis();
+                }
+                res.add(dv);
                 break;
             default:
-//                Precinct foundpre = precinctRepository.findById(id)
-//                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
-                Precinct foundpre = new Precinct();
-                foundpre.setTotalPop(100);
-                foundpre.setParty("OTHER");
-                foundpre.setAfricanAmerican_pop(100);
-                foundpre.setAsian_pop(100);
-                foundpre.setHispanic_pop(100);
-                foundpre.setWhite_pop(100);
-                foundpre.setNameID("PRECINCT" + 10);
-                foundpre.setNativeAmerican_pop(100);
-                setPrecinctInfo(res, foundpre);
+                Precinct foundpre = precinctRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("precinct", "id", id));
+                res.add(foundpre);
+                Vote v = voteRepository.findByVoteid(new VoteId(foundpre.getNameID(), "" + year, electionType));
+                if(v == null) {
+                    v = new Vote();
+                }
+                res.add(v);
         }
-//        String voteid = id + String.valueOf(year) + electionType;
-//        Vote v = voteRepository.findById(voteid)
-//                .orElseThrow(() -> new ResourceNotFoundException("vote", "record", id));
-        res.add("12345");
-        res.add("1234");
-        res.add(String.valueOf(12345-1234));
-        res.add("DEM");
-        return res;
-    }
+        try {
+            String r = obj.writeValueAsString(res);
+            System.out.println(r);
+            return r;
+        } catch (IOException e) {
+            return "";
+        }
 
-    public void setDistrictInfo(List<String> res, District d){
-        res.add(d.getNameID());
-        res.add(String.valueOf(d.getTotalPop()));
-        res.add(d.getParty());
-        res.add(String.valueOf(d.getWhite_pop()));
-        res.add(String.valueOf(d.getAfricanAmerican_pop()));
-        res.add(String.valueOf(d.getHispanic_pop()));
-        res.add(String.valueOf(d.getAsian_pop()));
-        res.add(String.valueOf(d.getNativeAmerican_pop()));
-
-    }
-
-    public void setPrecinctInfo(List<String> res, Precinct p){
-        res.add(p.getNameID());
-        res.add(String.valueOf(p.getTotalPop()));
-        res.add(p.getParty());
-        res.add(String.valueOf(p.getWhite_pop()));
-        res.add(String.valueOf(p.getAfricanAmerican_pop()));
-        res.add(String.valueOf(p.getHispanic_pop()));
-        res.add(String.valueOf(p.getAsian_pop()));
-        res.add(String.valueOf(p.getNativeAmerican_pop()));
 
     }
 
@@ -118,8 +93,16 @@ public class MainController {
 
     @ResponseBody
     @RequestMapping(value="/phase0",method = RequestMethod.POST)
-    public List<VotingBlocInfo> loadAlg(HttpServletRequest request, String id, double popThreshold, double voteThreshold) {
-        return alg.phase0(popThreshold, voteThreshold);
+    public String loadAlg(HttpServletRequest request, String id, double popThreshold, double voteThreshold) {
+        List<VotingBlocInfo> r = alg.phase0(popThreshold, voteThreshold);
+        ObjectMapper obj = new ObjectMapper();
+        try {
+            String ret = obj.writeValueAsString(r);
+            System.out.println(ret);
+            return ret;
+        } catch (IOException e) {
+            return "";
+        }
     }
 
     @ResponseBody

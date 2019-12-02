@@ -73,13 +73,6 @@ function dropdown() {
             //hey howdy my head hurts but imma do my best to explain, check out the layer functions above too pls
 
             //if the precinct layer is active, search for the countypct feature
-            if (pLayer){
-                alert("feature id=" + feature.properties.countypct);
-            }
-            //if not, use districts.
-            else{
-                alert("feature id=" + feature.properties.DISTRICT);
-            }        
             currentColor = district_color.get(feature.properties.DISTRICT);
             layer.setStyle({fillColor : "white"});
             document.getElementById("small-info-window").style.width = "220px";
@@ -145,11 +138,21 @@ function dropdown() {
         $(document).ready(function () {
             $("#small-info-table tr").remove();
                 if (map.hasLayer(precincts)){
+                    var year;
+                    if($('#2016C').is(':checked') || $('#2016P').is(':checked'))
+                        year = 2016;
+                    else
+                        year = 2018;
+                    var etype;
+                    if($('#2016C').is(':checked') || $('#2018C').is(':checked'))
+                        etype = "CONGRESSIONAL";
+                    else
+                        etype = "Presidential";
                     var formData = new FormData();
-                    formData.append("id", "12");
+                    formData.append("id", feature.properties.countypct);
                     formData.append("mapLevel", "precinct");
-                    formData.append("year", "2016");
-                    formData.append("electionType", "Pres");
+                    formData.append("year", year);
+                    formData.append("electionType", etype);
                     var result = $.parseJSON($.ajax({
                         url: "http://localhost:8080/getSelectArea",
                         type: "POST",
@@ -169,22 +172,31 @@ function dropdown() {
                     console.log(result[0]);
                     $("#small-info-table tr").remove();
                     var items = [
-                        {Attr: "Name", Amout: result[0]},
-                        {Attr: "population", Amout: result[7]},
-                        {Attr: "White", Amout: result[1]},
-                        {Attr: "Minority", Amout: result[2]},
-                        {Attr: "Hispanic", Amout: result[3]},
-                        {Attr: "Asian", Amout: result[4]},
-                        {Attr: "Republican", Amout: result[5]},
-                        {Attr: "Democratic", Amout: result[6]},
+                        {Attr: "Name", Amout: result[0].nameID},
+                        {Attr: "population", Amout: result[0].totalPop},
+                        {Attr: "White", Amout: result[0].white_pop},
+                        {Attr: "Hispanic", Amout: result[0].hispanic_pop},
+                        {Attr: "Asian", Amout: result[0].asian_pop},
+                        {Attr: "Republican", Amout: result[1].numrepub},
+                        {Attr: "Democratic", Amout: result[1].numdemocrat},
                     ];
                 }
                 else{
+                    var year;
+                    if($('#2016C').is(':checked') || $('#2016P').is(':checked'))
+                        year = 2016;
+                    else
+                        year = 2018;
+                    var etype;
+                    if($('#2016C').is(':checked') || $('#2018C').is(':checked'))
+                        etype = "CONGRESSIONAL";
+                    else
+                        etype = "Presidential";
                     var formData = new FormData();
-                    formData.append("id", "12");
+                    formData.append("id", feature.properties.DISTRICT);
                     formData.append("mapLevel", "district");
-                    formData.append("year", "2016");
-                    formData.append("electionType", "Pres");
+                    formData.append("year", year);
+                    formData.append("electionType", etype);
                     var result = $.parseJSON($.ajax({
                         url: "http://localhost:8080/getSelectArea",
                         type: "POST",
@@ -204,14 +216,13 @@ function dropdown() {
                     console.log(result[0]);
                     $("#small-info-table tr").remove();
                     var items = [
-                        {Attr: "Name", Amout: result[0]},
-                        {Attr: "population", Amout: result[7]},
-                        {Attr: "White", Amout: result[1]},
-                        {Attr: "Minority", Amout: result[2]},
-                        {Attr: "Hispanic", Amout: result[3]},
-                        {Attr: "Asian", Amout: result[4]},
-                        {Attr: "Republican", Amout: result[5]},
-                        {Attr: "Democratic", Amout: result[6]},
+                        {Attr: "Name", Amout: result[0].nameID},
+                        {Attr: "population", Amout: result[0].totalPop},
+                        {Attr: "White", Amout: result[0].white_pop},
+                        {Attr: "Hispanic", Amout: result[0].hispanic_pop},
+                        {Attr: "Asian", Amout: result[0].asian_pop},
+                        {Attr: "Republican", Amout: result[1].numrepub},
+                        {Attr: "Democratic", Amout: result[1].numdemocrat},
                     ];
         }
 
@@ -222,12 +233,21 @@ function dropdown() {
     function fillOutTable(feature) {
         $(document).ready(function () {
             $("#itemList tr").remove();
+            var year;
+            if($('#2016C').is(':checked') || $('#2016P').is(':checked'))
+                year = 2016;
+            else
+                year = 2018;
+            var etype;
+            if($('#2016C').is(':checked') || $('#2018C').is(':checked'))
+                etype = "CONGRESSIONAL";
+            else
+                etype = "Presidential";
             var formData = new FormData();
-            formData.append("id", "12");
+            formData.append("id", feature.properties.DISTRICT);
             formData.append("mapLevel", "district");
-            formData.append("year", "2016");
-            formData.append("electionType", "PRES");
-
+            formData.append("year", year);
+            formData.append("electionType", etype);
             var result = $.parseJSON($.ajax({
                 url: "http://localhost:8080/getSelectArea",
                 type: "POST",
@@ -240,21 +260,20 @@ function dropdown() {
                     console.log(data);
                 },
                 error: function (result) {
-                    alert("error");
+                    alert(result);
                 }
             }).responseText);
             // test output
             console.log(result[0]);
             $("#small-info-table tr").remove();
             var items = [
-                {Attr: "Name", Amout: result[0]},
-                {Attr: "population", Amout: result[7]},
-                {Attr: "White", Amout: result[1]},
-                {Attr: "Minority", Amout: result[2]},
-                {Attr: "Hispanic", Amout: result[3]},
-                {Attr: "Asian", Amout: result[4]},
-                {Attr: "Republican", Amout: result[5]},
-                {Attr: "Democratic", Amout: result[6]},
+                {Attr: "Name", Amout: result[0].nameID},
+                {Attr: "population", Amout: result[0].totalPop},
+                {Attr: "White", Amout: result[0].white_pop},
+                {Attr: "Hispanic", Amout: result[0].hispanic_pop},
+                {Attr: "Asian", Amout: result[0].asian_pop},
+                {Attr: "Republican", Amout: result[1].numrepub},
+                {Attr: "Democratic", Amout: result[1].numdemocrat},
             ];
             $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
         });

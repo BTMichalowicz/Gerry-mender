@@ -1,30 +1,44 @@
 package com.example.Gerrymender.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-@Table(name="VoteRecord")
+@Table(name="Votes")
 @Entity
 public class Vote {
-    @Id //ID Annotation for the subclasses
     @Column
-    private String recordID;
+    private int totalvotes;
 
     @Column
-    private int totalvote;
+    private int numrepub;
 
     @Column
-    private int repvote;
-
-    @Column
-    private int demvote;
+    private int numdemocrat;
 
     @Column
     private String winner;
+
+    @Column
+    private String statename;
+
+    @EmbeddedId
+    private VoteId voteid;
+
+
+    public String getElectionname() { return voteid.electionname; }
+    public void setElectionname(String electionname) { this.voteid.electionname = electionname; }
+
+    public void setElectionyear(String electionyear) { this.voteid.electionyear = electionyear; }
+    public String getElectionyear() { return voteid.electionyear; }
+
+    public String getStateName(){return statename;}
+    public void setStateName(String districtID ){this.statename=districtID;}
+
+    public String getNameID() {
+        return voteid.precinctid;
+    }
+    public void setNameID(String nameID) { this.voteid.precinctid = nameID; }
 
     public String getWinner() {
         return winner;
@@ -34,38 +48,27 @@ public class Vote {
         this.winner = winner;
     }
 
-    public String getRecordID() {
-        return recordID;
-    }
-
-    public void setRecordID(String recordID) {
-        this.recordID = recordID;
-    }
-
     public int getTotalvote() {
-        return totalvote;
+        return totalvotes;
     }
 
     public void setTotalvote(int totalvote) {
-        this.totalvote = totalvote;
+        this.totalvotes = totalvote;
     }
 
-    public int getRepvote() {
-        return repvote;
+    public int getNumdemocrat() {
+        return numdemocrat;
     }
 
-    public void setRepvote(int repvote) {
-        this.repvote = repvote;
+    public void setNumdemocrat(int numdemocrat) {
+        this.numdemocrat = numdemocrat;
     }
 
-    public int getDemvote() {
-        return demvote;
+    public int getNumrepub() {
+        return numrepub;
     }
 
-    public void setDemvote(int demvote) {
-        this.demvote = demvote;
+    public void setNumrepub(int numrepub) {
+        this.numrepub = numrepub;
     }
-
-
-
 }
