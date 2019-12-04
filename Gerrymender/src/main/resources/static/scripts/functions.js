@@ -77,11 +77,12 @@ function dropdown() {
     //Mouseover                                                                                                                        
     function onEachFeature(feature, layer) {
         var currentColor;
+        
         layer.on("mouseover", function (e) {    
-            //hey howdy my head hurts but imma do my best to explain, check out the layer functions above too pls
-
-            //if the precinct layer is active, search for the countypct feature
-            currentColor = district_color.get(feature.properties.DISTRICT);
+            if(pLayer){
+                currentColor = "red";
+            }
+            else currentColor = district_color.get(feature.properties.DISTRICT);
             layer.setStyle({fillColor : "white"});
             document.getElementById("small-info-window").style.width = "220px";
             if(sliderState == 1)

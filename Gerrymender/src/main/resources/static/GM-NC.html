@@ -235,22 +235,8 @@
     var infoStat = "null";
 
     /*geoJson Manipulation*/
-    // L.geoJson(ncLayer, {
-    //     style: function (feature) {
-    //         return {color:'black', fillColor: district_color.get(feature.properties.DISTRICT), weight:1, opacity: 0.8, fillOpacity: 0.5};
-    //     },
-    //     onEachFeature: onEachFeature,
-    // }).addTo(map);
-
-    var districts = L.geoJson(ncLayer, {
-        style: function (feature) {
-            return {
-                color: 'black',
-                fillColor: district_color.get(feature.properties.DISTRICT),
-                weight: 1,
-                opacity: 0.8,
-                fillOpacity: 0.5
-            };
+    var districts = L.geoJson(ncLayer, { style: function (feature) {
+            return { color: 'black', fillColor: district_color.get(feature.properties.DISTRICT), weight: 1, opacity: 0.8, fillOpacity: 0.5};
         },
         onEachFeature: onEachFeature,
     }).addTo(map);
@@ -258,7 +244,7 @@
 
     var precincts = L.geoJson(NC, {
         style: function (feature) {
-            return {color: 'black', fillColor: 'blue', weight: 1, opacity: 0.8, fillOpacity: 0.5};
+            return {color: 'black', fillColor: 'red', weight: 1, opacity: 0.8, fillOpacity: 0.5};
         },
         onEachFeature: onEachFeature,
     });
