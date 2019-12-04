@@ -165,16 +165,13 @@
             <div class="tab_header">Gerrymend</div>
             <br></br>
             <div class="tab_subheader">Phase 1: Graph Partitioning</div>
-            <br></br>
+            <br>
             <div>
                 <h4>Population Percentages:</h4>
-                <form style="overflow: hidden; text-align: center; ">
-                    Maximum:
-                    <input type="number" name="minPercentage" style="width: 50px; color: black; float: right;"><br></br>
-                    Minimum:
-                    <input type="number" name="maxPercentage"
-                           style="width: 50px;  color: black; float: right;"><br></br>
-                </form>
+                <label>Minimum: <span id="minPercent_value"></span>%</label>
+                <input type="range" min="0" max="50" value="0" class="slider" id="minPercent" onchange="show_value(this.value, 'minPercent_value');">
+                <label>Maximum: <span id="maxPercent_value"></span>%</label>
+                <input type="range" min="50" max="100" value="50" class="slider" id="maxPercent" onchange="show_value(this.value, 'maxPercent_value');">
                 <br>
                 <h4>Please Select an Update Mode:</h4>
                 <!--If iterative is selected, then the next button should enable-->
