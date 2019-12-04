@@ -38,18 +38,26 @@ function dropdown() {
   }
 
    /*State Pages*/
+  var currentState;
+  function setCurrentState(stateCode){
+        currentState = stateCode;
+  }
+
    function onEachStateFeature(feature, layer) {
     //bind click
         layer.on('click', function (e) {
             //alert(feature.properties.name);
             if (feature.properties.name == "Texas"){
                 window.location.href = "GM-Texas.html";
+                setCurrentState("TX");
             }
             else if (feature.properties.name == "North Carolina"){
                 window.location.href = "GM-NC.html";
+                setCurrentState("NC");
             }
             else if (feature.properties.name == "Florida"){
                 window.location.href = "GM-Florida.html";
+                setCurrentState("FL");
             }
         });
     }
@@ -131,6 +139,35 @@ function dropdown() {
         }
         document.getElementById(tabName).style.display = "block";
         evt.currentTarget.className += " active";
+      }
+
+      //State Data Tabs
+      function show2018Data(stateCode){
+        if (stateCode == 'FL'){
+            
+        }
+        else if (stateCode == 'TX'){
+
+        }
+        
+      }
+
+      function show2016CData(stateCode){
+        if (stateCode == 'FL'){
+            
+        }
+        else if (stateCode == 'TX'){
+
+        }
+      }
+
+      function show2016PData(stateCode){
+        if (stateCode == 'FL'){
+            
+        }
+        else if (stateCode == 'TX'){
+
+        }
       }
 
 /***********************************************************************************/

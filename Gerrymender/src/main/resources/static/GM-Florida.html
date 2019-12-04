@@ -68,18 +68,17 @@
             <br>
             <form>
                 <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
-                    <input type="radio" class="custom-control-input" id="2016P" name="example" value="customEx">
+                    <input type="radio" class="custom-control-input" id="2016P" name="example" value="customEx"onclick="show2016CData('FL')">
                     <label class="custom-control-label" for="2016P" style="color: white;">2016 Presidential
                         Election</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
-                    <input type="radio" class="custom-control-input" id="2016C" name="example" value="customEx">
+                    <input type="radio" class="custom-control-input" id="2016C" name="example" value="customEx"onclick="show2016PData('FL')">
                     <label class="custom-control-label" for="2016C" style="color: white;">2016 Congressional
                         Election</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
-                    <input type="radio" class="custom-control-input" id="2018C" name="example" value="customEx"
-                           checked="true">
+                    <input type="radio" class="custom-control-input" id="2018C" name="example" value="customEx" checked="true" onclick="show2018Data('FL')">
                     <label class="custom-control-label" for="2018C" style="color: white;">2018 Congressional
                         Election</label>
                 </div>
@@ -150,12 +149,11 @@
             <div class="tab_header">Calculate Voting Blocs</div>
             <br></br>
             <div class="tab_subheader">Please Input Values Below:<br></br></div>
-            <form style="overflow: hidden; ">
-                Population % Threshold:
-                <input type="number" name="popThresh" style="width: 50px; color: black; float: right;"><br></br>
-                Voting % Threshold:
-                <input type="number" name="voteThresh" style="width: 50px;  color: black; float: right;"><br></br>
-            </form>
+            <label>Population Threshold: <span id="popThresh_value"></span>%</label>
+            <input type="range" min="51" max="100" value="51" class="slider" id="popThreshold" onchange="show_value(this.value, 'popThresh_value');">
+            <label>Voting Threshold: <span id="voteThresh_value"></span>%</label>
+            <input type="range" min="51" max="100" value="51" class="slider" id="voteThreshold" onchange="show_value(this.value, 'voteThresh_value');">
+           
             <button class="ctr_button">Calculate</button>
             <br></br>
             <div class="tab_subheader">Output:</div>
