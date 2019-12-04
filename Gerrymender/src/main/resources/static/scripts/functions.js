@@ -18,6 +18,11 @@
         document.getElementById(id).innerHTML=x;
     }
     
+    function enableButton(id, ID){
+        document.getElementById(id).style.color = 'black';
+        $(ID).prop('disabled', false);
+    }
+
    /*Homepage*/
 function dropdown() {
     document.getElementById("stateDropdown").classList.toggle("show");
@@ -181,7 +186,7 @@ function dropdown() {
           setPopSelected();
           show_value(value, 'popThresh_value');
           if (popSelected && voteSelected){
-              phase0Enable();
+            enableButton("phase0Button");
           }
       }
 
@@ -189,14 +194,10 @@ function dropdown() {
         setVoteSelected();
         show_value(value, 'voteThresh_value');
         if (popSelected && voteSelected){
-            phase0Enable();
+            enableButton("phase0Button", "#phase0Button");
         }
     }
 
-    function phase0Enable(){
-        $("#phase0Button").prop('disabled', false);
-        document.getElementById("phase0Button").style.color = 'black';
-   }
 
 
 /***********************************************************************************/
