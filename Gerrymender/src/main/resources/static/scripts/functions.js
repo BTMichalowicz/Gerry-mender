@@ -19,7 +19,6 @@
     }
     
    /*Homepage*/
-
 function dropdown() {
     document.getElementById("stateDropdown").classList.toggle("show");
   }
@@ -77,7 +76,7 @@ function dropdown() {
     //Mouseover                                                                                                                        
     function onEachFeature(feature, layer) {
         var currentColor;
-        
+
         layer.on("mouseover", function (e) {    
             if(pLayer){
                 currentColor = "red";
@@ -142,7 +141,7 @@ function dropdown() {
         evt.currentTarget.className += " active";
       }
 
-      //State Data Tabs
+      // Data Tab
       function show2018Data(stateCode){
         if (stateCode == 'FL'){
             
@@ -170,6 +169,35 @@ function dropdown() {
 
         }
       }
+
+      //Bloc Tab
+      var popSelected = false;
+      var voteSelected = false;
+
+      function setPopSelected(){ popSelected = true; };
+      function setVoteSelected(){ voteSelected = true; };
+
+      function popUpdated(value){  
+          setPopSelected();
+          show_value(value, 'popThresh_value');
+          if (popSelected && voteSelected){
+              phase0Enable();
+          }
+      }
+
+      function voteUpdated(value){  
+        setVoteSelected();
+        show_value(value, 'voteThresh_value');
+        if (popSelected && voteSelected){
+            phase0Enable();
+        }
+    }
+
+    function phase0Enable(){
+        $("#phase0Button").prop('disabled', false);
+        document.getElementById("phase0Button").style.color = 'black';
+   }
+
 
 /***********************************************************************************/
       function fillOutSmallWindow(feature){

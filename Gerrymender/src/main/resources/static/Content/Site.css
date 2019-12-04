@@ -180,9 +180,26 @@ html,body{
 .disabled{
     color: grey;
 }
+
+.disabled_ctr{
+    color:grey;
+    text-align: center;
+    display: block; 
+    margin: 0 auto;
+}
+
 .disabled_r{
     color: grey;
     float: right;
+}
+
+.enabled{
+    color: black;
+}
+
+.enableOnInput{
+    display: block; 
+    margin: 0 auto;
 }
 
 .content_centered{
@@ -267,6 +284,16 @@ html,body{
   .show {display:block;}
 
   .slider{
-    width:50%;
+    width:75%;
+  }
+
+  .slider_ctr{
+    width:100%;
+    margin: 0 auto;
+  }
+  .slider_container{
+    text-align: center;
+    align-items: center;
+    display: block; 
   }
 

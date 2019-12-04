@@ -149,18 +149,20 @@
             <div class="tab_header">Calculate Voting Blocs</div>
             <br></br>
             <div class="tab_subheader">Please Input Values Below:<br></br></div>
+            <div class = "slider_container">
             <label>Population Threshold: <span id="popThresh_value"></span>%</label>
-            <input type="range" min="51" max="100" value="51" class="slider" id="popThreshold" onchange="show_value(this.value, 'popThresh_value');">
+            <input type="range" min="51" max="100" value="51" class="slider_ctr" id="popThreshold" onchange="popUpdated(this.value);"><br>
             <label>Voting Threshold: <span id="voteThresh_value"></span>%</label>
-            <input type="range" min="51" max="100" value="51" class="slider" id="voteThreshold" onchange="show_value(this.value, 'voteThresh_value');">
+            <input type="range" min="51" max="100" value="51" class="slider_ctr" id="voteThreshold" onchange="voteUpdated(this.value);"><br>
+            </div>
            
-            <button class="ctr_button">Calculate</button>
+            <button class="enableOnInput" id = "phase0Button" disabled= 'disabled'>Calculate</button>
             <br></br>
             <div class="tab_subheader">Output:</div>
             <br></br>
             <p>((Displays the output table, or "No Blocs Found"))</p>
         </div>
-        
+
         <div id="GM" class="tabcontent">
             <div class="tab_header">Gerrymend</div>
             <br></br>
@@ -169,9 +171,9 @@
             <div>
                 <h4>Population Percentages:</h4>
                 <label>Minimum: <span id="minPercent_value"></span>%</label>
-                <input type="range" min="0" max="50" value="0" class="slider" id="minPercent" onchange="show_value(this.value, 'minPercent_value');">
+                <input type="range" min="0" max="50" value="0" class="slider_ctr" id="minPercent" onchange="show_value(this.value, 'minPercent_value');">
                 <label>Maximum: <span id="maxPercent_value"></span>%</label>
-                <input type="range" min="50" max="100" value="50" class="slider" id="maxPercent" onchange="show_value(this.value, 'maxPercent_value');">
+                <input type="range" min="50" max="100" value="50" class="slider_ctr" id="maxPercent" onchange="show_value(this.value, 'maxPercent_value');">
                 <br>
                 <h4>Please Select an Update Mode:</h4>
                 <!--If iterative is selected, then the next button should enable-->
@@ -223,7 +225,6 @@
             <button class="disabled" disabled>Generated Districts</button>
         </div>
     </div>
-
     <!--Map-->
     <div id="map"></div>
     <div class="small-info-window" id="small-info-window">
@@ -232,7 +233,6 @@
                 <td width="30%">${Attr}</td>
                 <td width="70%">${Amout}</td>
             </tr>
-
         </script>
         <table class="table" id="small-info-table">
             <thead>
@@ -252,7 +252,6 @@
                 <td width="30%">${Attr}</td>
                 <td width="70%">${Amout}</td>
             </tr>
-
         </script>
         <!-- -->
         <table class="table" id="itemList">
@@ -303,6 +302,7 @@
 
     var precincts = L.geoJson(flp, {
         style: function (feature) {
+            //todo: fillColor should represent how the precinct voted (red or blue)
             return {color: 'black', fillColor: 'red', weight: 1, opacity: 0.8, fillOpacity: 0.5};
         },
         onEachFeature: onEachFeature,
