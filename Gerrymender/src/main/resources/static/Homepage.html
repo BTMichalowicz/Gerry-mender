@@ -26,11 +26,27 @@
         <div class="navbar-header">
             <a class="navbar-brand my-navbar-brand" style="width: 18%;left:41%">Welcome to GerryMender</a>
         </div>
+        <a class="text-white navbar-brand" data-toggle="tooltip" data-placement="bottom"
+            title="open/close function menu" onclick="toggleHomeHelp()">Help </a>
     </div>
 </nav>
 
 <!--Map-->
 <div id="map-container">
+    <div class="slide-menu active" id="slide-menu">
+            <div class = "tab_header">Welcome to Gerrymender.</div><br><br>
+            <div class = "tab_subheader">What's that?</div>
+            <div class = "tab_text">Gerrymender is an application designed to mend gerrymandering in the United States.</div><br>
+            <div class = "tab_subheader">What IS gerrymandering?</div>
+            <div class = "tab_text">The Oxford dictionary defines gerrymandering as "manipulate the boundaries of (an electoral constituency) 
+                so as to favor one party or class."</div><br>
+            <div class = "tab_subheader">How does it work?</div>
+            <div class = "tab_text">Gerrymender analyzes the populations of a selected state, and then redistricts by
+                determining the maximum number of majority-minority congressional districts.</div><br>
+            <div class = "tab_subheader">How do I start?</div>
+            <div class = "tab_text">To begin, select a state on the map, or on the "Select State: dropdown menu. You will then be taken to
+                that state's page, and the help menu there can show you the next steps.</div>
+    </div>
     <div class="dropdown">
         <button onclick = "dropdown()" class = "dropbtn">Select State:</button>
         <div id = "stateDropdown" class="dropdown-content">
@@ -40,9 +56,11 @@
         </div>
     </div>
     <div id="map"></div>
-
-<!-- Leaflet -->
 <script>
+    /*Variables*/
+    var sliderState = 0;
+
+    /*Leaflet*/
     L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
     var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
     var map = L.mapbox.map('map')
@@ -56,9 +74,9 @@
     L.geoJson(statesData, {
             style: function(feature) {
                 id = feature.id;
-                return id  == 1 ? {color: '#FF7F50', opacity:0.7} :
+                return id  == 1 ? {color: '#0000CD', opacity:0.7} :
                     id == 2  ? {color: '#0000CD', opacity:0.7} :
-                        {color: '#2F4F4F', opacity:0.7};
+                        {color: '#0000CD', opacity:0.7};
             },
             onEachFeature: onEachStateFeature,
         }

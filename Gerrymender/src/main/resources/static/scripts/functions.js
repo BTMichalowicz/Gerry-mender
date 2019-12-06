@@ -23,6 +23,31 @@
         $(ID).prop('disabled', false);
     }
 
+    /*Sliding Menus*/
+    function toggleSlider() {
+        if (sliderState === 0) { //Open slider
+            document.getElementById("slide-menu").style.width = "360px";
+            sliderState = 1;
+            setTimeout(moveZoomControl, 0);
+            document.getElementsByClassName('tablinks')[1].click();
+        } else {
+            document.getElementById("slide-menu").style.width = "0";
+            sliderState = 0;
+            setTimeout(moveZoomControl, 200);
+        }
+    }
+
+    function toggleInfoSlider( feature ) {
+            document.getElementById("slide-info").style.width = "350px";
+            infoStat = feature.properties.id;
+            fillOutTable(feature);
+    }
+
+    function closeInfo() {
+        document.getElementById("slide-info").style.width = "0";
+        infoStat = "null";
+    }
+
    /*Homepage*/
 function dropdown() {
     document.getElementById("stateDropdown").classList.toggle("show");
@@ -41,6 +66,18 @@ function dropdown() {
     }
   }
 
+  function toggleHomeHelp(){
+    if (sliderState === 0) { //Open slider
+        document.getElementById("slide-menu").style.width = "360px";
+        sliderState = 1;
+        setTimeout(moveZoomControl, 200);
+    } 
+    else {
+        document.getElementById("slide-menu").style.width = "0";
+        sliderState = 0;
+        setTimeout(moveZoomControl, 0);
+    }
+  }
    /*State Pages*/
   var currentState;
   function setCurrentState(stateCode){
@@ -104,32 +141,6 @@ function dropdown() {
             $(toggleInfoSlider( feature ));
         });
     }
-
-    /*Sliding Menus*/
-    function toggleSlider() {
-        if (sliderState === 0) { //Open slider
-            document.getElementById("slide-menu").style.width = "360px";
-            sliderState = 1;
-            setTimeout(moveZoomControl, 0);
-            document.getElementsByClassName('tablinks')[1].click();
-        } else {
-            document.getElementById("slide-menu").style.width = "0";
-            sliderState = 0;
-            setTimeout(moveZoomControl, 200);
-        }
-    }
-
-    function toggleInfoSlider( feature ) {
-            document.getElementById("slide-info").style.width = "350px";
-            infoStat = feature.properties.id;
-            fillOutTable(feature);
-    }
-
-    function closeInfo() {
-        document.getElementById("slide-info").style.width = "0";
-        infoStat = "null";
-    }
-
 
     /*Menu Tabs*/
     function openTab(evt, tabName) {

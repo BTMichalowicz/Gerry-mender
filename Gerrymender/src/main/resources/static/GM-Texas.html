@@ -95,13 +95,13 @@
             <div class="tab_header">Calculate Voting Blocs</div>
             <br></br>
             <div class="tab_subheader">Please Input Values Below:<br></br></div>
-            <form style="overflow: hidden; ">
-                Population % Threshold:
-                <input type="number" name="popThresh" style="width: 50px; color: black; float: right;"><br></br>
-                Voting % Threshold:
-                <input type="number" name="voteThresh" style="width: 50px;  color: black; float: right;"><br></br>
-            </form>
-            <button class="ctr_button">Calculate</button>
+            <div class = "slider_container">
+            <label>Population Threshold: <span id="popThresh_value"></span>%</label>
+            <input type="range" min="51" max="100" value="51" class="slider_ctr" id="popThreshold" onchange="popUpdated(this.value);"><br>
+            <label>Voting Threshold: <span id="voteThresh_value"></span>%</label>
+            <input type="range" min="51" max="100" value="51" class="slider_ctr" id="voteThreshold" onchange="voteUpdated(this.value);"><br>
+            </div>
+            <button class="enableOnInput" id = "phase0Button" disabled= 'disabled'>Calculate</button>
             <br></br>
             <div class="tab_subheader">Output:</div>
             <br></br>
