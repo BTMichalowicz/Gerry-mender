@@ -167,8 +167,13 @@ function dropdown() {
             document.getElementById("winParty").innerHTML = "Winning Party: Republican";
             document.getElementById("totalVotes").innerHTML= "Total Votes: 7,021,195";
         }
-        else if (stateCode == 'TX'){
-
+        else if (stateCode === 'TX'){
+            document.getElementById("votesRepublican").innerHTML = "4,135,359";
+            document.getElementById("percentRepublican").innerHTML = "50.40%";
+            document.getElementById("votesDemocrat").innerHTML = "3,852,752";
+            document.getElementById("percentDemocrat").innerHTML = "47.00%";
+            document.getElementById("winParty").innerHTML = "Winning Party: Republican";
+            document.getElementById("totalVotes").innerHTML = "Total Votes: 7,988,111";
         }
         else{
 
@@ -185,8 +190,13 @@ function dropdown() {
             document.getElementById("winParty").innerHTML= "Winning Party: Republican";
             document.getElementById("totalVotes").innerHTML = "Total Votes: 8,947,423";
         }
-        else if (stateCode == 'TX'){
-
+        else if (stateCode === 'TX'){
+            document.getElementById("votesRepublican").innerHTML = "4,877,605";
+            document.getElementById("percentRepublican").innerHTML = "57.19%";
+            document.getElementById("votesDemocrat").innerHTML = "3,160,535";
+            document.getElementById("percentDemocrat").innerHTML = "37.06%";
+            document.getElementById("winParty").innerHTML = "Winning Party: Republican";
+            document.getElementById("totalVotes").innerHTML = "Total Votes: 8,038,140";
         }
         else{
 
@@ -202,8 +212,13 @@ function dropdown() {
             document.getElementById("winParty").innerHTML = "Winning Party: Republican";
             document.getElementById("totalVotes").innerHTML = "Total Votes: 9,204,592";
         }
-        else if (stateCode == 'TX'){
-
+        else if (stateCode === 'TX'){
+            document.getElementById("votesRepublican").innerHTML = "4,685,047";
+            document.getElementById("percentRepublican").innerHTML = "52.23%";
+            document.getElementById("votesDemocrat").innerHTML = "3,877,868";
+            document.getElementById("percentDemocrat").innerHTML = "43.24%";
+            document.getElementById("winParty").innerHTML = "Winning Party: Republican";
+            document.getElementById("totalVotes").innerHTML = "Total Votes: 8,562,915";
         }
         else{
 
