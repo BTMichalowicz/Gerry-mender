@@ -41,8 +41,8 @@ public class BaseState
     private String name;//name is saved for later storage into the database
     private Map<String, BaseCluster> clusters;
 
-    private HashMap<String, BaseDistrict> districts;
-    private HashMap<String, BasePrecinct> precincts;
+    private Map<String, BaseDistrict> districts;
+    private Map<String, BasePrecinct> precincts;
 
     private final int population;
 
@@ -67,7 +67,7 @@ public class BaseState
         //TODO add converting here
         population = (int)(s.getTotalPop());
     }
-
+    public void setPrecincts(Map<String, BasePrecinct> basePrecincts ) { precincts = basePrecincts; }
     public Set<BasePrecinct> getPrecincts() {
         return new HashSet<>(precincts.values());
     }

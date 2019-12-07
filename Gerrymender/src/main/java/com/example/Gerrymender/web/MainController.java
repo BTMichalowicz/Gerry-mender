@@ -2,6 +2,7 @@ package com.example.Gerrymender.web;
 
 
 import com.example.Gerrymender.Abstractions.Algorithm;
+import com.example.Gerrymender.Abstractions.BasePrecinct;
 import com.example.Gerrymender.Abstractions.BaseState;
 import com.example.Gerrymender.Abstractions.VotingBlocInfo;
 import com.example.Gerrymender.exception.ResourceNotFoundException;
@@ -15,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 
 
 @Controller
@@ -61,9 +60,6 @@ public class MainController {
                 founddis.setStateName("FLORIDA");
                 res.add(founddis);
                 VoteDis dv = voteDisRepository.findByVoteid(new VoteDisId(id, founddis.getStateName(), "" + year, electionType));
-                if(dv == null) {
-                    dv = new VoteDis();
-                }
                 res.add(dv);
                 break;
             default:
@@ -71,9 +67,6 @@ public class MainController {
                         .orElseThrow(() -> new ResourceNotFoundException("precinct", "id", id));
                 res.add(foundpre);
                 Vote v = voteRepository.findByVoteid(new VoteId(foundpre.getNameID(), "" + year, electionType));
-                if(v == null) {
-                    v = new Vote();
-                }
                 res.add(v);
         }
         try {
@@ -109,6 +102,19 @@ public class MainController {
     @RequestMapping(value="/updateState", method=RequestMethod.GET)
     public void updateState(HttpServletRequest req, String id) {
         State s = stateRepository.findById(id).orElse(null);
+        List<Precinct> precincts = precinctRepository.findByStatename(s.getNameID());
+        Map<String, BasePrecinct> basePrecincts = new HashMap<>();
+        for(Precinct p : precincts) {
+            basePrecincts.put(p.getNameID(), new BasePrecinct(p));
+        }
+        for(String key : basePrecincts.keySet()) {
+            BasePrecinct basePrecinct = basePrecincts.get(key);
+            for(String neighborId : basePrecinct.getNeighborIDs()) {
+                basePrecinct.getEdges().add(basePrecincts.get(neighborId));
+            }
+        }
+        BaseState baseState = new BaseState(s);
+        baseState.setPrecincts(basePrecincts);
         alg = new Algorithm(new BaseState(s));
     }
 

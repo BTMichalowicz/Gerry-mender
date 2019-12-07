@@ -2,6 +2,7 @@ package com.example.Gerrymender.Abstractions;
 
 import com.example.Gerrymender.Abstractions.AbstrInterface.PrecinctInterface;
 import com.example.Gerrymender.model.Pol_part;
+import com.example.Gerrymender.model.Precinct;
 import com.example.Gerrymender.model.Race;
 
 import org.locationtech.jts.geom.Geometry;
@@ -25,13 +26,20 @@ public class BasePrecinct implements PrecinctInterface {
 
 
     //New File imputs
-    private final Geometry geometry;
-    private final String geometryJSON;
-    private final String originalDistrictID;
-    private final int population;
-    private final int gop_vote;
-    private final int dem_vote;
-    private final Set<String> neighborIDs;
+    private Geometry geometry;
+    private String geometryJSON;
+    private String originalDistrictID;
+    private int population;
+    private int gop_vote;
+    private int dem_vote;
+    private Set<String> neighborIDs;
+
+    public BasePrecinct (Precinct p) {
+            this.ID = p.getNameID();
+            this.neighborIDs = new HashSet<String>(Arrays.asList(p.getNeighbors().split(",")));
+            this.population = (int)p.getTotalPop();
+
+    }
 
     public BasePrecinct(
             String ID,
@@ -64,7 +72,6 @@ public class BasePrecinct implements PrecinctInterface {
     public Geometry getGeometry() {
         return geometry;
     }
-
 
 
     public double getPopulationDensity() {

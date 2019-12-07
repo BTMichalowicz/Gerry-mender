@@ -34,7 +34,8 @@ public class Precinct implements Serializable {
     private long asianpop;
     @Column
     private long nativeamericanpop;
-
+    @Column
+    private String neighbors;
 
     public long getNativeAmerican_pop() {
         return nativeamericanpop;
@@ -71,6 +72,8 @@ public class Precinct implements Serializable {
         this.whitepop = white_pop;
     }
 
+    public String getNeighbors() { return neighbors; }
+    public void setNeighbors(String neighbors) { this.neighbors = neighbors; }
 
     public String getNameID() {
         return precinctid;
