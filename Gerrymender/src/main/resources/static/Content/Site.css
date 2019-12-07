@@ -131,11 +131,20 @@ html,body{
 }
 
 .tab {
+    width: 100%;
+    align-items: center;
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color:lightgray;
+    background-color: #343a40;
   }
   
+  .tablinks{
+      float: left;
+      margin: none;
+      align-content: center;
+      border: 1px solid #2980B9;
+      border-radius: 10px;
+  }
+
   .tab_header{
       color: deepskyblue;
       text-align: center;
@@ -148,23 +157,21 @@ html,body{
     font-size: 20px;
 }
 
-  .tab button {
+  .tab button{
     background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
+    border: 1px solid #2980B9;
     cursor: pointer;
-    padding: 12px 14px;
     transition: 0.3s;
-    color: black;
+    color: white;
+    width: 25%;
   }
   
   .tab button:hover {
-    background-color: #ddd;
+    background-color: #2980B9;
   }
-  
+
   .tab button.active {
-    background-color: darkgray;
+    background-color: deepskyblue;
   }
 
   .tab_text {
