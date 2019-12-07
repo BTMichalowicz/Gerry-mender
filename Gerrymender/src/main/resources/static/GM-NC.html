@@ -11,6 +11,7 @@
     <script src='./scripts/NC_Precincts.js'></script>
     <script src='./scripts/leaflet.ajax.min.js'></script>
     <script src='./scripts/functions.js'></script>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -42,7 +43,7 @@
 <!--Map Container-->
 <div id="map-container">
     <!--Sliding Menu-->
-    <div class="slide-menu" id="slide-menu">
+    <div class="slide-menu active" id="slide-menu">
         <!--Tabs-->
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'Help')">Help</button>
@@ -65,34 +66,79 @@
                 For phase 2, input the weight of factors for the algorithm to use, select which deographics to consider, and input the desired number of districts. </h4><br></br>
         </div>
         <div id="Data" class="tabcontent">
-            <div class="tab_header">Data Displayed</div>
-            <br>
-            <form>
-                <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
-                    <input type="radio" class="custom-control-input" id="2016P" name="example" value="customEx"
-                           checked="true">
-                    <label class="custom-control-label" for="2016P" style="color: white;">2016 Presidential
-                        Election</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
-                    <input type="radio" class="custom-control-input" id="2016C" name="example" value="customEx">
-                    <label class="custom-control-label" for="2016C" style="color: white;">2016 Congressional
-                        Election</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
-                    <input type="radio" class="custom-control-input" id="2018C" name="example" value="customEx">
-                    <label class="custom-control-label" for="2018C" style="color: white;">2018 Congressional
-                        Election</label>
-                </div>
-            </form>
-            <br>
-            <div class="tab_subheader">State Information</div>
-            <br>
-            <p>((Here shall be the state info table: Winning Party, Votes for Party, Total Votes, percentage))</p>
-            <br><br>
-            <p>((potentially links to state guidelines, incumbent info, and statewide patterns))</p>
-
-        </div>
+                <div class="tab_header">Data Displayed</div>
+                <br>
+                <form>
+                    <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
+                        <input type="radio" class="custom-control-input" id="2016P" name="example" value="customEx"onclick="show2016CData('NC')">
+                        <label class="custom-control-label" for="2016P" style="color: white;">2016 Presidential Election</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
+                        <input type="radio" class="custom-control-input" id="2016C" name="example" value="customEx"onclick="show2016PData('NC')">
+                        <label class="custom-control-label" for="2016C" style="color: white;">2016 Congressional Election</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
+                        <input type="radio" class="custom-control-input" id="2018C" name="example" value="customEx" checked="true" onclick="show2018Data('NC')">
+                        <label class="custom-control-label" for="2018C" style="color: white;">2018 Congressional Election</label>
+                    </div>
+                </form>
+                <br>
+                <div class="tab_subheader">State Information</div>
+                <table style="width:100%; font-size: 16px;">
+                    <caption>Voting Data</caption>
+                    <tr>
+                        <th>Party</th>
+                        <th>Votes for Party</th>
+                        <th>Percentage</th>
+                    </tr>
+                    <tr>
+                        <td >Republican</td>
+                        <td id = "votesRepublican">1,846,041</td>
+                        <td id = "percentRepublican">50.39%</td>
+                    </tr>
+                    <tr>
+                        <td>Democrat</td>
+                        <td id = "votesDemocrat">1,771,061,</td>
+                        <td id = "percentDemocrat">48.35%</td>
+                    </tr>
+                </table>
+                <br>
+                <h4 id = "winParty">Winning Party: Republican</h4>
+                <h4 id = "totalVotes">Total Votes: 3,617,102</h4>
+                <table style="width:100%;">
+                    <caption>Demographic Data</caption>
+                    <tr>
+                        <th>Demographic</th>
+                        <th>Population</th>
+                    </tr>
+                    <tr>
+                        <td>White</td>
+                        <td>7,296,313</td>
+                    </tr>
+                    <tr>
+                        <td>African American</td>
+                        <td>2,264,726</td>
+                    </tr>
+                    <tr>
+                        <td>Hispanic</td>
+                        <td>932,534</td>
+                    </tr>
+                    <tr>
+                        <td>Native American</td>
+                        <td>163,962</td>
+                    </tr>
+                    <tr>
+                        <td>Asian</td>
+                        <td>286,933</td>
+                    </tr>
+                    <tr>
+                        <td>Total Population:</td>
+                        <td>10,247,632</td>
+                    </tr>
+                </table>
+                <br><br>
+                <p>((potentially links to state guidelines, incumbent info, and statewide patterns))</p>
+            </div>
         <div id="Bloc" class="tabcontent">
             <div class="tab_header">Calculate Voting Blocs</div>
             <br></br>
@@ -215,7 +261,6 @@
         </table>
         <input type="button" class="button" onclick="closeInfo()" value="Close">
     </div>
-</div>
 
 <script>
     /*Variables*/
@@ -237,16 +282,24 @@
     var infoStat = "null";
 
     /*geoJson Manipulation*/
-    var districts = L.geoJson(ncLayer, { style: function (feature) {
-            return { color: 'black', fillColor: district_color.get(feature.properties.DISTRICT), weight: 1, opacity: 0.8, fillOpacity: 0.5};
+    var districts = L.geoJson(ncLayer, { 
+        style: function (feature) { return { 
+            color: 'black', 
+            fillColor: district_color.get(feature.properties.DISTRICT), 
+            weight: 1, 
+            opacity: 0.8, 
+            fillOpacity: 0.5};
         },
         onEachFeature: onEachFeature,
     }).addTo(map);
 
-
     var precincts = L.geoJson(NC, {
-        style: function (feature) {
-            return {color: 'black', fillColor: 'red', weight: 1, opacity: 0.8, fillOpacity: 0.5};
+        style: function (feature) { return {
+            color: 'black', 
+            fillColor: 'red', 
+            weight: 1, 
+            opacity: 0.8, 
+            fillOpacity: 0.5};
         },
         onEachFeature: onEachFeature,
     });

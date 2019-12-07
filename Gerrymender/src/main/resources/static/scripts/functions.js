@@ -175,10 +175,15 @@ function dropdown() {
             document.getElementById("winParty").innerHTML = "Winning Party: Republican";
             document.getElementById("totalVotes").innerHTML = "Total Votes: 7,988,111";
         }
-        else{
-
+        else if (stateCode === "NC"){
+            document.getElementById("votesRepublican").innerHTML = "1,846,041";
+            document.getElementById("percentRepublican").innerHTML = "50.39%";
+            document.getElementById("votesDemocrat").innerHTML = "1,771,061";
+            document.getElementById("percentDemocrat").innerHTML = "48.35%";
+            document.getElementById("winParty").innerHTML= "Winning Party: Republican";
+            document.getElementById("totalVotes").innerHTML = "Total Votes: 3,617,102";
         }
-        
+        else{ alert("An error has occurred."); }
       }
 
       function show2016CData(stateCode){
@@ -198,9 +203,15 @@ function dropdown() {
             document.getElementById("winParty").innerHTML = "Winning Party: Republican";
             document.getElementById("totalVotes").innerHTML = "Total Votes: 8,038,140";
         }
-        else{
-
+        else if (stateCode === "NC"){
+            document.getElementById("votesRepublican").innerHTML = "2,447,326";
+            document.getElementById("percentRepublican").innerHTML = "53.22%";
+            document.getElementById("votesDemocrat").innerHTML = "2,142,661";
+            document.getElementById("percentDemocrat").innerHTML = "46.60%";
+            document.getElementById("winParty").innerHTML= "Winning Party: Republican";
+            document.getElementById("totalVotes").innerHTML = "Total Votes: 4,589,987";
         }
+        else{ alert("An error has occurred."); }
       }
 
       function show2016PData(stateCode){
@@ -220,9 +231,15 @@ function dropdown() {
             document.getElementById("winParty").innerHTML = "Winning Party: Republican";
             document.getElementById("totalVotes").innerHTML = "Total Votes: 8,562,915";
         }
-        else{
-
+        else if (stateCode === "NC"){
+            document.getElementById("votesRepublican").innerHTML = "2,362,631";
+            document.getElementById("percentRepublican").innerHTML = "49.83%";
+            document.getElementById("votesDemocrat").innerHTML = "2,189,316";
+            document.getElementById("percentDemocrat").innerHTML = "46.17%";
+            document.getElementById("winParty").innerHTML= "Winning Party: Republican";
+            document.getElementById("totalVotes").innerHTML = "Total Votes: 4,551,947";
         }
+        else{ alert("An error has occurred."); }
       }
 
       //Bloc Tab
