@@ -272,6 +272,11 @@ html,body{
     font-size: 18px;
 }
 
+.table{
+    text-align: left;
+    font-size: large;
+}
+
 /* Dropdown Button */
 .dropbtn {
     background-color: #3498DB;

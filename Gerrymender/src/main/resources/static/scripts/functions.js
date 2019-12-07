@@ -306,13 +306,13 @@ function dropdown() {
                     console.log(result[0]);
                     $("#small-info-table tr").remove();
                     var items = [
-                        {Attr: "Name", Amout: result[0].nameID},
-                        {Attr: "Population", Amout: result[0].totalPop},
-                        {Attr: "White", Amout: result[0].white_pop},
-                        {Attr: "Hispanic", Amout: result[0].hispanic_pop},
-                        {Attr: "Asian", Amout: result[0].asian_pop},
-                        {Attr: "Republican", Amout: result[1].numrepub},
-                        {Attr: "Democratic", Amout: result[1].numdemocrat},
+                        {Attr: "Name", Amount: result[0].nameID},
+                        {Attr: "Population", Amount: result[0].totalPop},
+                        {Attr: "White", Amount: result[0].white_pop},
+                        {Attr: "Hispanic", Amount: result[0].hispanic_pop},
+                        {Attr: "Asian", Amount: result[0].asian_pop},
+                        {Attr: "Republican", Amount: result[1].numrepub},
+                        {Attr: "Democratic", Amount: result[1].numdemocrat},
                     ];
                 }
                 else{
@@ -350,13 +350,13 @@ function dropdown() {
                     console.log(result[0]);
                     $("#small-info-table tr").remove();
                     var items = [
-                        {Attr: "Name", Amout: result[0].nameID},
-                        {Attr: "Population", Amout: result[0].totalPop},
-                        {Attr: "White", Amout: result[0].white_pop},
-                        {Attr: "Hispanic", Amout: result[0].hispanic_pop},
-                        {Attr: "Asian", Amout: result[0].asian_pop},
-                        {Attr: "Republican", Amout: result[1].numrepub},
-                        {Attr: "Democratic", Amout: result[1].numdemocrat},
+                        {Attr: "Name", Amount: result[0].nameID},
+                        {Attr: "Population", Amount: result[0].totalPop},
+                        {Attr: "White", Amount: result[0].white_pop},
+                        {Attr: "Hispanic", Amount: result[0].hispanic_pop},
+                        {Attr: "Asian", Amount: result[0].asian_pop},
+                        {Attr: "Republican", Amount: result[1].numrepub},
+                        {Attr: "Democratic", Amount: result[1].numdemocrat},
                     ];
         }
 
@@ -402,13 +402,13 @@ function dropdown() {
             console.log(result[0]);
             $("#small-info-table tr").remove();
             var items = [
-                {Attr: "Name", Amout: result[0].nameID},
-                {Attr: "Population", Amout: result[0].totalPop},
-                {Attr: "White", Amout: result[0].white_pop},
-                {Attr: "Hispanic", Amout: result[0].hispanic_pop},
-                {Attr: "Asian", Amout: result[0].asian_pop},
-                {Attr: "Republican", Amout: result[1].numrepub},
-                {Attr: "Democratic", Amout: result[1].numdemocrat},
+                {Attr: "Name", Amount: result[0].nameID},
+                {Attr: "Population", Amount: result[0].totalPop},
+                {Attr: "White", Amount: result[0].white_pop},
+                {Attr: "Hispanic", Amount: result[0].hispanic_pop},
+                {Attr: "Asian", Amount: result[0].asian_pop},
+                {Attr: "Republican", Amount: result[1].numrepub},
+                {Attr: "Democratic", Amount: result[1].numdemocrat},
             ];
             $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
         });
