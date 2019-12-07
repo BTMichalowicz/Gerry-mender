@@ -21,8 +21,7 @@
     <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet'/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="Content/Site.css">
-
-
+    
 </head>
 <body>
 
@@ -33,8 +32,7 @@
             <a class="navbar-brand my-navbar-brand"> GerryMender Texas </a>
         </div>
         <a class="text-white navbar-brand toggle-btn" data-toggle="tooltip" data-placement="bottom"
-           title="open/close function menu" onclick="toggleSlider()">Menu <span
-                class="glyphicon glyphicon-align-justify"></span></a>
+           title="Toggle Menu" onclick="toggleSlider()">Menu <span class="glyphicon glyphicon-align-justify"></span></a>
         <a class="text-white navbar-brand" data-toggle="tooltip" data-placement="bottom" title="return back to homepage"
            href="Homepage.html" style="float: right">Back</a>
     </div>
@@ -312,14 +310,14 @@
     map.on('zoomend', function () {
         var zoomlevel = map.getZoom();
         //zoomlevel increases as zoom in
-        if (zoomlevel > 8) {
+        if (zoomlevel > 7) {
             if (map.hasLayer(districts)) {
                 map.removeLayer(districts);
                 map.addLayer(precincts);
                 setPLayer();
             }
         }
-        if (zoomlevel <= 8) {
+        if (zoomlevel <= 7) {
             if (map.hasLayer(precincts)) {
                 map.removeLayer(precincts);
                 map.addLayer(districts);
