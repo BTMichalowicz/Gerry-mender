@@ -236,24 +236,13 @@
     var sliderState = 0;
     var infoStat = "null";
 
-    /*geoJson Manipulation*/
-    // L.geoJson(txLayer, {
-    //     style: function (feature) {
-    //         return {
-    //             color: 'black',
-    //             fillColor: district_color.get(feature.properties.DISTRICT),
-    //             weight: 1,
-    //             opacity: 0.8,
-    //             fillOpacity: 0.5
-    //         };
-    //     },
-    //     onEachFeature: onEachFeature,
-    // }).addTo(map);
+    //GeoJsons
     var districts = L.geoJson(txLayer, {
         style: function (feature) {
             return {
                 color: 'black',
                 fillColor: district_color.get(feature.properties.DISTRICT),
+                //fillColor: colorByVotes();
                 weight: 1,
                 opacity: 0.8,
                 fillOpacity: 0.5
@@ -262,10 +251,14 @@
         onEachFeature: onEachFeature,
     }).addTo(map);
 
-
     var precincts = L.geoJson(TX, {
         style: function (feature) {
-            return {color: 'black', fillColor: 'red', weight: 1, opacity: 0.8, fillOpacity: 0.5};
+            return {
+                color: 'black', 
+                fillColor: 'red',
+                 weight: 1, 
+                 opacity: 0.8, 
+                 fillOpacity: 0.5};
         },
         onEachFeature: onEachFeature,
     });
@@ -275,7 +268,6 @@
         //zoomlevel increases as zoom in
         if (zoomlevel > 8) {
             if (map.hasLayer(districts)) {
-                console.log("Districts layer exists\n");
                 map.removeLayer(districts);
                 map.addLayer(precincts);
                 setPLayer();
@@ -289,7 +281,6 @@
             }
         }
     });
-
 </script>
 </body>
 </html>

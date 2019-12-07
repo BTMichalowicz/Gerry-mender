@@ -48,7 +48,7 @@
         <!--Tabs-->
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'Help')">Help</button>
-            <button class="tablinks" onclick="openTab(event, 'Data')">Data</button>
+            <button class="tablinks active" onclick="openTab(event, 'Data')">Data</button>
             <button class="tablinks" onclick="openTab(event, 'Bloc')">Bloc</button>
             <button class="tablinks" onclick="openTab(event, 'GM')">Redistrict</button>
         </div>
@@ -95,20 +95,19 @@
                     <th>Percentage</th>
                 </tr>
                 <tr>
-                    <td>Republican</td>
-                    <td>3,675,417</td>
-                    <td>52.35%</td>
+                    <td >Republican</td>
+                    <td id = "votesRepublican">3,675,417</td>
+                    <td id = "percentRepublican">52.35%</td>
                 </tr>
                 <tr>
                     <td>Democrat</td>
-                    <td>3,307,228</td>
-                    <td>47.10%	</td>
+                    <td id = "votesDemocrat">3,307,228</td>
+                    <td id = "percentDemocrat">47.10%	</td>
                 </tr>
             </table>
             <br>
-            <h4>Winning Party: Republican</h4>
-            <h4>Total Votes: 6,982,645‬</h4>
-            <!--Dummy Data Demographics-->
+            <h4 id = "winParty">Winning Party: Republican</h4>
+            <h4 id = "totalVotes">Total Votes: 6,982,645</h4>
             <table style="width:100%;">
                 <caption>Demographic Data</caption>
                 <tr>
@@ -188,7 +187,7 @@
                 <button class="ctr_button" disabled>Start</button>
                 <br></br>
                 <h4>Output: </h4><br></br>
-                <button class="phase2_button" onclick="openTab(event, 'P2')">Phase 2</button>
+                <button class="phase2_button" onclick="openTab(event, 'P2')">To Phase 2</button>
                 <br></br>
             </div>
         </div>
@@ -290,6 +289,7 @@
             return {
                 color: 'black',
                 fillColor: district_color.get(feature.properties.DISTRICT),
+                //fillColor: colorByVotes();
                 weight: 1,
                 opacity: 0.8,
                 fillOpacity: 0.5

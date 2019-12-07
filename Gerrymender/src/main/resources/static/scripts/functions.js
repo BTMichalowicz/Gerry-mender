@@ -159,29 +159,53 @@ function dropdown() {
 
       // Data Tab
       function show2018Data(stateCode){
-        if (stateCode == 'FL'){
-            
+        if (stateCode === 'FL'){
+            document.getElementById("votesRepublican").innerHTML = "3,675,417";
+            document.getElementById("percentRepublican").innerHTML = "52.35%";
+            document.getElementById("votesDemocrat").innerHTML = "3,307,228";
+            document.getElementById("percentDemocrat").innerHTML = "47.10%";
+            document.getElementById("winParty").innerHTML = "Winning Party: Republican";
+            document.getElementById("totalVotes").innerHTML= "Total Votes: 7,021,195";
         }
         else if (stateCode == 'TX'){
+
+        }
+        else{
 
         }
         
       }
 
       function show2016CData(stateCode){
-        if (stateCode == 'FL'){
-            
+        if (stateCode === 'FL'){
+            document.getElementById("votesRepublican").innerHTML = "4,733,630";
+            document.getElementById("percentRepublican").innerHTML = "54.71%";
+            document.getElementById("votesDemocrat").innerHTML = "3,985,050";
+            document.getElementById("percentDemocrat").innerHTML = "45.21%";
+            document.getElementById("winParty").innerHTML= "Winning Party: Republican";
+            document.getElementById("totalVotes").innerHTML = "Total Votes: 8,947,423";
         }
         else if (stateCode == 'TX'){
+
+        }
+        else{
 
         }
       }
 
       function show2016PData(stateCode){
-        if (stateCode == 'FL'){
-            
+        if (stateCode === 'FL'){
+            document.getElementById("votesRepublican").innerHTML = "4,617,886";
+            document.getElementById("percentRepublican").innerHTML = "48.60%";
+            document.getElementById("votesDemocrat").innerHTML = "4,504,975";
+            document.getElementById("percentDemocrat").innerHTML = "47.40%";
+            document.getElementById("winParty").innerHTML = "Winning Party: Republican";
+            document.getElementById("totalVotes").innerHTML = "Total Votes: 9,204,592";
         }
         else if (stateCode == 'TX'){
+
+        }
+        else{
 
         }
       }
@@ -251,7 +275,7 @@ function dropdown() {
                     $("#small-info-table tr").remove();
                     var items = [
                         {Attr: "Name", Amout: result[0].nameID},
-                        {Attr: "population", Amout: result[0].totalPop},
+                        {Attr: "Population", Amout: result[0].totalPop},
                         {Attr: "White", Amout: result[0].white_pop},
                         {Attr: "Hispanic", Amout: result[0].hispanic_pop},
                         {Attr: "Asian", Amout: result[0].asian_pop},
@@ -295,7 +319,7 @@ function dropdown() {
                     $("#small-info-table tr").remove();
                     var items = [
                         {Attr: "Name", Amout: result[0].nameID},
-                        {Attr: "population", Amout: result[0].totalPop},
+                        {Attr: "Population", Amout: result[0].totalPop},
                         {Attr: "White", Amout: result[0].white_pop},
                         {Attr: "Hispanic", Amout: result[0].hispanic_pop},
                         {Attr: "Asian", Amout: result[0].asian_pop},
@@ -309,6 +333,7 @@ function dropdown() {
       }
 
     function fillOutTable(feature) {
+        feature.properties.fillColor = "white";
         $(document).ready(function () {
             $("#itemList tr").remove();
             var year;
@@ -346,7 +371,7 @@ function dropdown() {
             $("#small-info-table tr").remove();
             var items = [
                 {Attr: "Name", Amout: result[0].nameID},
-                {Attr: "population", Amout: result[0].totalPop},
+                {Attr: "Population", Amout: result[0].totalPop},
                 {Attr: "White", Amout: result[0].white_pop},
                 {Attr: "Hispanic", Amout: result[0].hispanic_pop},
                 {Attr: "Asian", Amout: result[0].asian_pop},
