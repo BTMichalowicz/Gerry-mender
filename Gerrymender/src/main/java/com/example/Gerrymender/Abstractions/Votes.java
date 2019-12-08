@@ -1,6 +1,7 @@
 package com.example.Gerrymender.Abstractions;
 
 import com.example.Gerrymender.model.Pol_part;
+import com.example.Gerrymender.model.Vote;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,10 +13,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class Votes {
     private int year;
-    private boolean presGen; //Boolean to determine if we are using
-    private Pol_part party;
-    private long[] votes; //Indexed based on race
+    private boolean isPresidential; //Boolean to determine if we are using
+    private Pol_part party; // winning party
+    private long[] votes; //Indexed based on party
     private long totalVotes;
+
+    public Votes(Vote v) {
+        this.year = Integer.parseInt(v.getElectionyear());
+        this.isPresidential = v.getElectionname().equals("PRESIDENT");
+        this.votes = new long[]{v.getNumrepub(), v.getNumdemocrat(), v.getTotalvote() - v.getNumrepub() - v.getNumdemocrat()};
+        this.totalVotes = v.getTotalvote();
+        this.party = v.getWinner().equals("REPUBLICAN") ? Pol_part.REPUBLICAN : v.getWinner().equals("DEMOCRAT") ? Pol_part.DEMOCRAT : Pol_part.OTHER;
+    }
 
     public int getYear() {
         return year;
@@ -24,11 +33,11 @@ public class Votes {
         this.year = year;
     }
 
-    public boolean isPresGen() {
-        return presGen;
+    public boolean isPresidential() {
+        return isPresidential;
     }
     public void setPresGen(boolean presGen) {
-        this.presGen = presGen;
+        this.isPresidential = presGen;
     }
 
     public long[] getVotes() {

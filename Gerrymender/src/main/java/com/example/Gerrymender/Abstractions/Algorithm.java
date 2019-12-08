@@ -134,13 +134,13 @@ public class Algorithm {
                 int max = 0;
                 Pol_part maxParty = null;
                 int acc = 0;
-                for (Map.Entry<Pol_part, Integer> voteEntry : p.getVotes().entrySet()) {
-                    if (voteEntry.getValue() > max) {
-                        max = voteEntry.getValue();
-                        maxParty = voteEntry.getKey();
-                    }
-                    acc += voteEntry.getValue();
-                }
+//                for (Map.Entry<Pol_part, Integer> voteEntry : p.getVotes().entrySet()) {
+//                    if (voteEntry.getValue() > max) {
+//                        max = voteEntry.getValue();
+//                        maxParty = voteEntry.getKey();
+//                    }
+//                    acc += voteEntry.getValue();
+//                }
 
                 double votePerc = (double) max / (double) p.getPopulation();
                 if (votePerc >= voteThreshold) {

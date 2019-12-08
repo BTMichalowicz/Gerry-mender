@@ -1,13 +1,9 @@
 package com.example.Gerrymender.Abstractions;
-
 import com.example.Gerrymender.Abstractions.AbstrInterface.PrecinctInterface;
 import com.example.Gerrymender.model.Pol_part;
 import com.example.Gerrymender.model.Precinct;
 import com.example.Gerrymender.model.Race;
-
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.Polygon;
-
 import java.util.*;
 
 
@@ -16,14 +12,13 @@ import java.util.*;
 public class BasePrecinct implements PrecinctInterface {
 
     private String ID;
-    //private int population;
-    private Map<Pol_part, Integer> votes;
+    private Map<String, Votes> votes;
     private VotingBloc bloc;
     private Race majorityRace;
     private int majorityRacePop;
     private int clusterId;
     private Set<BasePrecinct> edges;
-
+    private int racePops[];
 
     //New File imputs
     private Geometry geometry;
@@ -34,11 +29,23 @@ public class BasePrecinct implements PrecinctInterface {
     private int dem_vote;
     private Set<String> neighborIDs;
 
-    public BasePrecinct (Precinct p) {
+    public BasePrecinct (Precinct p, Map<String, Votes> v) {
             this.ID = p.getNameID();
             this.neighborIDs = new HashSet<String>(Arrays.asList(p.getNeighbors().split(",")));
             this.population = (int)p.getTotalPop();
-
+            this.votes = v;
+            this.racePops = new int[]{(int)p.getWhite_pop(), (int)p.getAfricanAmerican_pop(), (int)p.getHispanic_pop(), (int)p.getAsian_pop(), (int)p.getNativeAmerican_pop()};
+            int maxPop = 0;
+            Race maxRace = Race.WHITE;
+            for(int i = 0; i < racePops.length; i++) {
+                if(racePops[i] > maxPop) {
+                    maxPop = racePops[i];
+                    maxRace = Race.values()[i];
+                }
+            }
+            this.majorityRacePop = maxPop;
+            this.majorityRace = maxRace;
+            this.edges = new HashSet<BasePrecinct>();
     }
 
     public BasePrecinct(
@@ -117,11 +124,11 @@ public class BasePrecinct implements PrecinctInterface {
         this.bloc = bloc;
     }
 
-    public Map<Pol_part, Integer> getVotes() {
+    public Map<String, Votes> getVotes() {
         return votes;
     }
 
-    public void setVotes(Map<Pol_part, Integer> votes) {
+    public void setVotes(Map<String, Votes> votes) {
         this.votes = votes;
     }
 

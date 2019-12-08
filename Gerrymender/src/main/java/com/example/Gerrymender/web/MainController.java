@@ -1,10 +1,7 @@
 package com.example.Gerrymender.web;
 
 
-import com.example.Gerrymender.Abstractions.Algorithm;
-import com.example.Gerrymender.Abstractions.BasePrecinct;
-import com.example.Gerrymender.Abstractions.BaseState;
-import com.example.Gerrymender.Abstractions.VotingBlocInfo;
+import com.example.Gerrymender.Abstractions.*;
 import com.example.Gerrymender.exception.ResourceNotFoundException;
 import com.example.Gerrymender.model.*;
 import com.example.Gerrymender.repository.*;
@@ -45,19 +42,8 @@ public class MainController {
         List res = new ArrayList();
         switch(mapLevel){
             case "district":
-//                District founddis = districtRepository.findById(id)
-//                        .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
-                District founddis = new District();
-
-                founddis.setTotalPop(100);
-                founddis.setParty("OTHER");
-                founddis.setAfricanAmerican_pop(100);
-                founddis.setAsian_pop(100);
-                founddis.setHispanic_pop(100);
-                founddis.setWhite_pop(100);
-                founddis.setNameID(id);
-                founddis.setNativeAmerican_pop(100);
-                founddis.setStateName("FLORIDA");
+                District founddis = districtRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
                 res.add(founddis);
                 VoteDis dv = voteDisRepository.findByVoteid(new VoteDisId(id, founddis.getStateName(), "" + year, electionType));
                 res.add(dv);
@@ -71,7 +57,6 @@ public class MainController {
         }
         try {
             String r = obj.writeValueAsString(res);
-            System.out.println(r);
             return r;
         } catch (IOException e) {
             return "";
@@ -101,16 +86,23 @@ public class MainController {
     @ResponseBody
     @RequestMapping(value="/updateState", method=RequestMethod.GET)
     public void updateState(HttpServletRequest req, String id) {
+        id = "Florida";
         State s = stateRepository.findById(id).orElse(null);
         List<Precinct> precincts = precinctRepository.findByStatename(s.getNameID());
         Map<String, BasePrecinct> basePrecincts = new HashMap<>();
         for(Precinct p : precincts) {
-            basePrecincts.put(p.getNameID(), new BasePrecinct(p));
+            Map<String, Votes> votes = new HashMap<>();
+            votes.put("2016PRESIDENT", new Votes(voteRepository.findByVoteid(new VoteId(p.getNameID(), "2016", "PRESIDENT"))));
+            votes.put("2016CONGRESSIONAL", new Votes(voteRepository.findByVoteid(new VoteId(p.getNameID(), "2016", "CONGRESSIONAL"))));
+            votes.put("2018CONGRESSIONAL", new Votes(voteRepository.findByVoteid(new VoteId(p.getNameID(), "2018", "CONGRESSIONAL"))));
+            basePrecincts.put(p.getNameID(), new BasePrecinct(p, votes));
         }
         for(String key : basePrecincts.keySet()) {
             BasePrecinct basePrecinct = basePrecincts.get(key);
             for(String neighborId : basePrecinct.getNeighborIDs()) {
-                basePrecinct.getEdges().add(basePrecincts.get(neighborId));
+                if(basePrecincts.get(neighborId) != null) {
+                    basePrecinct.getEdges().add(basePrecincts.get(neighborId));
+                }
             }
         }
         BaseState baseState = new BaseState(s);
