@@ -18,7 +18,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
 
-
     <!--Links-->
     <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet'/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -34,9 +33,8 @@
             <a class="navbar-brand my-navbar-brand"> GerryMender Florida </a>
         </div>
         <a class="text-white navbar-brand toggle-btn" data-toggle="tooltip" data-placement="bottom"
-           title="open/close function menu" onclick="toggleSlider()">Menu <span
-                class="glyphicon glyphicon-align-justify"></span></a>
-        <a class="text-white navbar-brand" data-toggle="tooltip" data-placement="bottom" title="return back to homepage"
+           title="Toggle Menu" onclick="toggleSlider()">Menu <span class="glyphicon glyphicon-align-justify"></span></a>
+        <a class="text-white navbar-brand" data-toggle="tooltip" data-placement="bottom" title="To Homepage"
            href="Homepage.html" style="float: right">Back</a>
     </div>
 </nav>
@@ -47,10 +45,14 @@
     <div class="slide-menu active" id="slide-menu">
         <!--Tabs-->
         <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'Help')">Help</button>
-            <button class="tablinks" onclick="openTab(event, 'Data')">Data</button>
-            <button class="tablinks" onclick="openTab(event, 'Bloc')">Bloc</button>
-            <button class="tablinks" onclick="openTab(event, 'GM')">Redistrict</button>
+            <button class="tablinks" onclick="openTab(event, 'Help')" 
+                data-toggle="tooltip" data-placement="bottom" title ="Shows Help Menu">Help</button>
+            <button class="tablinks active" onclick="openTab(event, 'Data')"
+                data-toggle="tooltip" data-placement="bottom" title ="Shows Florida Data">Data</button>
+            <button class="tablinks" onclick="openTab(event, 'Bloc')"
+                data-toggle="tooltip" data-placement="bottom" title ="Shows Bloc Controls">Bloc</button>
+            <button class="tablinks" onclick="openTab(event, 'GM')"
+                data-toggle="tooltip" data-placement="bottom" title ="Shows Redistricting Controls">Redistrict</button>
         </div>
 
         <!-- Tab content -->
@@ -67,7 +69,10 @@
             For phase 2, input the weight of factors for the algorithm to use, select which deographics to consider, and input the desired number of districts. </h4><br></br>
         </div>
         <div id="Data" class="tabcontent">
-            <div class="tab_header">Data Displayed</div>
+            <div class="tab_header">Data Displayed 
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" 
+                title ="Select an election below for a summary of Florida's voting and demographic data. "></span>
+            </div>
             <br>
             <form>
                 <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
@@ -84,33 +89,30 @@
                 </div>
             </form>
             <br>
-
-            <div class="tab_subheader">State Information</div>
-            <!--Dummy Data Voting-->
-            <table style="width:100%; font-size: 16px;">
-                <caption>Voting Data</caption>
+            <div class="tab_subheader"><b>State Information</b></div>
+            <table style="width:100%; font-size: 18px;">
+                <caption style = "color: white"><b>Voting Data</b></caption>
                 <tr>
                     <th>Party</th>
                     <th>Votes for Party</th>
                     <th>Percentage</th>
                 </tr>
                 <tr>
-                    <td>Republican</td>
-                    <td>3,675,417</td>
-                    <td>52.35%</td>
+                    <td >Republican</td>
+                    <td id = "votesRepublican">3,675,417</td>
+                    <td id = "percentRepublican">52.35%</td>
                 </tr>
                 <tr>
                     <td>Democrat</td>
-                    <td>3,307,228</td>
-                    <td>47.10%	</td>
+                    <td id = "votesDemocrat">3,307,228</td>
+                    <td id = "percentDemocrat">47.10%	</td>
                 </tr>
             </table>
             <br>
-            <h4>Winning Party: Republican</h4>
-            <h4>Total Votes: 6,982,645‬</h4>
-            <!--Dummy Data Demographics-->
+            <h4 id = "winParty">Winning Party: Republican</h4>
+            <h4 id = "totalVotes">Total Votes: 6,982,645</h4>
             <table style="width:100%;">
-                <caption>Demographic Data</caption>
+                <caption style = "color: white"><b>Demographic Data</b></caption>
                 <tr>
                     <th>Demographic</th>
                     <th>Population</th>
@@ -141,12 +143,13 @@
                 </tr>
             </table>
             <br><br>
-            <br><br>
             <p>((potentially links to state guidelines, incumbent info, and statewide patterns))</p>
-
         </div>
         <div id="Bloc" class="tabcontent">
-            <div class="tab_header">Calculate Voting Blocs</div>
+            <div class="tab_header">Calculate Voting Blocs
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" 
+                    title ="Input a threshold for voting percentage and population to determine which precincts vote as a bloc."></span>
+            </div>
             <br></br>
             <div class="tab_subheader">Please Input Values Below:<br></br></div>
             <div class = "slider_container">
@@ -163,8 +166,11 @@
         </div>
 
         <div id="GM" class="tabcontent">
-            <div class="tab_header">Gerrymend</div>
-            <br></br>
+            <div class="tab_header">Gerrymending
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" 
+                    title ="Phase 1 of Redistricting: Put a range of population percentage and update mode (by iteration or one cumulative update)."></span>
+            </div>
+            <br>
             <div class="tab_subheader">Phase 1: Graph Partitioning</div>
             <br>
             <div>
@@ -188,13 +194,18 @@
                 <button class="ctr_button" disabled>Start</button>
                 <br></br>
                 <h4>Output: </h4><br></br>
-                <button class="phase2_button" onclick="openTab(event, 'P2')">Phase 2</button>
+                <button class="phase2_button" onclick="openTab(event, 'P2')">To Phase 2</button>
                 <br></br>
             </div>
         </div>
         <div id="P2" class="tabcontent">
             <!--Phase 2 ONLY should appear one Phase 1 COMPLETES.-->
-            <div class="tab_subheader">Phase 2: Simulated Annealing</div>
+            <div class="tab_header">Phase 2: </div> 
+            <div class="tab_header">Simulated Annealing
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" 
+                    title ="Provide weights for the measures below, select which populations to consider, and input a desired number of districts to
+                    be drawn."></span>
+            </div>
             <br></br>
             <h4>Objective Function Weights:</h4>
             <div class="content_centered">
@@ -230,7 +241,7 @@
         <script id="smallInfoTemplate" type="text/x-jquery-tmpl">
             <tr>
                 <td width="30%">${Attr}</td>
-                <td width="70%">${Amout}</td>
+                <td width="70%">${Amount}</td>
             </tr>
         </script>
         <table class="table" id="small-info-table">
@@ -248,8 +259,8 @@
         <!-- -->
         <script id="itemTemplate" type="text/x-jquery-tmpl">
             <tr>
-                <td width="30%">${Attr}</td>
-                <td width="70%">${Amout}</td>
+                <td width="50%">${Attr}</td>
+                <td width="50%">${Amount}</td>
             </tr>
         </script>
         <!-- -->
@@ -290,6 +301,7 @@
             return {
                 color: 'black',
                 fillColor: district_color.get(feature.properties.DISTRICT),
+                //fillColor: colorByVotes();
                 weight: 1,
                 opacity: 0.8,
                 fillOpacity: 0.5
