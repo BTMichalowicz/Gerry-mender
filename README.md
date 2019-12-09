@@ -16,32 +16,25 @@ Our project is created with:
 * Microsoft Azure - project is deployed into Azure to make it a functioning webapp
 * Java - used in the algorithm that redistricts
 
-
+## The Application
 ![image](https://github.com/BTMichalowicz/Gerry-mender/blob/master/State%20page.png)
 ## How to use
-### Menu bar
-1. Home - restore page to default setting, e.g. clear the coefficient slider and input coefficient  value, map level set to state level.
-2. Export - user can select to save their result as .csv, .jpeg or .pdf file.
-3. Help menu - some basic instruction and user guide
+### Navbar
+1. Menu - opens the sliding menu of user controls.
+2. Back - returns the user to the homepage, where they can select a different state.
 
 ### User Controls Panel(left)
-1. Check box - user can select which element will be involved to calculate redistrict result
-2. Slider/input text - user can use slider to adjust coefficient for each element or input the coefficient value directly
-3. Time iteration - user is able to determine how long graph annealing is done
-4. Apply - collect user setting and calculate the redistrict result
+The sliding menu has four tabs:
+* Help - This displays a help menu, which gives information about what each tab entails.
+* Data - Shows the summary voting and demographic data for the current state. The user can change which election they want to view using the radial buttons.
+* Bloc - Contains the user controls for determining what precincts in the state are voting as a bloc.
+* Redistrict - Has the user controls to redistrict the state to maximize the number of Minority/Majority districts. 
+
 
 ### Map Panel(center)
-1. Map - interactive map, e.g. user can click or hover the area to see the detail information, double click current state to go district level
-2. Drop-down menu - user can select state level, district level and precinct level manually
-3. R/B view - map will show the election result with red(Republican Party) and blue(Democratic Party) colors
-4. Year selection - user can select to use 2014, 2016 or 2018 election data to do redistrict
+The interactive map allows a user to see the state selected and it's current voting districts. The user can click and drag the map, zoom in to view the precincts of the state, and hover over each area to see summary information for that precinct or district. Clicking a feature will also bring up that information in a panel on the right.
 
 ### Info Panel(right)
-This part will show the detail information of user selection, such as population, election result.
+The info panel is activated when a district or precinct is selected, and displays the summary voting and demographic data for the feature.
 
-
-
-## Contact info
-
-Dinnerbone@stonybrook.edu
 
