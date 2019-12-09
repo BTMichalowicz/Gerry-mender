@@ -1,20 +1,20 @@
-# Gerry-mender present by Dinnerbone
+# Gerrymender, presented by Dinnerbone
 
-### This is Stony Brook University CSE308 Fall 2019 team project, created by Jing Zhang, Veronica Quintana, Ian Peitzsch, and Benjamin Michalowicz.
+### This is Stony Brook University CSE308 Fall 2019 team project, created by Benjamin Michalowicz, Ian Peitzsch, and Veronica Quintana.
 
 ## General info
 
-**Gerry-mender** is an online election analysis application. We provide the Texas, Florida and North Carolina election results for 2014, 2016 and 2018. Users can use Gerry-mender to simulate a "fairer" redistrict result.
+**Gerrymender** is an online election analysis application. Using voting and demographic data for Florida, North Carolina, and Texas, a user can redraw those states' district lines to maximize the number of Minority/Majority districts.
 	
 ## Technologies
 Our project is created with:
-* Java Spring Boot - the back end of this webapp, handling webpage request and returning data to the front end
-* HTML - the front end of this webapp, handling the User interface and sending requests to the back end
+* Java Spring Boot - the back end of this webapp, handling webpage requests and returning data to the front end
+* HTML - the front end of this webapp, handling the user interface and sending requests to the back end
 * JQuery - written for web page functions
 * AJAX - front end content partial update 
-* MySQL - database, storing the state, district, and precinct information
-* Microsoft Azure - deploy whole project into Azure to make a real online webapp
-* Java - the backend program, to simulate the gerrymandering and return the result
+* MySQL - the database, storing the state, district, and precinct information
+* Microsoft Azure - project is deployed into Azure to make it a functioning webapp
+* Java - used in the algorithm that redistricts
 
 
 ![image](https://github.com/BTMichalowicz/Gerry-mender/blob/master/State%20page.png)
