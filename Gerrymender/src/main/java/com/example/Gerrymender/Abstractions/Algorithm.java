@@ -121,7 +121,7 @@ public class Algorithm {
         return null; // placeholder
     }
 
-    public List<VotingBlocInfo> phase0(double popThreshold, double voteThreshold) {
+    public List<VotingBlocInfo> phase0(double popThreshold, double voteThreshold, String election) {
         if (BaseState == null) {
             return null;
         }
@@ -131,21 +131,11 @@ public class Algorithm {
             Race r = p.getMajorityRace();
             double perc = (double) p.getMajorityRacePop() / (double) p.getPopulation();
             if (perc >= popThreshold) {
-                int max = 0;
-                Pol_part maxParty = null;
-                int acc = 0;
-//                for (Map.Entry<Pol_part, Integer> voteEntry : p.getVotes().entrySet()) {
-//                    if (voteEntry.getValue() > max) {
-//                        max = voteEntry.getValue();
-//                        maxParty = voteEntry.getKey();
-//                    }
-//                    acc += voteEntry.getValue();
-//                }
-
-                double votePerc = (double) max / (double) p.getPopulation();
+                Votes v = p.getVotes().get(election);
+                double votePerc = (double) v.getVotes()[v.getParty().ordinal()] / (double) v.getTotalVotes();
                 if (votePerc >= voteThreshold) {
-                    p.setBloc(new VotingBloc(r, max, maxParty));
-                    ret.add(new VotingBlocInfo(p.getID(), maxParty, max, acc));
+                    p.setBloc(new VotingBloc(r, (int)v.getVotes()[v.getParty().ordinal()], v.getParty()));
+                    ret.add(new VotingBlocInfo(p.getID(), v.getParty(), (int)v.getVotes()[v.getParty().ordinal()], (int)v.getTotalVotes()));
                 }
             }
         }

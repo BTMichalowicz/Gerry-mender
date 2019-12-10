@@ -37,13 +37,12 @@ public class MainController {
     }
 
     @RequestMapping(value="/getSelectArea",method = RequestMethod.POST)
-    public @ResponseBody String updateSmallInfoWindow(HttpServletRequest req, String id, String mapLevel, String year, String electionType) {
+    public @ResponseBody String updateSmallInfoWindow(String stateName, String id, String mapLevel, String year, String electionType) {
         ObjectMapper obj = new ObjectMapper();
         List res = new ArrayList();
         switch(mapLevel){
             case "district":
-                District founddis = districtRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("district", "id", id));
+                District founddis = districtRepository.findByDistrictidAndStateName(id, stateName);
                 res.add(founddis);
                 VoteDis dv = voteDisRepository.findByVoteid(new VoteDisId(id, founddis.getStateName(), "" + year, electionType));
                 res.add(dv);
@@ -71,8 +70,8 @@ public class MainController {
 
     @ResponseBody
     @RequestMapping(value="/phase0",method = RequestMethod.POST)
-    public String loadAlg(HttpServletRequest request, String id, double popThreshold, double voteThreshold) {
-        List<VotingBlocInfo> r = alg.phase0(popThreshold, voteThreshold);
+    public String loadAlg(String electionYear, String electionType, double popThreshold, double voteThreshold) {
+        List<VotingBlocInfo> r = alg.phase0(popThreshold, voteThreshold, electionYear + electionType);
         ObjectMapper obj = new ObjectMapper();
         try {
             String ret = obj.writeValueAsString(r);
