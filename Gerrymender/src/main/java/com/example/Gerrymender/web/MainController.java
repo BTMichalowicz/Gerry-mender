@@ -42,7 +42,7 @@ public class MainController {
         List res = new ArrayList();
         switch(mapLevel){
             case "district":
-                District founddis = districtRepository.findByDistrictidAndStateName(id, stateName);
+                District founddis = districtRepository.findByDistrictidAndStatename(id, stateName);
                 res.add(founddis);
                 VoteDis dv = voteDisRepository.findByVoteid(new VoteDisId(id, founddis.getStateName(), "" + year, electionType));
                 res.add(dv);
@@ -85,7 +85,6 @@ public class MainController {
     @ResponseBody
     @RequestMapping(value="/updateState", method=RequestMethod.GET)
     public void updateState(HttpServletRequest req, String id) {
-        id = "Florida";
         State s = stateRepository.findById(id).orElse(null);
         List<Precinct> precincts = precinctRepository.findByStatename(s.getNameID());
         Map<String, BasePrecinct> basePrecincts = new HashMap<>();

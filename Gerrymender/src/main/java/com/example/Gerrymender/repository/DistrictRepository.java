@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @EnableJpaRepositories
 public interface DistrictRepository extends JpaRepository<District, String> {
-    District findByDistrictidAndStateName(String districtId, String stateName);
+    District findByDistrictidAndStatename(String districtId, String statename);
 }

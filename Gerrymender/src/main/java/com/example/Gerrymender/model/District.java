@@ -38,6 +38,8 @@ public class District implements Serializable {
     private long asianpop;
     @Column
     private long nativeamericanpop;
+    @Column
+    private String statename;
 
     public long getNativeAmerican_pop() {
         return nativeamericanpop;
@@ -97,9 +99,6 @@ public class District implements Serializable {
         this.party = party;
     }
 
-     //Composite Key for Districts
-    @Column
-   private String statename;
     public String getStateName(){return statename;}
     public void setStateName(String stateName){
         assertNotEquals(stateName, "");
