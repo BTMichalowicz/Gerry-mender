@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset=utf-8/>
-    <title>GM-Florida</title>
+    <title id = "statePage" value = "Florida">GM-Florida</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
 
     <!--Scripts-->
@@ -30,7 +30,7 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand my-navbar-brand"> GerryMender Florida </a>
+            <a class="navbar-brand my-navbar-brand">GM - Florida</a>
         </div>
         <a class="text-white navbar-brand toggle-btn" data-toggle="tooltip" data-placement="bottom"
            title="Toggle Menu" onclick="toggleSlider()">Menu <span class="glyphicon glyphicon-align-justify"></span></a>
@@ -276,7 +276,6 @@
     </div>
 </div>
 <script>
-
     /*Variables*/
     L.mapbox.accessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
     var mapboxAccessToken = 'pk.eyJ1IjoidnF1aW50MjMiLCJhIjoiY2sxMTF0azJhMDFyODNncGJhaW1veG51ayJ9.CvreiQri97EaLXDEP5ahcA';
@@ -294,6 +293,8 @@
     //Sliders
     var sliderState = 0;
     var infoStat = "null";
+
+    setCurrentState('FL');
 
     //geoJson Manipulation
     var districts = L.geoJson(floridaOriDis, {
