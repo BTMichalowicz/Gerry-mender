@@ -333,14 +333,13 @@
                 map.addLayer(precincts);
                 setPLayer();
             }
-        } else {
-
+        }
+        if (zoomlevel <= 7) {
             if (map.hasLayer(precincts)) {
                 map.removeLayer(precincts);
                 map.addLayer(districts);
                 setDLayer();
             }
-
         }
     });
 </script>
