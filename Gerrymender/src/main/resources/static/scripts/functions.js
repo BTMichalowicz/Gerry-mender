@@ -85,19 +85,25 @@ function setCurrentState(stateCode) {
     currentState = stateCode;
 }
 
+function getCurrentState(){
+   if (currentState == 'FL') return "Florida";
+   if (currentState == 'NC') return "North Carolina";
+   if (currentState == 'TX') return "Texas";
+}
+
 function onEachStateFeature(feature, layer) {
     //bind click
     layer.on('click', function (e) {
         //alert(feature.properties.name);
         if (feature.properties.name == "Texas") {
             window.location.href = "GM-Texas.html";
-            setCurrentState("TX");
+            setCurrentState('TX');
         } else if (feature.properties.name == "North Carolina") {
             window.location.href = "GM-NC.html";
-            setCurrentState("NC");
+            setCurrentState('NC');
         } else if (feature.properties.name == "Florida") {
             window.location.href = "GM-Florida.html";
-            setCurrentState("FL");
+            setCurrentState('FL');
         }
     });
 }
@@ -172,7 +178,7 @@ function show2018Data(stateCode) {
         document.getElementById("percentDemocrat").innerHTML = "47.00%";
         document.getElementById("winParty").innerHTML = "Winning Party: Republican";
         document.getElementById("totalVotes").innerHTML = "Total Votes: 7,988,111";
-    } else if (stateCode === "NC") {
+    } else if (stateCode === 'NC') {
         document.getElementById("votesRepublican").innerHTML = "1,846,041";
         document.getElementById("percentRepublican").innerHTML = "50.39%";
         document.getElementById("votesDemocrat").innerHTML = "1,771,061";
@@ -199,7 +205,7 @@ function show2016CData(stateCode) {
         document.getElementById("percentDemocrat").innerHTML = "37.06%";
         document.getElementById("winParty").innerHTML = "Winning Party: Republican";
         document.getElementById("totalVotes").innerHTML = "Total Votes: 8,038,140";
-    } else if (stateCode === "NC") {
+    } else if (stateCode === 'NC') {
         document.getElementById("votesRepublican").innerHTML = "2,447,326";
         document.getElementById("percentRepublican").innerHTML = "53.22%";
         document.getElementById("votesDemocrat").innerHTML = "2,142,661";
@@ -226,7 +232,7 @@ function show2016PData(stateCode) {
         document.getElementById("percentDemocrat").innerHTML = "43.24%";
         document.getElementById("winParty").innerHTML = "Winning Party: Republican";
         document.getElementById("totalVotes").innerHTML = "Total Votes: 8,562,915";
-    } else if (stateCode === "NC") {
+    } else if (stateCode === 'NC') {
         document.getElementById("votesRepublican").innerHTML = "2,362,631";
         document.getElementById("percentRepublican").innerHTML = "49.83%";
         document.getElementById("votesDemocrat").innerHTML = "2,189,316";
@@ -266,7 +272,6 @@ function voteUpdated(value) {
     }
 }
 
-
 /***********************************************************************************/
 function fillOutSmallWindow(feature) {
     $(document).ready(function () {
@@ -287,6 +292,7 @@ function fillOutSmallWindow(feature) {
     }
 
     function getInfo(feature){
+        var stateName = getCurrentState();
         var year;
             if ($('#2016C').is(':checked') || $('#2016P').is(':checked'))
                 year = 2016;
@@ -299,9 +305,11 @@ function fillOutSmallWindow(feature) {
                 etype = "Presidential";
             var formData = new FormData();
             if (pLayer) {
+                formData.append("stateName", stateName);
                 formData.append("id", feature.properties.countypct);
                 formData.append("mapLevel", "precinct");
             } else {
+                formData.append("stateName", stateName);
                 formData.append("id", feature.properties.DISTRICT);
                 formData.append("mapLevel", "district");
             }
@@ -319,7 +327,7 @@ function fillOutSmallWindow(feature) {
                     console.log(data);
                 },
                 error: function (result) {
-                    alert("An error has occurred.");
+                    alert("Error sending request: " + formData);
                 }
             }).responseText);
             // test output

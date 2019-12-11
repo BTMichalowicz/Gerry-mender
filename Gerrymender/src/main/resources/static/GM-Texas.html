@@ -237,7 +237,7 @@
         <script id="smallInfoTemplate" type="text/x-jquery-tmpl">
                 <tr>
                     <td width="30%">${Attr}</td>
-                    <td width="70%">${Amout}</td>
+                    <td width="70%">${Amount}</td>
                 </tr>
 
 
@@ -258,7 +258,7 @@
         <script id="itemTemplate" type="text/x-jquery-tmpl">
                 <tr>
                     <td width="30%">${Attr}</td>
-                    <td width="70%">${Amout}</td>
+                    <td width="70%">${Amount}</td>
                 </tr>
 
 
@@ -297,6 +297,7 @@
     var infoStat = "null";
 
     //GeoJsons
+    setCurrentState('TX');
     var districts = L.geoJson(txLayer, {
         style: function (feature) {
             return {
@@ -333,14 +334,13 @@
                 map.addLayer(precincts);
                 setPLayer();
             }
-        } else {
-
+        }
+        if (zoomlevel <= 7) {
             if (map.hasLayer(precincts)) {
                 map.removeLayer(precincts);
                 map.addLayer(districts);
                 setDLayer();
             }
-
         }
     });
 </script>
