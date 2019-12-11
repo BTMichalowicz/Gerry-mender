@@ -1,12 +1,15 @@
 package com.example.Gerrymender.Abstractions.AbstrInterface;
 
-import java.util.Set;
+import com.example.Gerrymender.Abstractions.BaseDistrict;
+import com.example.Gerrymender.Abstractions.BasePrecinct;
+
+import java.util.Map;
 
 public interface StateInterface<
         Precinct extends PrecinctInterface,
         District extends DistrictInterface<Precinct>> {
-    Set<Precinct> getPrecincts();
-    Set<District> getDistricts();
+    Map<String, BasePrecinct> getPrecincts();
+    Map<String, BaseDistrict> getDistricts();
 
     Precinct getPrecinct(String precinctId);
 

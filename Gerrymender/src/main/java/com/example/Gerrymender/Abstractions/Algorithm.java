@@ -6,6 +6,7 @@ import com.example.Gerrymender.Abstractions.AbstrInterface.MeasureFunction;
 import com.example.Gerrymender.model.Pol_part;
 import com.example.Gerrymender.model.Precinct;
 import com.example.Gerrymender.model.Race;
+import org.apache.catalina.Cluster;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -79,7 +80,7 @@ public class Algorithm {
     private void combine(BaseCluster c1, BaseCluster c2) {
         c1.combine(c2);
         for (BaseCluster c : c2.getEdges()) {
-            HashSet<BaseCluster> edge = c.getEdges();
+            Set<BaseCluster> edge = c.getEdges();
             edge.remove(c2);
             edge.add(c1);
         }
@@ -91,11 +92,10 @@ public class Algorithm {
         Should be called before calling phase1 to ensure the clusters have been created
      */
     public void initializeClusters() {
-        Set<BasePrecinct> precincts = BaseState.getPrecincts();
         HashMap<String, BaseCluster> clusters = new HashMap<>();
         int count = 0;
-        for (BasePrecinct p : precincts) {
-            BaseCluster c = new BaseCluster("" + count, BaseState, p.getPopulation());
+        for (BasePrecinct p : BaseState.getPrecincts().values()) {
+            BaseCluster c = new BaseCluster("" + count, BaseState, p.getPopulation(), p.getRacePops());
             p.setClusterId(count);
             c.addPrecinct(p);
             clusters.put("" + count, c);
@@ -111,12 +111,46 @@ public class Algorithm {
         }
         BaseState.setClusters(clusters);
     }
-
-    public Map<String, String> phase1(int numDistricts, boolean runFull) {
-        if (runFull) {
-            // Run the entire phase until the end
-        } else {
-            // Run a single step
+    private boolean isGoodMatch(BaseCluster c, BaseCluster n, boolean lastIter, Pol_part races[], int numDistricts, float minPopPerc, float maxPopPerc) {
+        int idealPop = BaseState.getPopulation() / numDistricts;
+        double popEpsilon = .03 * (double)idealPop;
+        if(!lastIter) {
+            if(c.getPopulation() + n.getPopulation() <= idealPop + popEpsilon) {
+                for(Pol_part r : races) {
+                    float combinedRacePerc = (float)(c.getRacePops()[r.ordinal()] + n.getRacePops()[r.ordinal()]) / (float)(c.getPopulation() + n.getPopulation());
+                    if(minPopPerc <= combinedRacePerc && maxPopPerc >= combinedRacePerc) {
+                        // TODO add compactness test
+                        return true;
+                    }
+                }
+            }
+        }
+        else if(idealPop - popEpsilon <= c.getPopulation() + n.getPopulation() && c.getPopulation() + n.getPopulation() <= idealPop + popEpsilon){
+            return true;
+        }
+        return false;
+    }
+    public Map<String, String> phase1(Pol_part races[], float minPopPerc, float maxPopPerc, int numDistricts, boolean runFull) {
+        initializeClusters();
+        Map<String, BaseCluster> clusters = BaseState.getClusters();
+        boolean lastIter = false;
+        while(clusters.size() > numDistricts) {
+            if(clusters.size() <= 2 * numDistricts) {
+                lastIter = true;
+            }
+            for(String key : clusters.keySet()) {
+                BaseCluster bestNeighbor = null;
+                for(BaseCluster neighbor : clusters.get(key).getEdges()) {
+                    if(isGoodMatch(clusters.get(key), neighbor, lastIter, races, numDistricts, minPopPerc, maxPopPerc)) {
+                        bestNeighbor = neighbor;
+                        break;
+                    }
+                }
+                if(bestNeighbor == null) {
+                    bestNeighbor = clusters.get(clusters.keySet().toArray()[new Random().nextInt(clusters.keySet().size())]);
+                }
+                combine(clusters.get(key), bestNeighbor);
+            }
         }
         return null; // placeholder
     }
@@ -125,9 +159,9 @@ public class Algorithm {
         if (BaseState == null) {
             return null;
         }
-        Set<BasePrecinct> precints = BaseState.getPrecincts();
+
         List<VotingBlocInfo> ret = new ArrayList<>();
-        for (BasePrecinct p : precints) {
+        for (BasePrecinct p : BaseState.getPrecincts().values()) {
             Race r = p.getMajorityRace();
             double perc = (double) p.getMajorityRacePop() / (double) p.getPopulation();
             if (perc >= popThreshold) {
@@ -174,7 +208,7 @@ public class Algorithm {
     public void allocatePrecinctsExp(BaseState BaseState) {
         HashSet<BasePrecinct> unallocatedPrecincts = new HashSet<BasePrecinct>();
         // Populate unallocated precincts
-        for (BaseDistrict d : BaseState.getDistricts()) {
+        for (BaseDistrict d : BaseState.getDistricts().values()) {
             for (BasePrecinct p : d.getPrecincts()) {
                 unallocatedPrecincts.add(p);
             }
@@ -182,12 +216,12 @@ public class Algorithm {
         // Hash districts to numbers
         HashMap<Integer, DistrictInterface> myDistricts = new HashMap<>();
         int num_districts = 0;
-        for (BaseDistrict d : BaseState.getDistricts()) {
+        for (BaseDistrict d : BaseState.getDistricts().values()) {
             myDistricts.put(num_districts, d);
             num_districts += 1;
         }
         // Strip out all precincts from each BaseDistrict
-        for (BaseDistrict d : BaseState.getDistricts()) {
+        for (BaseDistrict d : BaseState.getDistricts().values()) {
             for (BasePrecinct p : d.getPrecincts()) {
                 d.removePrecinct(p);
             }
@@ -234,12 +268,12 @@ public class Algorithm {
     public void allocatePrecincts(BaseState BaseState) {
         HashSet<BasePrecinct> unallocatedPrecincts = new HashSet<BasePrecinct>();
         // Populate unallocated precincts
-        for (BaseDistrict d : BaseState.getDistricts()) {
+        for (BaseDistrict d : BaseState.getDistricts().values()) {
             unallocatedPrecincts.addAll(d.getPrecincts());
         }
         // For each BaseDistrict, select a random BasePrecinct
         HashSet<BasePrecinct> seedPrecincts = new HashSet<BasePrecinct>();
-        for (BaseDistrict d : BaseState.getDistricts()) {
+        for (BaseDistrict d : BaseState.getDistricts().values()) {
             int selectedIndex = (int) Math.floor(Math.random() * unallocatedPrecincts.size());
             BasePrecinct selectedPrecinct = null;
             int i = 0;
@@ -247,7 +281,7 @@ public class Algorithm {
                 if (i == selectedIndex) {
                     seedPrecincts.add(p);
                     selectedPrecinct = p;
-                    for (BaseDistrict dp : BaseState.getDistricts()) {
+                    for (BaseDistrict dp : BaseState.getDistricts().values()) {
                         if (dp.getPrecincts().contains(p)) {
                             dp.removePrecinct(p);
                         }
@@ -260,7 +294,7 @@ public class Algorithm {
             unallocatedPrecincts.remove(selectedPrecinct);
         }
         // Strip out all but one BasePrecinct from each BaseDistrict
-        for (BaseDistrict d : BaseState.getDistricts()) {
+        for (BaseDistrict d : BaseState.getDistricts().values()) {
             for (BasePrecinct p : d.getPrecincts()) {
                 if (!seedPrecincts.contains(p)) {
                     d.removePrecinct(p);
@@ -271,11 +305,10 @@ public class Algorithm {
         System.out.println(unallocatedPrecincts.size() + " before initial alloc.");
         int idealPop = BaseState.getPopulation() / BaseState.getDistricts().size();
         boolean outOfMoves = false;
-        Set<BaseDistrict> ds = BaseState.getDistricts();
         int highestPop = -1;
         while (outOfMoves == false) {
             outOfMoves = true;
-            for (BaseDistrict d : ds) {
+            for (BaseDistrict d : BaseState.getDistricts().values()) {
                 // Add precincts until population > highestPop
                 for (BasePrecinct pd : d.getPrecincts()) {
                     for (String s : pd.getNeighborIDs()) {
@@ -427,7 +460,7 @@ public class Algorithm {
     public BaseDistrict getWorstDistrict() {
         BaseDistrict worstDistrict = null;
         double minScore = Double.POSITIVE_INFINITY;
-        for (BaseDistrict d : BaseState.getDistricts()) {
+        for (BaseDistrict d : BaseState.getDistricts().values()) {
             double score = currentScores.get(d);
             if (score < minScore) {
                 worstDistrict = d;
@@ -468,7 +501,7 @@ public class Algorithm {
 
     public double calculateObjectiveFunction() {
         double score = 0;
-        for (BaseDistrict d : BaseState.getDistricts()) {
+        for (BaseDistrict d : BaseState.getDistricts().values()) {
             score += currentScores.get(d);
         }
         return score;
@@ -480,7 +513,7 @@ public class Algorithm {
 
     public void updateScores() {
         currentScores = new HashMap<BaseDistrict, Double>();
-        for (BaseDistrict d : BaseState.getDistricts()) {
+        for (BaseDistrict d : BaseState.getDistricts().values()) {
             // TODO = resovlve districtRating
             currentScores.put(d, rateDistrict(d));
         }
