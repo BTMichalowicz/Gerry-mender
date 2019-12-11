@@ -40,7 +40,7 @@ function toggleSlider() {
 function toggleInfoSlider(feature) {
     document.getElementById("slide-info").style.width = "350px";
     infoStat = feature.properties.id;
-    fillOutTable(feature);
+    getInfo(feature, true);
 }
 
 function closeInfo() {
@@ -135,7 +135,7 @@ function onEachFeature(feature, layer) {
             document.getElementById("small-info-window").style.left = "370px";
         else
             document.getElementById("small-info-window").style.left = "50px";
-        $(fillOutSmallWindow(feature));
+        $(getInfo(feature, false));
     });
     layer.on("mouseout", function (e) {
         layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
@@ -273,75 +273,63 @@ function voteUpdated(value) {
 }
 
 /***********************************************************************************/
-function fillOutSmallWindow(feature) {
-    $(document).ready(function () {
-        $("#small-info-table tr").remove();
-        var items = getInfo(feature);
-        $("#small-info-table tr").remove();
-        $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
-    });
-}
-
-    function fillOutTable(feature) {
-        feature.properties.fillColor = "white";
+    function getInfo(feature, clicked){
         $(document).ready(function () {
-            $("#itemList tr").remove();
-            var items = getInfo(feature);
-            $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
-        });
-    }
-
-    function getInfo(feature){
-        var stateName = getCurrentState();
-        var year;
-            if ($('#2016C').is(':checked') || $('#2016P').is(':checked'))
-                year = 2016;
-            else
-                year = 2018;
-            var etype;
-            if ($('#2016C').is(':checked') || $('#2018C').is(':checked'))
-                etype = "CONGRESSIONAL";
-            else
-                etype = "Presidential";
-            var formData = new FormData();
-            if (pLayer) {
-                formData.append("stateName", stateName);
-                formData.append("id", feature.properties.countypct);
-                formData.append("mapLevel", "precinct");
-            } else {
-                formData.append("stateName", stateName);
-                formData.append("id", feature.properties.DISTRICT);
-                formData.append("mapLevel", "district");
-            }
-            formData.append("year", year);
-            formData.append("electionType", etype);
-            var result = $.parseJSON($.ajax({
-                url: "http://localhost:8080/getSelectArea",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                dataType: "json",
-                async: false,
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (result) {
-                    alert("Error sending request: " + formData);
+            $("#small-info-table tr").remove();
+            if(clicked) $("#itemList tr").remove();
+            var stateName = getCurrentState();
+            var year;
+                if ($('#2016C').is(':checked') || $('#2016P').is(':checked'))
+                    year = 2016;
+                else
+                    year = 2018;
+                var etype;
+                if ($('#2016C').is(':checked') || $('#2018C').is(':checked'))
+                    etype = "CONGRESSIONAL";
+                else
+                    etype = "Presidential";
+                var formData = new FormData();
+                if (pLayer) {
+                    formData.append("stateName", stateName);
+                    formData.append("id", feature.properties.countypct);
+                    formData.append("mapLevel", "precinct");
+                } else {
+                    formData.append("stateName", stateName);
+                    formData.append("id", feature.properties.DISTRICT);
+                    formData.append("mapLevel", "district");
                 }
-            }).responseText);
-            // test output
-            console.log(result[0]);
-            var items = [
-                {Attr: "Name", Amount: result[0].nameID},
-                {Attr: "Population", Amount: result[0].totalPop},
-                {Attr: "White", Amount: result[0].white_pop},
-                {Attr: "Hispanic", Amount: result[0].hispanic_pop},
-                {Attr: "Asian", Amount: result[0].asian_pop},
-                {Attr: "Republican", Amount: result[1].numrepub},
-                {Attr: "Democratic", Amount: result[1].numdemocrat},
-            ];
-            return items;
+                formData.append("year", year);
+                formData.append("electionType", etype);
+                var result = $.parseJSON($.ajax({
+                    url: "http://localhost:8080/getSelectArea",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (result) {
+                        alert("Error sending request: " + formData);
+                    }
+                }).responseText);
+                // test output
+                console.log(result[0]);
+                var items = [
+                    {Attr: "Name", Amount: result[0].nameID},
+                    {Attr: "Population", Amount: result[0].totalPop},
+                    {Attr: "White", Amount: result[0].white_pop},
+                    {Attr: "Hispanic", Amount: result[0].hispanic_pop},
+                    {Attr: "Asian", Amount: result[0].asian_pop},
+                    {Attr: "Republican", Amount: result[1].numrepub},
+                    {Attr: "Democratic", Amount: result[1].numdemocrat},
+                ];
+            $("#small-info-table tr").remove();
+            if (clicked) $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
+            $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
+        });
     }
 
     var district_color = new Map();

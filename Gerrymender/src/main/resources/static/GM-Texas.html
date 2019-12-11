@@ -310,7 +310,7 @@
             };
         },
         onEachFeature: onEachFeature,
-    });
+    }).addTo(map);
 
     var precincts = L.geoJson(TX, {
         style: function (feature) {
@@ -323,7 +323,7 @@
             };
         },
         onEachFeature: onEachFeature,
-    }).addTo(map);
+    });
 
     map.on('zoomend', function () {
         var zoomlevel = map.getZoom();
