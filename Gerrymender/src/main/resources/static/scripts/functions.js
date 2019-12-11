@@ -80,9 +80,11 @@ function toggleHomeHelp() {
 
 /*State Pages*/
 var currentState;
+var stateName;
 
-function setCurrentState(stateCode) {
+function setCurrentState(stateCode, name) {
     currentState = stateCode;
+    stateName = name;
 }
 
 function onEachStateFeature(feature, layer) {
@@ -91,13 +93,13 @@ function onEachStateFeature(feature, layer) {
         //alert(feature.properties.name);
         if (feature.properties.name == "Texas") {
             window.location.href = "GM-Texas.html";
-            setCurrentState("TX");
+            setCurrentState("TX", "Texas");
         } else if (feature.properties.name == "North Carolina") {
             window.location.href = "GM-NC.html";
-            setCurrentState("NC");
+            setCurrentState("NC", "North Carolina");
         } else if (feature.properties.name == "Florida") {
             window.location.href = "GM-Florida.html";
-            setCurrentState("FL");
+            setCurrentState("FL", "Florida");
         }
     });
 }
@@ -299,9 +301,11 @@ function fillOutSmallWindow(feature) {
                 etype = "Presidential";
             var formData = new FormData();
             if (pLayer) {
+                formData.append("stateName", stateName);
                 formData.append("id", feature.properties.countypct);
                 formData.append("mapLevel", "precinct");
             } else {
+                formData.append("stateName", stateName);
                 formData.append("id", feature.properties.DISTRICT);
                 formData.append("mapLevel", "district");
             }
