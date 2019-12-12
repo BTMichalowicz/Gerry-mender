@@ -66,25 +66,28 @@ public class MainController {
 
     @ResponseBody
     @RequestMapping("/Test")
-    public List<State> stateList(){ return stateRepository.findAll(); }
-
-    @ResponseBody
-    @RequestMapping(value="/phase0",method = RequestMethod.POST)
-    public String loadAlg(String electionYear, String electionType, double popThreshold, double voteThreshold) {
-        List<VotingBlocInfo> r = alg.phase0(popThreshold, voteThreshold, electionYear + electionType);
+    public String stateList(){
         ObjectMapper obj = new ObjectMapper();
         try {
-            String ret = obj.writeValueAsString(r);
-            System.out.println(ret);
+            String ret = obj.writeValueAsString(alg.BaseState);
             return ret;
         } catch (IOException e) {
             return "";
         }
     }
 
-    @ResponseBody
+
+    @RequestMapping(value="/phase0",method = RequestMethod.POST)
+    public @ResponseBody void phase0(String electionYear, String electionType, Double popThreshold, Double voteThreshold) {
+
+        List<VotingBlocInfo> r = alg.phase0(popThreshold, voteThreshold, electionYear + electionType);
+
+    }
+
+
     @RequestMapping(value="/updateState", method=RequestMethod.POST)
-    public void updateState(String id) {
+    public @ResponseBody void updateState(String id) {
+        alg = null;
         System.out.println("id: " + id);
         State s = stateRepository.findById(id).orElse(null);
         List<Precinct> precincts = precinctRepository.findByStatename(s.getNameID());
@@ -106,7 +109,8 @@ public class MainController {
         }
         BaseState baseState = new BaseState(s);
         baseState.setPrecincts(basePrecincts);
-        alg = new Algorithm(new BaseState(s));
+        alg = new Algorithm(baseState);
+
     }
 
 }

@@ -11,70 +11,16 @@ import org.apache.catalina.Cluster;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.Comparator;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Algorithm {
     public int objectiveValue;
     public int numIterations;
-
-/*
-    //  Combines c1 with c2 and removes c2 from the hashmap of clusters
-    private void combine(BaseCluster c1, BaseCluster c2) {
-        c1.combine(c2);
-        for(BaseCluster c : c2.getEdges())
-        {
-            HashSet<BaseCluster> edge = c.getEdges();
-            edge.remove(c2);
-            edge.add(c1);
-        }
-        Map<String, BaseCluster> map = curState.getClusters();
-        map.entrySet().removeIf(entry -> c2.equals(entry.getValue()));
-    }
-
-    public void annealling() {
-        //TODO
-    }
-    *//*public boolean addPrecinct(BaseState s, BasePrecinct p) {
-        return s.getPrecincts().add(p);
-     }*//*
-
-    private HashMap<String, BaseCluster> initializeClusters(Set<BasePrecinct> precincts)
-    {
-        HashMap<String, BaseCluster> clusters = new HashMap<>();
-        int count = 0;
-        for(BasePrecinct p : precincts) {
-            BaseCluster c = new BaseCluster("" + count, curState, p.getPopulation());
-            p.setClusterId(count);
-            c.addPrecinct(p);
-            clusters.put("" + count, c);
-        }
-        for(Map.Entry<String, BaseCluster> clust : clusters.entrySet())
-        {
-            BaseCluster c = clust.getValue();
-            Map<String, BasePrecinct> prec = c.getPrecincts();
-            for(Map.Entry<String, BasePrecinct> p : prec.entrySet())
-            {
-                for(BasePrecinct BasePrecinct : p.getValue().getEdges())
-                {
-                    c.addEdge(clusters.get("" + BasePrecinct.getClusterId()));
-                }
-            }
-        }
-        return clusters;
-    }
-
-
-
-    public Map<String, String> phase1(int numDistricts, boolean runFull){
-        if(runFull) {
-            // Run the entire phase until the end
-        }
-        else {
-            // Run a single step
-        }
-        return null; // placeholder
-    }*/
+    public ReentrantLock lock;
 
     public Algorithm(BaseState s) {
         BaseState = s;
+        lock = new ReentrantLock();
     }
 
     private void combine(BaseCluster c1, BaseCluster c2) {
@@ -176,7 +122,7 @@ public class Algorithm {
         return ret;
     }
 
-    private BaseState BaseState;
+    public BaseState BaseState;
     private HashMap<String, String> precinctDistrictMap; //precinctID --> districtID
 
     //calculates an aggregate measure score (double) for a given BaseDistrict
