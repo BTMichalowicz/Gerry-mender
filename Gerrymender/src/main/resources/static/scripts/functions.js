@@ -18,6 +18,10 @@ function show_value(x, id) {
     document.getElementById(id).innerHTML = x;
 }
 
+function get_value(id){
+    document.getElementById(id).val();
+}
+
 function enableButton(id, ID) {
     document.getElementById(id).style.color = 'black';
     $(ID).prop('disabled', false);
@@ -79,6 +83,23 @@ function toggleHomeHelp() {
 }
 
 /*State Pages*/
+function updateState(id){
+    var formData = new FormData();
+    formData.append("id", id);
+    alert("id="+id);
+    var result = $.parseJSON($.ajax({
+        url: "http://localhost:8080/updateState",
+        type: "POST",
+        data: formData,
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (result) { alert("An error has occurred: " + result); }
+    }).responseText);
+}
+
 var currentState;
 
 function setCurrentState(stateCode) {
@@ -248,16 +269,11 @@ function show2016PData(stateCode) {
 var popSelected = false;
 var voteSelected = false;
 
-function setPopSelected() {
-    popSelected = true;
-};
-
-function setVoteSelected() {
-    voteSelected = true;
-};
+function setPopSelected() { popSelected = true; };
+function setVoteSelected() { voteSelected = true; };
 
 function popUpdated(value) {
-    setPopSelected();
+    setPopSelected(value);
     show_value(value, 'popThresh_value');
     if (popSelected && voteSelected) {
         enableButton("phase0Button");
@@ -265,30 +281,61 @@ function popUpdated(value) {
 }
 
 function voteUpdated(value) {
-    setVoteSelected();
+    setVoteSelected(value);
     show_value(value, 'voteThresh_value');
     if (popSelected && voteSelected) {
         enableButton("phase0Button", "#phase0Button");
     }
 }
 
+function phase0() {
+    var year = getYear();
+    var eType = getEType();
+    var popThresh = $("#popThreshold").val();
+    var voteThresh = $("#voteThreshold").val();
+
+    var formData = new FormData();
+    formData.append("electionYear", year);
+    formData.append("electionType", eType);
+    formData.append("popThreshold", popThresh);
+    formData.append("voteThreshold", voteThresh);
+
+    var result = $.parseJSON($.ajax({
+        url: "http://localhost:8080/phase0",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            console.log(data);
+            alert("Success.");
+        },
+        error: function (result) {
+            alert("Error sending request: " + formData);
+        }
+    }).responseText);
+}
 /***********************************************************************************/
+    function getYear(){
+        if ($('#2016C').is(':checked') || $('#2016P').is(':checked')) return 2016;
+        else return 2018;
+    }
+
+    function getEType(){
+        if ($('#2016C').is(':checked') || $('#2018C').is(':checked')) return "CONGRESSIONAL";
+        else return "Presidential";
+    }
+
     function getInfo(feature, clicked){
         $(document).ready(function () {
             $("#small-info-table tr").remove();
             if(clicked) $("#itemList tr").remove();
             var stateName = getCurrentState();
-            var year;
-                if ($('#2016C').is(':checked') || $('#2016P').is(':checked'))
-                    year = 2016;
-                else
-                    year = 2018;
-                var etype;
-                if ($('#2016C').is(':checked') || $('#2018C').is(':checked'))
-                    etype = "CONGRESSIONAL";
-                else
-                    etype = "Presidential";
-                var formData = new FormData();
+            var year = getYear();
+            var etype = getEType();
+            var formData = new FormData();
                 if (pLayer) {
                     formData.append("stateName", stateName);
                     formData.append("id", feature.properties.countypct);
@@ -315,8 +362,6 @@ function voteUpdated(value) {
                         alert("Error sending request: " + formData);
                     }
                 }).responseText);
-                // test output
-                console.log(result[0]);
                 var items = [
                     {Attr: "Name", Amount: result[0].nameID},
                     {Attr: "Population", Amount: result[0].totalPop},

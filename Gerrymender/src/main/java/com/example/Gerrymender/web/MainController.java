@@ -83,8 +83,9 @@ public class MainController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/updateState", method=RequestMethod.GET)
-    public void updateState(HttpServletRequest req, String id) {
+    @RequestMapping(value="/updateState", method=RequestMethod.POST)
+    public void updateState(String id) {
+        System.out.println("id: " + id);
         State s = stateRepository.findById(id).orElse(null);
         List<Precinct> precincts = precinctRepository.findByStatename(s.getNameID());
         Map<String, BasePrecinct> basePrecincts = new HashMap<>();
@@ -107,6 +108,5 @@ public class MainController {
         baseState.setPrecincts(basePrecincts);
         alg = new Algorithm(new BaseState(s));
     }
-
 
 }

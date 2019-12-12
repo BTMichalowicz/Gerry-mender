@@ -284,6 +284,8 @@
 
     /*geoJson Manipulation*/
     setCurrentState('NC');
+    updateState('North Carolina');
+
     var districts = L.geoJson(ncLayer, { 
         style: function (feature) { return { 
             color: 'black', 

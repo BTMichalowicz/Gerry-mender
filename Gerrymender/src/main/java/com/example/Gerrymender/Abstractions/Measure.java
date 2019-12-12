@@ -20,7 +20,7 @@ public enum Measure implements MeasureFunction<BasePrecinct, BaseDistrict> {
             int totalDistricts = 0;
             int totalGOPDistricts = 0;
             BaseState BaseState = d.getState();
-            for (BaseDistrict sd : BaseState.getDistricts()) {
+            for (BaseDistrict sd : BaseState.getDistricts().values()){
                 totalVote += sd.getGOPVote();
                 totalVote += sd.getDEMVote();
                 totalGOPvote += sd.getGOPVote();
@@ -89,7 +89,7 @@ public enum Measure implements MeasureFunction<BasePrecinct, BaseDistrict> {
             int iv_d = 0;
             int tv = 0;
             BaseState BaseState = d.getState();
-            for (BaseDistrict sd : BaseState.getDistricts()) {
+            for (BaseDistrict sd : BaseState.getDistricts().values()) {
                 int gv = sd.getGOPVote();
                 int dv = sd.getDEMVote();
                 if (gv > dv) {
