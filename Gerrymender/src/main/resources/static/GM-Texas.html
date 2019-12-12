@@ -57,14 +57,14 @@
         <div id="Help" class="tabcontent">
             <div class="tab_header">Need Help?</div>
             <br></br>
-            <h4><b>Data:</b> This tab shows the data for the selected election for this state. Select different
-                elections for different summary data..</h4><br></br>
-            <h4><b>Bloc:</b> This tab determines what precincts in this state are voting as a bloc. Input a threshold
+            <h4><b>Data:</b>  This tab shows the data for the selected election for this state. Select different
+                elections for different summary data.</h4><br></br>
+            <h4><b>Bloc:</b>  This tab determines what precincts in this state are voting as a bloc. Input a threshold
                 for the voting and demographic percentages,
                 hit the calculate button, and view the results.
             </h4>
             <br></br>
-            <h4><b>Redistrict:</b>This tab calculates the maximum number of Minority/Majority districts for this state.
+            <h4><b>Redistrict:</b>  This tab calculates the maximum number of Minority/Majority districts for this state.
                 It has two phases; for phase one, input
                 the range for the population percentage, and then select to see results either after each iteration, or
                 after the program is finished.
@@ -150,7 +150,7 @@
                 </tr>
             </table>
             <br><br>
-            <p>((potentially links to state guidelines, incumbent info, and statewide patterns))</p>
+            <!--potentially links to state guidelines, incumbent info, and statewide patterns))-->
         </div>
         <div id="Bloc" class="tabcontent">
             <div class="tab_header">Calculate Voting Blocs</div>
@@ -296,7 +296,7 @@
 
     //GeoJsons
     setCurrentState('TX');
-    //updateState("Texas");
+    updateState("Texas");
 
     var districts = L.geoJson(txLayer, {
         style: function (feature) {
