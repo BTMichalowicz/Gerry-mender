@@ -78,7 +78,7 @@ public class MainController {
 
 
     @RequestMapping(value="/phase0",method = RequestMethod.POST)
-    public @ResponseBody String phase0(String electionYear, String electionType, Double popThreshold, Double voteThreshold) {
+    public @ResponseBody String phase0(String electionYear, String electionType, double popThreshold, double voteThreshold) {
         alg.lock.lock();
         List<VotingBlocInfo> r = alg.phase0(popThreshold, voteThreshold, electionYear + electionType);
         alg.lock.unlock();
