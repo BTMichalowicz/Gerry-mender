@@ -79,14 +79,17 @@ public class MainController {
 
     @RequestMapping(value="/phase0",method = RequestMethod.POST)
     public @ResponseBody String phase0(String electionYear, String electionType, double popThreshold, double voteThreshold) {
+        System.out.println("Begun phase 0.");
         alg.lock.lock();
         List<VotingBlocInfo> r = alg.phase0(popThreshold, voteThreshold, electionYear + electionType);
         alg.lock.unlock();
         ObjectMapper obj = new ObjectMapper();
         try {
             String ret = obj.writeValueAsString(r);
+            System.out.println("Done phase 0");
             return ret;
         } catch (IOException e) {
+            System.out.println("Error phase 0");
             return "";
         }
     }
@@ -98,7 +101,6 @@ public class MainController {
             alg = new Algorithm();
         }
         alg.lock.lock();
-        System.out.println("id: " + id);
         State s = stateRepository.findById(id).orElse(null);
         List<Precinct> precincts = precinctRepository.findByStatename(s.getNameID());
         Map<String, BasePrecinct> basePrecincts = new HashMap<>();
@@ -121,6 +123,6 @@ public class MainController {
         baseState.setPrecincts(basePrecincts);
         alg.setBaseState(baseState);
         alg.lock.unlock();
+        System.out.println("State " + id + " has been updated.");
     }
-
 }

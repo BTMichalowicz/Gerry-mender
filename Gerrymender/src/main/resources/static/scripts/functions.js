@@ -18,10 +18,6 @@ function show_value(x, id) {
     document.getElementById(id).innerHTML = x;
 }
 
-function get_value(id){
-    document.getElementById(id).val();
-}
-
 function enableButton(id, ID) {
     document.getElementById(id).style.color = 'black';
     $(ID).prop('disabled', false);
@@ -143,18 +139,15 @@ window.onload = function(){
 function updateState(id){
     var formData = new FormData();
     formData.append("id", id);
-    alert("id="+id);
-    var result = $.parseJSON($.ajax({
+    $.ajax({
         url: "http://localhost:8080/updateState",
         type: "POST",
         data: formData,
+        processData: false,
+        contentType: false,
         dataType: "json",
-        async: false,
-        success: function (data) {
-            console.log(data);
-        },
-        error: function (result) { alert("An error has occurred: " + result); }
-    }).responseText);
+        async: true
+    });
 }
 
 var currentState;
@@ -326,8 +319,12 @@ function show2016PData(stateCode) {
 var popSelected = false;
 var voteSelected = false;
 
-function setPopSelected() { popSelected = true; };
-function setVoteSelected() { voteSelected = true; };
+function setPopSelected(value) {
+    popSelected = true;
+};
+function setVoteSelected(value) {
+    voteSelected = true;
+};
 
 function popUpdated(value) {
     setPopSelected(value);
@@ -348,8 +345,9 @@ function voteUpdated(value) {
 function phase0() {
     var year = getYear();
     var eType = getEType();
-    var popThresh = $("#popThreshold").val();
-    var voteThresh = $("#voteThreshold").val();
+    var popThresh = document.getElementById('popThresh_value').innerHTML;
+    var voteThresh = document.getElementById('voteThresh_value').innerHTML;
+    alert("pop: " + popThresh + ", vote: " + voteThresh);
 
     var formData = new FormData();
     formData.append("electionYear", year);
@@ -357,22 +355,23 @@ function phase0() {
     formData.append("popThreshold", popThresh);
     formData.append("voteThreshold", voteThresh);
 
-    $.parseJSON($.ajax({
+    var result = $.parseJSON($.ajax({
         url: "http://localhost:8080/phase0",
         type: "POST",
         data: formData,
         processData: false,
         contentType: false,
         dataType: "json",
-        async: false,
+        async: true,
         success: function (data) {
             console.log(data);
-        },
+            alert("Phase 0 has completed!");
+            },
         error: function (result) {
             alert("Error sending request: " + formData);
-        }
+            }
     }).responseText);
-}
+ }
 /***********************************************************************************/
     function getYear(){
         if ($('#2016C').is(':checked') || $('#2016P').is(':checked')) return 2016;
