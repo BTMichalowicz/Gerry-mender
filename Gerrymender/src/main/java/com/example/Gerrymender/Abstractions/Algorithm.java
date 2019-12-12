@@ -7,6 +7,8 @@ import com.example.Gerrymender.model.Pol_part;
 import com.example.Gerrymender.model.Precinct;
 import com.example.Gerrymender.model.Race;
 import org.apache.catalina.Cluster;
+import reactor.util.function.Tuple2;
+import reactor.util.function.Tuples;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -17,13 +19,16 @@ public class Algorithm {
     public int objectiveValue;
     public int numIterations;
     public ReentrantLock lock;
-
+    private boolean isRunning;
+    private Queue<List<Tuple2<String, String>>> phase1Queue;
     public Algorithm(BaseState s) {
         BaseState = s;
         lock = new ReentrantLock();
+        isRunning = false;
     }
     public Algorithm() {
         lock = new ReentrantLock();
+        isRunning = false;
     }
     public void setBaseState(BaseState s) {
         this.BaseState = s;
@@ -31,6 +36,14 @@ public class Algorithm {
     public BaseState getBaseState() {
         return BaseState;
     }
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public Queue<List<Tuple2<String, String>>> getPhase1Queue() {
+        return phase1Queue;
+    }
+
     private void combine(BaseCluster c1, BaseCluster c2) {
         c1.combine(c2);
         for (BaseCluster c : c2.getEdges()) {
@@ -65,7 +78,7 @@ public class Algorithm {
         }
         BaseState.setClusters(clusters);
     }
-    private boolean isGoodMatch(BaseCluster c, BaseCluster n, boolean lastIter, Pol_part races[], int numDistricts, float minPopPerc, float maxPopPerc) {
+    private boolean isGoodMatch(BaseCluster c, BaseCluster n, boolean lastIter, Pol_part[] races, int numDistricts, double minPopPerc, double maxPopPerc) {
         int idealPop = BaseState.getPopulation() / numDistricts;
         double popEpsilon = .03 * (double)idealPop;
         if(!lastIter) {
@@ -84,7 +97,11 @@ public class Algorithm {
         }
         return false;
     }
-    public Map<String, String> phase1(Pol_part races[], float minPopPerc, float maxPopPerc, int numDistricts, boolean runFull) {
+    public Map<String, String> phase1(Pol_part races[], double minPopPerc, double maxPopPerc, int numDistricts, boolean runFull) {
+        lock.lock();
+        isRunning = true;
+        phase1Queue = new LinkedList<>();
+        lock.unlock();
         initializeClusters();
         Map<String, BaseCluster> clusters = BaseState.getClusters();
         boolean lastIter = false;
@@ -103,9 +120,19 @@ public class Algorithm {
                 if(bestNeighbor == null) {
                     bestNeighbor = clusters.get(clusters.keySet().toArray()[new Random().nextInt(clusters.keySet().size())]);
                 }
+                List<Tuple2<String, String>> changes = new ArrayList<>();
+                for(BasePrecinct p : bestNeighbor.getPrecincts().values()) {
+                    changes.add(Tuples.of(p.getID(), bestNeighbor.getID()));
+                }
+                lock.lock();
+                phase1Queue.add(changes);
+                lock.unlock();
                 combine(clusters.get(key), bestNeighbor);
             }
         }
+        lock.lock();
+        isRunning = false;
+        lock.unlock();
         return null; // placeholder
     }
 

@@ -91,6 +91,20 @@ public class MainController {
         }
     }
 
+    @RequestMapping(value = "/phase1", method = RequestMethod.POST)
+    public @ResponseBody void phase1(Pol_part races[], double minPopPerc, double maxPopPerc, int numDistricts, boolean runFull) {
+        alg.lock.lock();
+        if(alg.isRunning() && !runFull) {
+            alg.getPhase1Queue().remove();
+        }
+        else if(alg.isRunning()){
+            Runnable run = () -> {
+                alg.phase1(races, minPopPerc, maxPopPerc, numDistricts, runFull);
+            };
+            new Thread(run).start();
+        }
+        alg.lock.unlock();
+    }
 
     @RequestMapping(value="/updateState", method=RequestMethod.POST)
     public @ResponseBody void updateState(String id) {
