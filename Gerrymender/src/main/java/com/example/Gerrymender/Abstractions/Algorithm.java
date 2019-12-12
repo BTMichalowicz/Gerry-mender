@@ -22,7 +22,15 @@ public class Algorithm {
         BaseState = s;
         lock = new ReentrantLock();
     }
-
+    public Algorithm() {
+        lock = new ReentrantLock();
+    }
+    public void setBaseState(BaseState s) {
+        this.BaseState = s;
+    }
+    public BaseState getBaseState() {
+        return BaseState;
+    }
     private void combine(BaseCluster c1, BaseCluster c2) {
         c1.combine(c2);
         for (BaseCluster c : c2.getEdges()) {
@@ -122,7 +130,7 @@ public class Algorithm {
         return ret;
     }
 
-    public BaseState BaseState;
+    private BaseState BaseState;
     private HashMap<String, String> precinctDistrictMap; //precinctID --> districtID
 
     //calculates an aggregate measure score (double) for a given BaseDistrict
