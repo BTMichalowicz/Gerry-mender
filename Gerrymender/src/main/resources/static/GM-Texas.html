@@ -17,11 +17,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+    <script src="Content/nouislider.js"></script>
 
     <!--Links-->
     <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet'/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="Content/Site.css">
+    <link rel="stylesheet" href="Content/nouislider.css" >
 
 </head>
 <body>
@@ -155,12 +157,10 @@
             <br></br>
             <div class="tab_subheader">Please Input Values Below:<br></br></div>
             <div class="slider_container">
-                <label>Population Threshold: <span id="popThresh_value"></span>%</label>
-                <input type="range" min="51" max="100" value="51" class="slider_ctr" id="popThreshold"
-                       onchange="popUpdated(this.value);"><br>
-                <label>Voting Threshold: <span id="voteThresh_value"></span>%</label>
-                <input type="range" min="51" max="100" value="51" class="slider_ctr" id="voteThreshold"
-                       onchange="voteUpdated(this.value);"><br>
+                Population Threshold: <span id="popThresh_value"></span>%<br>
+                    <div id = "popSlider"></div><br>                    
+                Voting Threshold: <span id="voteThresh_value"></span>%<br>
+                    <div id = "voteSlider"></div><br>
             </div>
             <button class="enableOnInput" id="phase0Button" disabled='disabled' onclick="phase0()">Calculate</button>
             <br></br>
@@ -207,7 +207,7 @@
                 </select>
                 <input type="number" name="popThresh" style="width: 50px; color: black; ">
             </div>
-            <h4>•Minority Populations Considered:.</h4>
+            <h4>Minority Populations Considered:.</h4>
             <div>
                 <input type="checkbox" name="afr">African American<br>
                 <input type="checkbox" name="nat">Native American<br>
@@ -215,14 +215,12 @@
                 <input type="checkbox" name="asi">Asian<br>
                 <input type="checkbox" name="whi">White<br>
             </div>
-            <h4>•Population Percentages:</h4>
-            <form style="overflow: hidden; text-align: center; ">
-                Maximum:
-                <input type="number" name="minPercentage" style="width: 50px; color: black; float: right;"><br></br>
-                Minimum:
-                <input type="number" name="maxPercentage" style="width: 50px;  color: black; float: right;"><br></br>
-            </form>
-            <br></br>
+            <h4>Population Percentages:</h4>
+                <div class = "tab_subheader">Range:</div><br>
+                    <div id="percentage-slider"></div><br>        
+                    Min: <span id = "lower-value"></span><br>
+                    Max: <span id= "upper-value"></span>
+            <br><br>
             <div class="tab_subheader">Output:</div>
             <br></br>
             <p>((To Be Done: GM Scores, Population/Maj-Min Tables))</p>
@@ -298,7 +296,7 @@
 
     //GeoJsons
     setCurrentState('TX');
-    updateState("Texas");
+    //updateState("Texas");
 
     var districts = L.geoJson(txLayer, {
         style: function (feature) {

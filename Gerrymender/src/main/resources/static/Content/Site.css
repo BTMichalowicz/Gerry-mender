@@ -330,3 +330,54 @@ html,body{
     display: block; 
   }
 
+
+  /*noUiSliders*/
+  .noUi-background {
+    height: 8px;
+  }
+  
+  .noUi-base .noUi-connect {
+    background-color: deepskyblue;
+  }
+
+  .noUi-base .noUi-handle {
+    background-color: darkgrey;
+  border: none;
+  border-radius: 20px;
+  box-shadow: none;
+  color: #FFFFFF;
+  font-size: 12px;
+  height: 30px;
+  text-align: center;
+  width: 50px;
+}
+.noUi-horizontal .noUi-base .noUi-handle {
+  cursor: ew-resize;
+}
+.noUi-base .noUi-handle:hover {
+    background-color: #6adafc;
+  }
+  .noUi-base .noUi-handle.noUi-active {
+    background-color: #2b6b85;
+    z-index: 3;
+  }
+  .noUi-base .noUi-handle::before {
+    background: transparent;
+    content: attr(data-value);
+    display: table-cell;
+    font-size: 14px;
+    font-weight: 100;
+    position: static;
+    width: 100%;
+    vertical-align: middle;
+  }
+  .noUi-base .noUi-handle::after {
+    display: none;
+  }
+  
+  .noUi-tooltip{
+      height: 20px;
+  }
+
+ 
+

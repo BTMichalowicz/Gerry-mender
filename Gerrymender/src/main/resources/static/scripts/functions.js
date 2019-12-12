@@ -83,6 +83,63 @@ function toggleHomeHelp() {
 }
 
 /*State Pages*/
+
+window.onload = function(){
+    //Threshold Sliders
+    var popSlider = document.getElementById('popSlider');
+
+    noUiSlider.create(popSlider,{
+        start: [60],
+        connect: 'lower',
+        range: {
+            'min' : [51],
+            'max' : [100]
+        },
+   });
+
+    popSlider.noUiSlider.on('update', function(values, handle){
+        document.getElementById('popThresh_value').innerHTML = values[handle];
+        popUpdated(values[handle]);
+    });
+
+    var voteSlider = document.getElementById('voteSlider');
+
+    noUiSlider.create(voteSlider,{
+        start: [60],
+        connect: 'lower',
+        range: {
+            'min' : [51],
+            'max' : [100]
+        },
+   });
+
+    voteSlider.noUiSlider.on('update', function(values, handle){
+        document.getElementById('voteThresh_value').innerHTML = values[handle];
+        voteUpdated(values[handle]);
+    });
+
+    //Range Slider
+    var slider = document.getElementById('percentage-slider');
+
+    noUiSlider.create(slider, {
+        start: [20, 80],
+        tooltips: [true, true],
+        range: {
+            'min': [0],
+            'max': [100]
+        },
+        connect: true
+    });
+    var sliderValues = [
+       document.getElementById('lower-value'),
+       document.getElementById('upper-value')
+  ];
+
+    slider.noUiSlider.on('update', function (values, handle) {
+        sliderValues[handle].innerHTML = values[handle];
+    });
+}
+
 function updateState(id){
     var formData = new FormData();
     formData.append("id", id);
@@ -300,7 +357,7 @@ function phase0() {
     formData.append("popThreshold", popThresh);
     formData.append("voteThreshold", voteThresh);
 
-    var result = $.parseJSON($.ajax({
+    $.parseJSON($.ajax({
         url: "http://localhost:8080/phase0",
         type: "POST",
         data: formData,
@@ -310,7 +367,6 @@ function phase0() {
         async: false,
         success: function (data) {
             console.log(data);
-            alert("Success.");
         },
         error: function (result) {
             alert("Error sending request: " + formData);
