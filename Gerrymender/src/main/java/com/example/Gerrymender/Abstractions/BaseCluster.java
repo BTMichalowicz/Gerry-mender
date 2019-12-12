@@ -1,6 +1,7 @@
 package com.example.Gerrymender.Abstractions;
 
 import com.example.Gerrymender.model.Pol_part;
+import com.example.Gerrymender.model.Precinct;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,14 +17,15 @@ public class BaseCluster {
     private Map<Pol_part, Integer> votes;
     private HashMap<String, BasePrecinct> precincts;
     private HashSet<BaseCluster> edges;
-
-    public BaseCluster(String ID, BaseState state, int population) {
+    private int racePops[];
+    public BaseCluster(String ID, BaseState state, int population, int racePops[]) {
         this.ID = ID;
         this.state = state;
         this.population = population;
         this.precincts = new HashMap<>();
         this.votes = new HashMap<>();
         this.edges = new HashSet<>();
+        this.racePops = racePops;
     }
 
     public String getID() {
@@ -50,16 +52,22 @@ public class BaseCluster {
         return externalEdges;
     }
 
-    public HashMap<String, BasePrecinct> getPrecincts() {
+    public Map<String, BasePrecinct> getPrecincts() {
         return precincts == null ? new HashMap<>() :  precincts;
     }
 
-    public HashSet<BaseCluster> getEdges() { return edges;    }
+    public Set<BaseCluster> getEdges() { return edges;    }
 
     public void setEdges(HashSet<BaseCluster> edges) { this.edges = edges;    }
 
     public void combine(BaseCluster c) {
         precincts.putAll(c.getPrecincts());
+        for(String s : c.getPrecincts().keySet()) {
+            c.getPrecincts().get(s).setClusterId(Integer.parseInt(ID));
+        }
+        for(int i = 0; i < racePops.length; i++) {
+            racePops[i] += c.getRacePops()[i];
+        }
         edges.addAll(c.getEdges());
         population += c.getPopulation();
     }
@@ -71,4 +79,6 @@ public class BaseCluster {
     public void addEdge(BaseCluster c) {
         edges.add(c);
     }
+
+    public int[] getRacePops() { return racePops; }
 }

@@ -148,4 +148,6 @@ public class BasePrecinct implements PrecinctInterface {
     public Set<BasePrecinct> getEdges() { return edges;    }
 
     public void setEdges(Set<BasePrecinct> edges) { this.edges = edges;    }
+
+    public int[] getRacePops() { return racePops; }
 }
