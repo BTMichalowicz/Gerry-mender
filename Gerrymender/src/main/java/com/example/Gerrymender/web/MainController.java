@@ -81,7 +81,7 @@ public class MainController {
     public @ResponseBody String phase0(String electionYear, String electionType, double popThreshold, double voteThreshold) {
         System.out.println("Begun phase 0.");
         alg.lock.lock();
-        List<VotingBlocInfo> r = alg.phase0(popThreshold, voteThreshold, electionYear + electionType);
+        List<VotingBlocInfo> r = alg.phase0(popThreshold / 100.0, voteThreshold / 100.0, electionYear + electionType);
         alg.lock.unlock();
         ObjectMapper obj = new ObjectMapper();
         try {
@@ -103,7 +103,7 @@ public class MainController {
         }
         else if(alg.isRunning()){
             Runnable run = () -> {
-                alg.phase1(races, minPopPerc, maxPopPerc, numDistricts, runFull);
+                alg.phase1(races, minPopPerc / 100.0, maxPopPerc / 100.0, numDistricts, runFull);
             };
             new Thread(run).start();
         }

@@ -142,7 +142,8 @@ public class Algorithm {
         }
 
         List<VotingBlocInfo> ret = new ArrayList<>();
-        for (BasePrecinct p : BaseState.getPrecincts().values()) {
+        for (String key : BaseState.getPrecincts().keySet()) {
+            BasePrecinct p = BaseState.getPrecinct(key);
             Race r = p.getMajorityRace();
             double perc = (double) p.getMajorityRacePop() / (double) p.getPopulation();
             if (perc >= popThreshold) {
