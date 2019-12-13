@@ -467,7 +467,14 @@ function phase0() {
  }
 
  function processPhase0(result){
-    alert(result);
+    var precinct1 = [
+        {Attr: "ID", Amount: result[0].precinctID},
+        {Attr: "Party", Amount: result[0].party},
+        {Attr: "Total Votes", Amount: result[0].totalVotes},
+        {Attr: "Party Votes", Amount: result[0].partyVotes}
+    ];
+     $("#demBlocList tr").remove();
+     $("#demBlocs").tmpl(precinct1).appendTo("#demBlocList tbody");
 }
 
 //Phase 1

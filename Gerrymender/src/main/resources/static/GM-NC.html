@@ -165,6 +165,20 @@
             <div class="tab_subheader">Output:</div>
             <br>
             <h4>Democratic Blocs:</h4><br>
+            <script id="demBlocs" type="text/x-jquery-tmpl">
+                <tr>
+                    <td width="50%">${Attr}</td>
+                    <td width="50%">${Amount}</td>
+                </tr>
+                 </script>
+            <table class="table" id="demBlocList">
+                <thead>
+                <tr>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
             <h4>Republican Blocs:</h4><br>
             <h4>Other Blocs:</h4><br>
         </div>
@@ -301,6 +315,7 @@
 
     /*geoJson Manipulation*/
     setCurrentState('NC');
+    updateState('North Carolina');
 
     var districts = L.geoJson(ncLayer, { 
         style: function (feature) { return { 
