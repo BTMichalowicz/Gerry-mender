@@ -103,7 +103,7 @@
             <br>
 
             <div class="tab_subheader">State Information</div>
-            <table style="width:100%; font-size: 16px;">
+            <table style="width:100%; font-size: 18px;">
                 <caption>Voting Data</caption>
                 <tr>
                     <th>Party</th>
@@ -172,26 +172,53 @@
                     <div id = "voteSlider"></div><br>
             </div>
             <button class="enableOnInput" id="phase0Button" disabled='disabled' onclick="phase0()">Calculate</button>
-            <br></br>
-            <div class="tab_subheader">Output:</div>
             <br>
-            <h4>Democratic Blocs:</h4><br>
-            <script id="demBlocs" type="text/x-jquery-tmpl">
+            <div class="tab_subheader">Output:</div>
+            <table id = "blocSummaryTable" style = "width:100%; font-size: 18px">
+                <caption>Summary:</caption>
                 <tr>
-                    <td width="50%">${Attr}</td>
-                    <td width="50%">${Amount}</td>
+                    <th>Party</th>
+                    <th># Blocs</th>
                 </tr>
-                 </script>
-            <table class="table" id="demBlocList">
-                <thead>
                 <tr>
+                    <td>Republican</td>
+                    <td id = "repBlocsNum"></td>
                 </tr>
-                </thead>
-                <tbody>
-                </tbody>
+                <tr>
+                    <td>Democrat</td>
+                    <td id = "demBlocsNum"></td>
+                </tr>
+            </table><br>
+            <script id="blocTemplate" type="text/x-jquery-tmpl">
+                    <tr>
+                        <td width="25%">${demo}</td>
+                        <td width="25%">${pID}</td>
+                        <td width="25%">${partyV}</td>
+                        <td width="25%">${totalV}</td>
+                    </tr>
+                </script>
+            <table id = "demBlocTable" style = "width: 100%; font-size: 14px;">
+                <caption style="font-size: 16px;">Democrat Blocs</caption>
+                <tr>
+                    <th>Race</th>
+                    <th>Precinct</th>
+                    <th>Votes Dem.</th>
+                    <th>Total Votes</th>
+                </tr>
+                <thead><tr></tr></thead>
+                <tbody></tbody>
+            </table><br>
+            <table id = "repBlocTable" style = "width: 100%; font-size: 14px;">
+                <caption style="font-size: 16px;">Republican Blocs</caption>
+                <tr>
+                    <th>Race</th>
+                    <th>Precinct</th>
+                    <th>Votes Rep.</th>
+                    <th>Total Votes</th>
+                </tr>
+                <thead><tr></tr></thead>
+                <tbody></tbody>
             </table>
-            <h4>Republican Blocs:</h4><br>
-            <h4>Other Blocs:</h4><br>
         </div>
         <div id="GM" class="tabcontent">
             <div class="tab_header">Gerrymending

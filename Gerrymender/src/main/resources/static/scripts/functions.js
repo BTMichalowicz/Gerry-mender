@@ -439,7 +439,6 @@ function phase0() {
     var eType = getEType();
     var popThresh = document.getElementById('popThresh_value').innerHTML;
     var voteThresh = document.getElementById('voteThresh_value').innerHTML;
-    alert("pop: " + popThresh + ", vote: " + voteThresh);
 
     var formData = new FormData();
     formData.append("electionYear", year);
@@ -454,30 +453,53 @@ function phase0() {
         processData: false,
         contentType: false,
         dataType: "json",
-        async: true,
-        success: function (data) {
-            console.log(data);
+        async: false,
+        success: function (results) {
             alert("Phase 0 has completed!");
+            var demBlocs = fillOutDemBlocs(results);
+            var repBlocs = fillOutRepBlocs(results);
+            document.getElementById("demBlocsNum").innerHTML = demBlocs;
+            document.getElementById("repBlocsNum").innerHTML = repBlocs;
             },
-        error: function (result) {
-            alert("Error in phase 0.");
+        error: function (e) {
+            alert("Error in phase 0." + e);
             }
     })).responseText;
-    processPhase0(result);
  }
 
- function processPhase0(result){
-    var precinct1 = [
-        {Attr: "ID", Amount: result[0].precinctID},
-        {Attr: "Party", Amount: result[0].party},
-        {Attr: "Total Votes", Amount: result[0].totalVotes},
-        {Attr: "Party Votes", Amount: result[0].partyVotes}
-    ];
-     $("#demBlocList tr").remove();
-     $("#demBlocs").tmpl(precinct1).appendTo("#demBlocList tbody");
+function fillOutDemBlocs(result){
+    var i = 0;
+    var demItems = [];
+    while(result[i] != null){
+        if (result[i].party == "DEMOCRAT"){
+            var demItem = [{ demo: result[i].majorityRace, pID: result[i].precinctId, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
+            $("#blocTemplate").tmpl(demItem).appendTo("#demBlocTable tbody");
+        }
+        i++;
+    }
+    return i;
+}
+function fillOutRepBlocs(result){
+    var i = 0;
+    while(result[i] != null){
+        if (result[i].party == "REPUBLICAN"){
+            var repItem = [{ demo: result[i].majorityRace, pID: result[i].precinctId, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
+            $("#blocTemplate").tmpl(repItem).appendTo("#repBlocTable tbody");
+        }
+        i++;
+    }
+    return i;
 }
 
-//Phase 1
+ function sampleTable(){
+     var items = [ {pid: "pid", party: "rep", totalV: "5", partyV: "4"},
+         {pid: "pid2", party: "rep", totalV: "9", partyV: "6"},
+         {pid: "pid3", party: "dem", totalV: "9", partyV: "8"}
+     ];
+     $("#sampleTemplate").tmpl(items).appendTo("#sampleTable tbody");
+ }
+
+ //Phase 1
 var iterative = false;
 
 function setIterative(){
