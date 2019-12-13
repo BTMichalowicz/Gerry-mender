@@ -251,6 +251,7 @@ html,body{
 .phase2_button{
     color: grey;
     text-align: center;
+    float: bottom;
     display: block; 
     margin: 0 auto;
     bottom: 50px;
@@ -273,12 +274,16 @@ html,body{
     overflow-x: hidden;
     overflow-y: hidden;
     text-align: left;
-    font-size: 18px;
+    font-size: 16px;
+}
+
+.small-info-table{
+    font-size: 14px;
 }
 
 .table{
     text-align: left;
-    font-size: large;
+    font-size: 18px;
 }
 
 /* Dropdown Button */

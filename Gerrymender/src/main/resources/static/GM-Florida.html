@@ -165,7 +165,6 @@
             <br></br>
             <p>((Displays the output table, or "No Blocs Found"))</p>
         </div>
-
         <div id="GM" class="tabcontent">
             <div class="tab_header">Gerrymending
                 <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" 
@@ -178,7 +177,7 @@
                 <h4>Please Select an Update Mode:</h4>
                 <!--If iterative is selected, then the next button should enable-->
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx" onclick="iterative()">
+                    <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx" onclick="iterateMode()">
                     <label class="custom-control-label" for="iterate" style="color: white" >Iterative</label>
                     <button class="enableOnInput_r" id="iterateButton"  disabled = 'disabled' onclick="nextIteration()">Next Iteration</button>
                 </div>
@@ -201,7 +200,7 @@
                     title ="Provide weights for the measures below, select which populations to consider, and input a desired number of districts to
                     be drawn."></span>
             </div>
-            <br></br>
+            <br><br>
             <h4>Objective Function Weights:</h4>
             <div class="content_centered">
                 <select name="Weights">

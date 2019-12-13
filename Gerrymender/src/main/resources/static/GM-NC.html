@@ -71,7 +71,10 @@
                 For phase 2, input the weight of factors for the algorithm to use, select which deographics to consider, and input the desired number of districts. </h4><br></br>
         </div>
         <div id="Data" class="tabcontent">
-                <div class="tab_header">Data Displayed</div>
+            <div class="tab_header">Data Displayed
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom"
+                      title ="Select an election below for a summary of Florida's voting and demographic data. "></span>
+            </div>
                 <br>
                 <form>
                     <div class="custom-control custom-radio custom-control-inline" style=" margin-left: 30px">
@@ -145,7 +148,10 @@
                 <!--((potentially links to state guidelines, incumbent info, and statewide patterns))</-->
             </div>
         <div id="Bloc" class="tabcontent">
-            <div class="tab_header">Calculate Voting Blocs</div>
+            <div class="tab_header">Calculate Voting Blocs
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom"
+                      title ="Input a threshold for voting percentage and population to determine which precincts vote as a bloc."></span>
+            </div>
             <br></br>
             <div class="tab_subheader">Please Input Values Below:<br></br></div>
             <div class="slider_container">
@@ -160,9 +166,11 @@
             <br></br>
             <p>((Displays the output table, or "No Blocs Found"))</p>
         </div>
-
         <div id="GM" class="tabcontent">
-            <div class="tab_header">Gerrymend</div>
+            <div class="tab_header">Gerrymending
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom"
+                      title ="Phase 1 of Redistricting: Put a range of population percentage and update mode (by iteration or one cumulative update)."></span>
+            </div>
             <br></br>
             <div class="tab_subheader">Phase 1: Graph Partitioning</div>
             <br></br>
@@ -187,8 +195,13 @@
         </div>
         <div id="P2" class="tabcontent">
             <!--Phase 2 ONLY should appear one Phase 1 COMPLETES.-->
-            <div class="tab_subheader">Phase 2: Simulated Annealing</div>
-            <br></br>
+            <div class="tab_header">Phase 2: </div>
+            <div class="tab_header">Simulated Annealing
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom"
+                      title ="Provide weights for the measures below, select which populations to consider, and input a desired number of districts to
+                    be drawn."></span>
+            </div>
+            <br><br>
             <h4>Objective Function Weights:</h4>
             <div class="content_centered">
                 <select name="Weights">
