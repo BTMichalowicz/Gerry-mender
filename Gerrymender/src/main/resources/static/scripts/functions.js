@@ -465,19 +465,40 @@ function phase2(){
                         alert("Error sending request: " + formData);
                     }
                 }).responseText);
-                var items = [
-                    {Attr: "Name", Amount: numberWithCommas(result[0].nameID)},
-                    {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
-                    {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
-                    {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
-                    {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
-                    {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
-                    {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
-                ];
+                var items;
+                if (pLayer) items =  precinctItems(result);
+                else items = districtItems(result);
+
             $("#small-info-table tr").remove();
             if (clicked) $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
             $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
         });
+    }
+
+    function precinctItems(result){
+        var items = [
+            {Attr: "Code", Amount: result[0].nameID},
+            {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
+            {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
+            {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
+            {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
+            {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
+            {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
+        ];
+        return items;
+    }
+
+    function districtItems(result){
+        var items = [
+            {Attr: "District #", Amount: result[0].nameID},
+            {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
+            {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
+            {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
+            {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
+            {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
+            {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
+        ];
+        return items;
     }
 
     var district_color = new Map();
