@@ -102,6 +102,16 @@ for idx, row in newFile.iterrows():
             #totalVote+=int(float(str(row['VoteTotal']).replace(',','')))
             voteDict['Other']+=int(float(str(row['VoteTotal']).replace(',','')))
 
+cursor.execute("insert into Votes(precinctID, countyName,districtName, stateName, electionYear, electionName, numRepub, numDemocrat, numOther, totalVotes) values ('" +
+                str(precinctID) + "', '"+str(countyName)+"', '"+
+                (None if distID == None else str(distID)) + "',"+
+                str(stateName)+",'2018' , 'Congressional',"+
+                str(voteDict['REP']) + "," + 
+                str(voteDict['DEM']) + "," + 
+                str(voteDict['Other'])+"," +
+                str(totalVote)+");")
+        #isCommit=False
+myConn.commit()
 
 
 doQuery(myConn)
