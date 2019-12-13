@@ -228,7 +228,7 @@ function onEachFeature(feature, layer) {
     });
 }
 
-/*Menu Tabs*/
+//Menu Tabs
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -241,6 +241,88 @@ function openTab(evt, tabName) {
     }
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
+}
+
+//Info Panels
+
+function getYear(){
+    if ($('#2016C').is(':checked') || $('#2016P').is(':checked')) return 2016;
+    else return 2018;
+}
+
+function getEType(){
+    if ($('#2016C').is(':checked') || $('#2018C').is(':checked')) return "CONGRESSIONAL";
+    else return "PRESIDENT";
+}
+
+function getInfo(feature, clicked){
+    $(document).ready(function () {
+        $("#small-info-table tr").remove();
+        if(clicked) $("#itemList tr").remove();
+        var stateName = getCurrentState();
+        var year = getYear();
+        var etype = getEType();
+        var formData = new FormData();
+        if (pLayer) {
+            formData.append("stateName", stateName);
+            formData.append("id", feature.properties.countypct);
+            formData.append("mapLevel", "precinct");
+        } else {
+            formData.append("stateName", stateName);
+            formData.append("id", feature.properties.DISTRICT);
+            formData.append("mapLevel", "district");
+        }
+        formData.append("year", year);
+        formData.append("electionType", etype);
+        var result = $.parseJSON($.ajax({
+            url: "http://localhost:8080/getSelectArea",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (result) {
+                alert("Error sending request: " + formData);
+            }
+        }).responseText);
+        var items;
+        if (pLayer) items =  precinctItems(result);
+        else items = districtItems(result);
+
+        $("#small-info-table tr").remove();
+        if (clicked) $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
+        $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
+    });
+}
+
+function precinctItems(result){
+    var items = [
+        {Attr: "Code", Amount: result[0].nameID},
+        {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
+        {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
+        {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
+        {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
+        {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
+        {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
+    ];
+    return items;
+}
+
+function districtItems(result){
+    var items = [
+        {Attr: "District #", Amount: result[0].nameID},
+        {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
+        {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
+        {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
+        {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
+        {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
+        {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
+    ];
+    return items;
 }
 
 // Data Tab
@@ -378,10 +460,22 @@ function phase0() {
             alert("Phase 0 has completed!");
             },
         error: function (result) {
-            alert("Error sending request: " + formData);
+            alert("Error in phase 0.");
             }
-    }).responseText);
+    })).responseText;
+    processPhase0(result);
  }
+
+ function processPhase0(result){
+    var precinct1 = [
+        {Attr: "ID", Amount: result[0].precinctID},
+        {Attr: "Party", Amount: result[0].party},
+        {Attr: "Total Votes", Amount: result[0].totalVotes},
+        {Attr: "Party Votes", Amount: result[0].partyVotes}
+    ];
+     $("#demBlocList tr").remove();
+     $("#demBlocs").tmpl(precinct1).appendTo("#demBlocList tbody");
+}
 
 //Phase 1
 var iterative = false;
@@ -419,66 +513,6 @@ function phase1(){
 function phase2(){
     alert("how did you do this it's not even IMPLEMENTED");
 }
-
-/***********************************************************************************/
-    function getYear(){
-        if ($('#2016C').is(':checked') || $('#2016P').is(':checked')) return 2016;
-        else return 2018;
-    }
-
-    function getEType(){
-        if ($('#2016C').is(':checked') || $('#2018C').is(':checked')) return "CONGRESSIONAL";
-        else return "Presidential";
-    }
-
-    function getInfo(feature, clicked){
-        $(document).ready(function () {
-            $("#small-info-table tr").remove();
-            if(clicked) $("#itemList tr").remove();
-            var stateName = getCurrentState();
-            var year = getYear();
-            var etype = getEType();
-            var formData = new FormData();
-                if (pLayer) {
-                    formData.append("stateName", stateName);
-                    formData.append("id", feature.properties.countypct);
-                    formData.append("mapLevel", "precinct");
-                } else {
-                    formData.append("stateName", stateName);
-                    formData.append("id", feature.properties.DISTRICT);
-                    formData.append("mapLevel", "district");
-                }
-                formData.append("year", year);
-                formData.append("electionType", etype);
-                var result = $.parseJSON($.ajax({
-                    url: "http://localhost:8080/getSelectArea",
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    dataType: "json",
-                    async: false,
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (result) {
-                        alert("Error sending request: " + formData);
-                    }
-                }).responseText);
-                var items = [
-                    {Attr: "Name", Amount: numberWithCommas(result[0].nameID)},
-                    {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
-                    {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
-                    {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
-                    {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
-                    {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
-                    {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
-                ];
-            $("#small-info-table tr").remove();
-            if (clicked) $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
-            $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
-        });
-    }
 
     var district_color = new Map();
     district_color.set(1, '#ff6d3a');

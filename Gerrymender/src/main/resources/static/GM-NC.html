@@ -106,7 +106,7 @@
                     </tr>
                     <tr>
                         <td>Democrat</td>
-                        <td id = "votesDemocrat">1,771,061,</td>
+                        <td id = "votesDemocrat">1,771,061</td>
                         <td id = "percentDemocrat">48.35%</td>
                     </tr>
                 </table>
@@ -163,8 +163,24 @@
             <button class="enableOnInput" id="phase0Button" disabled='disabled' onclick="phase0()">Calculate</button>
             <br></br>
             <div class="tab_subheader">Output:</div>
-            <br></br>
-            <p>((Displays the output table, or "No Blocs Found"))</p>
+            <br>
+            <h4>Democratic Blocs:</h4><br>
+            <script id="demBlocs" type="text/x-jquery-tmpl">
+                <tr>
+                    <td width="50%">${Attr}</td>
+                    <td width="50%">${Amount}</td>
+                </tr>
+                 </script>
+            <table class="table" id="demBlocList">
+                <thead>
+                <tr>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <h4>Republican Blocs:</h4><br>
+            <h4>Other Blocs:</h4><br>
         </div>
         <div id="GM" class="tabcontent">
             <div class="tab_header">Gerrymending

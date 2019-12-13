@@ -79,7 +79,6 @@ public class MainController {
 
     @RequestMapping(value="/phase0",method = RequestMethod.POST)
     public @ResponseBody String phase0(String electionYear, String electionType, double popThreshold, double voteThreshold) {
-        System.out.println("Begun phase 0.");
         alg.lock.lock();
         List<VotingBlocInfo> r = alg.phase0(popThreshold / 100.0, voteThreshold / 100.0, electionYear + electionType);
         alg.lock.unlock();
