@@ -234,11 +234,9 @@
     <div class="small-info-window" id="small-info-window">
         <script id="smallInfoTemplate" type="text/x-jquery-tmpl">
                 <tr>
-                    <td width="30%">${Attr}</td>
-                    <td width="70%">${Amount}</td>
+                    <td width="40%">${Attr}</td>
+                    <td width="60%">${Amount}</td>
                 </tr>
-
-
         </script>
         <table class="table" id="small-info-table">
             <thead>
@@ -251,26 +249,23 @@
     </div>
     <!--Information Slider-->
     <div class="slide-info" id="slide-info">
-        <h3>Information</h3>
+        <h3>Information</h3><br>
         <!-- -->
         <script id="itemTemplate" type="text/x-jquery-tmpl">
                 <tr>
-                    <td width="30%">${Attr}</td>
-                    <td width="70%">${Amount}</td>
+                    <td width="50%">${Attr}</td>
+                    <td width="50%">${Amount}</td>
                 </tr>
-
-
         </script>
         <!-- -->
         <table class="table" id="itemList">
             <thead>
-            <tr>
-
-            </tr>
+                <tr>
+                </tr>
             </thead>
             <tbody>
             </tbody>
-        </table>
+        </table><br>
         <input type="button" class="button" onclick="closeInfo()" value="Close">
     </div>
 </div>

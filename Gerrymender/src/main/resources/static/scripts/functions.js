@@ -1,4 +1,10 @@
 /*Universal Functions*/
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
+
 function moveZoomControl() {
     if (sliderState === 1) {
         container = map.zoomControl.getContainer(),
@@ -418,13 +424,13 @@ function phase0() {
                     }
                 }).responseText);
                 var items = [
-                    {Attr: "Name", Amount: result[0].nameID},
-                    {Attr: "Population", Amount: result[0].totalPop},
-                    {Attr: "White", Amount: result[0].white_pop},
-                    {Attr: "Hispanic", Amount: result[0].hispanic_pop},
-                    {Attr: "Asian", Amount: result[0].asian_pop},
-                    {Attr: "Republican", Amount: result[1].numrepub},
-                    {Attr: "Democratic", Amount: result[1].numdemocrat},
+                    {Attr: "Name", Amount: numberWithCommas(result[0].nameID)},
+                    {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
+                    {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
+                    {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
+                    {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
+                    {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
+                    {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
                 ];
             $("#small-info-table tr").remove();
             if (clicked) $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
