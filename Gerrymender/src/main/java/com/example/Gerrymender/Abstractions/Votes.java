@@ -21,9 +21,9 @@ public class Votes {
     public Votes(Vote v) {
         this.year = Integer.parseInt(v.getElectionyear());
         this.isPresidential = v.getElectionname().equals("PRESIDENT");
-        this.votes = new long[]{v.getNumrepub(), v.getNumdemocrat(), v.getTotalvote() - v.getNumrepub() - v.getNumdemocrat()};
+        this.votes = new long[]{ v.getNumdemocrat(), v.getNumrepub(), v.getTotalvote() - v.getNumrepub() - v.getNumdemocrat()};
         this.totalVotes = v.getTotalvote();
-        this.party = v.getWinner().equals("REPUBLICAN") ? Pol_part.REPUBLICAN : v.getWinner().equals("DEMOCRAT") ? Pol_part.DEMOCRAT : Pol_part.OTHER;
+        this.party = v.getWinner().charAt(0) == 'R' ? Pol_part.REPUBLICAN : v.getWinner().charAt(0) == 'D' ? Pol_part.DEMOCRAT : Pol_part.OTHER;
     }
 
     public int getYear() {
