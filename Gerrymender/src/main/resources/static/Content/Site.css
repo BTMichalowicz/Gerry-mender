@@ -274,10 +274,10 @@ html,body{
     overflow-x: hidden;
     overflow-y: hidden;
     text-align: left;
-    font-size: 16px;
+    font-size: 14px;
 }
 
-.small-info-table{
+#small-info-table{
     font-size: 14px;
 }
 

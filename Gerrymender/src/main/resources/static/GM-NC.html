@@ -163,8 +163,10 @@
             <button class="enableOnInput" id="phase0Button" disabled='disabled' onclick="phase0()">Calculate</button>
             <br></br>
             <div class="tab_subheader">Output:</div>
-            <br></br>
-            <p>((Displays the output table, or "No Blocs Found"))</p>
+            <br>
+            <h4>Democratic Blocs:</h4><br>
+            <h4>Republican Blocs:</h4><br>
+            <h4>Other Blocs:</h4><br>
         </div>
         <div id="GM" class="tabcontent">
             <div class="tab_header">Gerrymending
@@ -299,7 +301,6 @@
 
     /*geoJson Manipulation*/
     setCurrentState('NC');
-    updateState('North Carolina');
 
     var districts = L.geoJson(ncLayer, { 
         style: function (feature) { return { 
