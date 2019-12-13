@@ -24,9 +24,14 @@ function show_value(x, id) {
     document.getElementById(id).innerHTML = x;
 }
 
-function enableButton(id, ID) {
+function enable(id, ID) {
     document.getElementById(id).style.color = 'black';
     $(ID).prop('disabled', false);
+}
+
+function disable(id, ID) {
+    document.getElementById(id).style.color = 'lightgrey';
+    $(ID).prop('disabled', true);
 }
 
 /*Sliding Menus*/
@@ -125,7 +130,6 @@ window.onload = function(){
 
     noUiSlider.create(slider, {
         start: [20, 80],
-        tooltips: [true, true],
         range: {
             'min': [0],
             'max': [100]
@@ -325,26 +329,26 @@ function show2016PData(stateCode) {
 var popSelected = false;
 var voteSelected = false;
 
-function setPopSelected(value) {
+function setPopSelected() {
     popSelected = true;
 };
-function setVoteSelected(value) {
+function setVoteSelected() {
     voteSelected = true;
 };
 
 function popUpdated(value) {
-    setPopSelected(value);
+    setPopSelected();
     show_value(value, 'popThresh_value');
     if (popSelected && voteSelected) {
-        enableButton("phase0Button");
+        enable("phase0Button", "#phase0Button");
     }
 }
 
 function voteUpdated(value) {
-    setVoteSelected(value);
+    setVoteSelected();
     show_value(value, 'voteThresh_value');
     if (popSelected && voteSelected) {
-        enableButton("phase0Button", "#phase0Button");
+        enable("phase0Button", "#phase0Button");
     }
 }
 
@@ -378,6 +382,44 @@ function phase0() {
             }
     }).responseText);
  }
+
+//Phase 1
+var iterative = false;
+
+function setIterative(){
+    iterative = true;
+}
+
+function setEndOnly(){
+    iterative = false;
+}
+
+function iterateMode(){
+   enable("phase1Button", "#phase1Button");
+   setIterative();
+}
+
+function endOnly(){ 
+    enable("phase1Button", "#phase1Button"); 
+    setEndOnly();
+}
+
+function phase1(){
+    if(iterative){
+        enable("iterateButton", "#iterateButton");
+    }
+    disable("iterate", "#iterate");
+    disable("endUpdate", "#endUpdate");
+    disable("phase1Button", "#phase1Button");
+    //todo: add phase 1
+}
+
+//Phase 2
+
+function phase2(){
+    alert("how did you do this it's not even IMPLEMENTED");
+}
+
 /***********************************************************************************/
     function getYear(){
         if ($('#2016C').is(':checked') || $('#2016P').is(':checked')) return 2016;

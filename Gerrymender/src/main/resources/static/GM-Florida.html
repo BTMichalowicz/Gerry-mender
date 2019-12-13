@@ -17,11 +17,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+    <script src="Content/nouislider.js"></script>
 
     <!--Links-->
     <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet'/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="Content/Site.css">
+    <link rel="stylesheet" href="Content/nouislider.css" >
 
 </head>
 <body>
@@ -54,7 +56,6 @@
             <button class="tablinks" onclick="openTab(event, 'GM')"
                 data-toggle="tooltip" data-placement="bottom" title ="Shows Redistricting Controls">Redistrict</button>
         </div>
-
         <!-- Tab content -->
         <div id="Help" class="tabcontent">
             <div class="tab_header">Need Help?</div>
@@ -143,7 +144,7 @@
                 </tr>
             </table>
             <br><br>
-            <p>((potentially links to state guidelines, incumbent info, and statewide patterns))</p>
+            <!--((potentially links to state guidelines, incumbent info, and statewide patterns))-->
         </div>
         <div id="Bloc" class="tabcontent">
             <div class="tab_header">Calculate Voting Blocs
@@ -152,13 +153,13 @@
             </div>
             <br></br>
             <div class="tab_subheader">Please Input Values Below:<br></br></div>
-            <div class = "slider_container">
-            <label>Population Threshold: <span id="popThresh_value"></span>%</label>
-            <input type="range" min="51" max="100" value="51" class="slider_ctr" id="popThreshold" onchange="popUpdated(this.value);"><br>
-            <label>Voting Threshold: <span id="voteThresh_value"></span>%</label>
-            <input type="range" min="51" max="100" value="51" class="slider_ctr" id="voteThreshold" onchange="voteUpdated(this.value);"><br>
+            <div class="slider_container">
+                Population Threshold: <span id="popThresh_value"></span>%<br>
+                    <div id = "popSlider"></div><br>                    
+                Voting Threshold: <span id="voteThresh_value"></span>%<br>
+                    <div id = "voteSlider"></div><br>
             </div>
-            <button class="enableOnInput" id = "phase0Button" disabled= 'disabled'>Calculate</button>
+            <button class="enableOnInput" id="phase0Button" disabled='disabled' onclick="phase0()">Calculate</button>
             <br></br>
             <div class="tab_subheader">Output:</div>
             <br></br>
@@ -174,27 +175,21 @@
             <div class="tab_subheader">Phase 1: Graph Partitioning</div>
             <br>
             <div>
-                <h4>Population Percentages:</h4>
-                <label>Minimum: <span id="minPercent_value"></span>%</label>
-                <input type="range" min="0" max="50" value="0" class="slider_ctr" id="minPercent" onchange="show_value(this.value, 'minPercent_value');">
-                <label>Maximum: <span id="maxPercent_value"></span>%</label>
-                <input type="range" min="50" max="100" value="50" class="slider_ctr" id="maxPercent" onchange="show_value(this.value, 'maxPercent_value');">
-                <br>
                 <h4>Please Select an Update Mode:</h4>
                 <!--If iterative is selected, then the next button should enable-->
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx">
-                    <label class="custom-control-label" for="iterate" style="color: white">Iterative</label>
-                    <button class="disabled_r" disabled>Next Iteration</button>
+                    <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx" onclick="iterative()">
+                    <label class="custom-control-label" for="iterate" style="color: white" >Iterative</label>
+                    <button class="enableOnInput_r" id="iterateButton"  disabled = 'disabled' onclick="nextIteration()">Next Iteration</button>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx">
+                    <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx" onclick="endOnly()">
                     <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br></br>
                 </div>
-                <button class="ctr_button" disabled>Start</button>
+                <button class="enableOnInput" id = "phase1Button" disabled='disabled' onclick="phase1()">Start</button>
                 <br></br>
                 <h4>Output: </h4><br></br>
-                <button class="phase2_button" onclick="openTab(event, 'P2')">To Phase 2</button>
+                <button class="enableOnInput" id = "toPhase2" disabled='disabled' onclick="openTab(event, 'P2')">To Phase 2</button>
                 <br></br>
             </div>
         </div>
@@ -225,6 +220,12 @@
                 <input type="checkbox" name="asi">Asian<br>
                 <input type="checkbox" name="whi">White<br>
             </div>
+            <h4>Population Percentages:</h4>
+                <div class = "tab_subheader">Range:</div><br>
+                    <div id="percentage-slider"></div><br>        
+                    Min: <span id = "lower-value"></span><br>
+                    Max: <span id= "upper-value"></span>
+            <br><br>
             <h4>Desired # of Districts:
                 <input type="number" name="districts" style="width: 50px; color: black; float: right"></h4>
             </br>

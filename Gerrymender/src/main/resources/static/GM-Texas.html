@@ -36,7 +36,7 @@
         </div>
         <a class="text-white navbar-brand toggle-btn" data-toggle="tooltip" data-placement="bottom"
            title="Toggle Menu" onclick="toggleSlider()">Menu <span class="glyphicon glyphicon-align-justify"></span></a>
-        <a class="text-white navbar-brand" data-toggle="tooltip" data-placement="bottom" title="return back to homepage"
+        <a class="text-white navbar-brand" data-toggle="tooltip" data-placement="bottom" title="To Homepage"
            href="Homepage.html" style="float: right">Back</a>
     </div>
 </nav>
@@ -47,12 +47,15 @@
     <div class="slide-menu" id="slide-menu">
         <!--Tabs-->
         <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'Help')">Help</button>
-            <button class="tablinks active" onclick="openTab(event, 'Data')">Data</button>
-            <button class="tablinks" onclick="openTab(event, 'Bloc')">Bloc</button>
-            <button class="tablinks" onclick="openTab(event, 'GM')">Redistrict</button>
+            <button class="tablinks" onclick="openTab(event, 'Help')" 
+                data-toggle="tooltip" data-placement="bottom" title ="Shows Help Menu">Help</button>
+            <button class="tablinks active" onclick="openTab(event, 'Data')"
+                data-toggle="tooltip" data-placement="bottom" title ="Shows Florida Data">Data</button>
+            <button class="tablinks" onclick="openTab(event, 'Bloc')"
+                data-toggle="tooltip" data-placement="bottom" title ="Shows Bloc Controls">Bloc</button>
+            <button class="tablinks" onclick="openTab(event, 'GM')"
+                data-toggle="tooltip" data-placement="bottom" title ="Shows Redistricting Controls">Redistrict</button>
         </div>
-
         <!-- Tab content -->
         <div id="Help" class="tabcontent">
             <div class="tab_header">Need Help?</div>
@@ -178,18 +181,18 @@
                 <h4>Please Select an Update Mode:</h4>
                 <!--If iterative is selected, then the next button should enable-->
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx">
-                    <label class="custom-control-label" for="iterate" style="color: white">Iterative</label>
-                    <button class="disabled_r" disabled>Next Iteration</button>
+                    <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx" onclick="iterative()">
+                    <label class="custom-control-label" for="iterate" style="color: white" >Iterative</label>
+                    <button class="enableOnInput_r" id="iterateButton"  disabled = 'disabled' onclick="nextIteration()">Next Iteration</button>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx">
+                    <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx" onclick="endOnly()">
                     <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br></br>
                 </div>
-                <button class="ctr_button" disabled>Start</button>
+                <button class="enableOnInput" id = "phase1Button" disabled='disabled' onclick="phase1()">Start</button>
                 <br></br>
                 <h4>Output: </h4><br></br>
-                <button class="phase2_button" onclick="openTab(event, 'P2')">Phase 2</button>
+                <button class="enableOnInput" id = "toPhase2" disabled='disabled' onclick="openTab(event, 'P2')">To Phase 2</button>
                 <br></br>
             </div>
         </div>
@@ -221,6 +224,9 @@
                     Min: <span id = "lower-value"></span><br>
                     Max: <span id= "upper-value"></span>
             <br><br>
+            <h4>Desired # of Districts:
+                <input type="number" name="districts" style="width: 50px; color: black; float: right"></h4>
+            </br>
             <div class="tab_subheader">Output:</div>
             <br></br>
             <p>((To Be Done: GM Scores, Population/Maj-Min Tables))</p>

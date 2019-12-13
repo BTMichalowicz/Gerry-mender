@@ -230,6 +230,10 @@ html,body{
     margin: 0 auto;
 }
 
+.enableOnInput_r{
+    float: right; 
+}
+
 .content_centered{
     color: black;
     text-align: center;
