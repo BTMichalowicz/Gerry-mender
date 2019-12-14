@@ -482,8 +482,10 @@ function fillOutRepBlocs(result) {
 }
 
 //Phase 1
-var numDistricts;
-function setDisNum(value){ numDistricts = value; }
+var numDis;
+function setNumDis(value){
+    numDis = value;
+}
 var iterative = false;
 function setIterative() {
     iterative = true;
@@ -509,7 +511,7 @@ function phase1() {
     var min = document.getElementById("lower-value").innerText;
     var max = document.getElementById("upper-value").innerText;
     var races = raceList;
-    var numDis = numDistricts;
+    var numDis = document.getElementById("numDistrictsInput").value;
     var runFull = iterative;
 
     //hide user inputs
@@ -526,15 +528,10 @@ function phase1() {
     //phase 1 first iteration
     var formData = new FormData();
     formData.append("races", races);
-    alert(races);
     formData.append("minPopPerc", min);
-    alert(min);
     formData.append("maxPopPerc", max);
-    alert(max);
     formData.append("numDistricts", numDis);
-    alert(numDis);
     formData.append("runFull", runFull);
-    alert(runFull);
 
     $.ajax({
         url: "http://localhost:8080/phase1",

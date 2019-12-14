@@ -181,12 +181,12 @@
                     <th># Blocs</th>
                 </tr>
                 <tr>
-                    <td>Republican</td>
-                    <td id = "repBlocsNum"></td>
-                </tr>
-                <tr>
                     <td>Democrat</td>
                     <td id = "demBlocsNum"></td>
+                </tr>
+                <tr>
+                    <td>Republican</td>
+                    <td id = "repBlocsNum"></td>
                 </tr>
             </table>
             <h4>Total: <span id = "totalBlocs"></span></h4><br>
@@ -257,8 +257,7 @@
                 <div id = "desiredNumDisSection" class = "hideable">
                     <h4>Desired # of Districts:
                         <input type="number" class = "numInput" name="districts" id="numDistrictsInput"
-                               min="27" max="45" value="36"
-                               onchange="setDisNum(this.value)"></h4>
+                               min="27" max="45" value="36" onchange="setNumDis(this.value);"></h4>
                     <br>
                 </div>
                 <div id = "iterateOrEndSection" class = "hideable">
