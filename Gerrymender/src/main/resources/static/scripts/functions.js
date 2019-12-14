@@ -499,12 +499,20 @@ function endOnly() {
     setEndOnly();
 }
 function phase1() {
+    //get user inputs
+    //hide user inputs
+    document.getElementById("minorityPopSection").style.display = 'none';
+    document.getElementById("popPercentSection").style.display = 'none';
+    document.getElementById("desiredNumDisSection").style.display = 'none';
+
     if (iterative) {
         enable("iterateButton", "#iterateButton");
     }
     disable("iterate", "#iterate");
     disable("endUpdate", "#endUpdate");
     disable("phase1Button", "#phase1Button");
+
+    //phase 1 first iteration
     //todo: add phase 1
 }
 
