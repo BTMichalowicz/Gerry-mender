@@ -385,7 +385,6 @@ function show2016PData(stateCode) {
 //Bloc Tab
 var popSelected = false;
 var voteSelected = false;
-
 function setPopSelected() {
     popSelected = true;
 }
@@ -483,6 +482,8 @@ function fillOutRepBlocs(result) {
 }
 
 //Phase 1
+var numDistricts;
+function setDisNum(value){ numDistricts = value; }
 var iterative = false;
 function setIterative() {
     iterative = true;
@@ -498,8 +499,19 @@ function endOnly() {
     enable("phase1Button", "#phase1Button");
     setEndOnly();
 }
+//indices refer to race to be used: [WHITE,AFRICAN_AMERICAN,HISPANIC,ASIAN,NATIVE_AMERICAN]
+var raceList = [false, false, false, false, false];
+function addToRaceList(raceIndex){
+    if( raceList[raceIndex] == false) { raceList[raceIndex] = true; }
+    else { raceList[raceIndex] = false; }
+}
 function phase1() {
-    //get user inputs
+    var min = document.getElementById("lower-value").innerText;
+    var max = document.getElementById("upper-value").innerText;
+    var races = raceList;
+    var numDis = numDistricts;
+    var runFull = iterative;
+
     //hide user inputs
     document.getElementById("minorityPopSection").style.display = 'none';
     document.getElementById("popPercentSection").style.display = 'none';
@@ -512,7 +524,33 @@ function phase1() {
     disable("phase1Button", "#phase1Button");
 
     //phase 1 first iteration
-    //todo: add phase 1
+    var formData = new FormData();
+    formData.append("races", races);
+    alert(races);
+    formData.append("minPopPerc", min);
+    alert(min);
+    formData.append("maxPopPerc", max);
+    alert(max);
+    formData.append("numDistricts", numDis);
+    alert(numDis);
+    formData.append("runFull", runFull);
+    alert(runFull);
+
+    $.ajax({
+        url: "http://localhost:8080/updateState",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        async: false,
+        success: function(){
+            alert("Success.");
+        },
+        error: function(){
+            alert("Error.");
+        }
+    });
 }
 
 //Phase 2

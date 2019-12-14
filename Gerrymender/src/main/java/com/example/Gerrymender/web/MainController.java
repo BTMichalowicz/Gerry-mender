@@ -93,6 +93,7 @@ public class MainController {
 
     @RequestMapping(value = "/phase1", method = RequestMethod.POST)
     public @ResponseBody void phase1(Pol_part[] races, double minPopPerc, double maxPopPerc, int numDistricts, boolean runFull) {
+        System.out.println("Begun phase 1.");
         alg.lock.lock();
         if(alg.isRunning() && !runFull) {
             alg.getPhase1Queue().remove();
