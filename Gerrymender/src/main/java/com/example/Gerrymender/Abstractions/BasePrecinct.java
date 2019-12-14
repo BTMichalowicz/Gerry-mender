@@ -19,6 +19,7 @@ public class BasePrecinct implements PrecinctInterface {
     private int clusterId;
     private Set<BasePrecinct> edges;
     private int[] racePops;
+    private String countyName;
 
     //New File imputs
     private Geometry geometry;
@@ -46,6 +47,7 @@ public class BasePrecinct implements PrecinctInterface {
             this.majorityRacePop = maxPop;
             this.majorityRace = maxRace;
             this.edges = new HashSet<BasePrecinct>();
+            countyName = p.getCountyName();
     }
 
     public BasePrecinct(
@@ -87,6 +89,7 @@ public class BasePrecinct implements PrecinctInterface {
         return -1;
     }
 
+    public String getCountyName() { return countyName; }
 
     @Override
     public String getOriginalDistrictID() {

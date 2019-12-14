@@ -6,6 +6,7 @@ import com.example.Gerrymender.Abstractions.AbstrInterface.MeasureFunction;
 import com.example.Gerrymender.model.Pol_part;
 import com.example.Gerrymender.model.Precinct;
 import com.example.Gerrymender.model.Race;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import org.apache.catalina.Cluster;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
@@ -62,7 +63,7 @@ public class Algorithm {
         HashMap<String, BaseCluster> clusters = new HashMap<>();
         int count = 0;
         for (BasePrecinct p : BaseState.getPrecincts().values()) {
-            BaseCluster c = new BaseCluster("" + count, BaseState, p.getPopulation(), p.getRacePops());
+            BaseCluster c = new BaseCluster("" + count, BaseState, p.getPopulation(), p.getRacePops(), p.getCountyName());
             p.setClusterId(count);
             c.addPrecinct(p);
             clusters.put("" + count, c);
@@ -78,30 +79,16 @@ public class Algorithm {
         }
         BaseState.setClusters(clusters);
     }
-    private boolean isGoodMatch(BaseCluster c, BaseCluster n, boolean lastIter, Pol_part[] races, int numDistricts, double minPopPerc, double maxPopPerc) {
-        int idealPop = BaseState.getPopulation() / numDistricts;
-        double popEpsilon = .03 * (double)idealPop;
-        if(!lastIter) {
-            if(c.getPopulation() + n.getPopulation() <= idealPop + popEpsilon) {
-                for(Pol_part r : races) {
-                    float combinedRacePerc = (float)(c.getRacePops()[r.ordinal()] + n.getRacePops()[r.ordinal()]) / (float)(c.getPopulation() + n.getPopulation());
-                    if(minPopPerc <= combinedRacePerc && maxPopPerc >= combinedRacePerc) {
-                        // TODO add compactness test
-                        return true;
-                    }
-                }
-            }
-        }
-        else return idealPop - popEpsilon <= c.getPopulation() + n.getPopulation() && c.getPopulation() + n.getPopulation() <= idealPop + popEpsilon;
-        return false;
-    }
-    public Map<String, String> phase1(Pol_part[] races, double minPopPerc, double maxPopPerc, int numDistricts, boolean runFull) {
+
+    public void phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
         lock.lock();
         isRunning = true;
         phase1Queue = new LinkedList<>();
         lock.unlock();
         initializeClusters();
         Map<String, BaseCluster> clusters = BaseState.getClusters();
+        int avgPop = BaseState.getPopulation() / numDistricts;
+        double avgPopEpsilon = avgPop * .25;
         boolean lastIter = false;
         while(clusters.size() > numDistricts) {
             if(clusters.size() <= 2 * numDistricts) {
@@ -109,10 +96,13 @@ public class Algorithm {
             }
             for(String key : clusters.keySet()) {
                 BaseCluster bestNeighbor = null;
-                for(BaseCluster neighbor : clusters.get(key).getEdges()) {
-                    if(isGoodMatch(clusters.get(key), neighbor, lastIter, races, numDistricts, minPopPerc, maxPopPerc)) {
+                Tuple2<Double, Double> bestJoinability = Tuples.of(0.0, 0.0);
+                BaseCluster c = clusters.get(key);
+                for(BaseCluster neighbor : c.getEdges()) {
+                    Tuple2<Double, Double> join = c.joinability(neighbor, minPopPerc, maxPopPerc, avgPop, avgPopEpsilon, races, lastIter, BaseState);
+                    if (BaseCluster.maxJoinability(bestJoinability, join, lastIter)) {
+                        bestJoinability = join;
                         bestNeighbor = neighbor;
-                        break;
                     }
                 }
                 if(bestNeighbor == null) {
@@ -128,10 +118,20 @@ public class Algorithm {
                 combine(clusters.get(key), bestNeighbor);
             }
         }
+        Map<String, BaseDistrict> baseDistricts = new HashMap<>();
+        int i = 1;
+        for(String clusterKey : clusters.keySet()) {
+            BaseDistrict district = new BaseDistrict("" + i, BaseState);
+            for(String precintKey : clusters.get(clusterKey).getPrecincts().keySet()) {
+                district.addPrecinct(clusters.get(clusterKey).getPrecincts().get(precintKey));
+            }
+            baseDistricts.put("" + i, district);
+            i++;
+        }
+        BaseState.setDistricts(baseDistricts);
         lock.lock();
         isRunning = false;
         lock.unlock();
-        return null; // placeholder
     }
 
     public List<VotingBlocInfo> phase0(double popThreshold, double voteThreshold, String election) {

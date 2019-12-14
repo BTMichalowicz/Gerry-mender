@@ -92,15 +92,14 @@ public class MainController {
     }
 
     @RequestMapping(value = "/phase1", method = RequestMethod.POST)
-    public @ResponseBody void phase1(Pol_part[] races, double minPopPerc, double maxPopPerc, int numDistricts, boolean runFull) {
-        System.out.println("Begun with: " + races + ", " + minPopPerc + ", " + maxPopPerc + ", " + numDistricts + ", " + runFull);
+    public @ResponseBody void phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
         alg.lock.lock();
-        if(alg.isRunning() && !runFull) {
+        if(alg.isRunning()) {
             alg.getPhase1Queue().remove();
         }
-        else if(alg.isRunning()){
+        else{
             Runnable run = () -> {
-                alg.phase1(races, minPopPerc / 100.0, maxPopPerc / 100.0, numDistricts, runFull);
+                alg.phase1(races, minPopPerc / 100.0, maxPopPerc / 100.0, numDistricts);
             };
             new Thread(run).start();
         }

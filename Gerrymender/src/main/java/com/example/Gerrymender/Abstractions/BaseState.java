@@ -14,7 +14,7 @@ public class BaseState
     private Map<String, BaseDistrict> districts;
     private Map<String, BasePrecinct> precincts;
 
-    private final int population;
+    private int population;
 
     public BaseState(String name, Set<BasePrecinct> inPrecincts) {
         this.name = name;
@@ -38,6 +38,7 @@ public class BaseState
         population = (int)(s.getTotalPop());
     }
     public void setPrecincts(Map<String, BasePrecinct> basePrecincts ) { precincts = basePrecincts; }
+    public void setDistricts(Map<String, BaseDistrict> baseDistricts) { districts = baseDistricts; }
     public Map<String, BasePrecinct> getPrecincts() { return precincts; }
 
     public Map<String, BaseDistrict> getDistricts() { return districts; }
