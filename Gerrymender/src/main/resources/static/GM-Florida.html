@@ -148,20 +148,20 @@
         </div>
         <div id="Bloc" class="tabcontent">
             <div class="tab_header">Calculate Voting Blocs
-                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" 
-                    title ="Input a threshold for voting percentage and population to determine which precincts vote as a bloc."></span>
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom"
+                      title ="Input a threshold for voting percentage and population to determine which precincts vote as a bloc."></span>
             </div>
-            <br></br>
+            <br>
             <div class="tab_subheader">Please Input Values Below:<br></br></div>
             <div class="slider_container">
                 Population Threshold: <span id="popThresh_value"></span>%<br>
-                    <div id = "popSlider"></div><br>                    
+                <div id = "popSlider"></div><br>
                 Voting Threshold: <span id="voteThresh_value"></span>%<br>
-                    <div id = "voteSlider"></div><br>
+                <div id = "voteSlider"></div><br>
             </div>
             <button class="enableOnInput" id="phase0Button" disabled='disabled' onclick="phase0()">Calculate</button>
             <br>
-            <div class="tab_subheader">Output:</div>
+            <div class="tab_leftheader">Output:</div>
             <table id = "blocSummaryTable" style = "width:100%; font-size: 18px">
                 <caption>Summary:</caption>
                 <tr>
@@ -169,12 +169,12 @@
                     <th># Blocs</th>
                 </tr>
                 <tr>
-                    <td>Republican</td>
-                    <td id = "repBlocsNum"></td>
-                </tr>
-                <tr>
                     <td>Democrat</td>
                     <td id = "demBlocsNum"></td>
+                </tr>
+                <tr>
+                    <td>Republican</td>
+                    <td id = "repBlocsNum"></td>
                 </tr>
             </table>
             <h4>Total: <span id = "totalBlocs"></span></h4><br>
@@ -224,38 +224,48 @@
             <div class="tab_subheader">Phase 1: Graph Partitioning</div>
             <br>
             <div>
-                <h4>Please Select an Update Mode:</h4>
-                <!--If iterative is selected, then the next button should enable-->
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx" onclick="iterateMode()">
-                    <label class="custom-control-label" for="iterate" style="color: white" >Iterative</label>
-                    <button class="enableOnInput_r" id="iterateButton"  disabled = 'disabled' onclick="nextIteration()">Next Iteration</button>
+                <div id = "minorityPopSection" class = "hideable">
+                    <h4>Minority Populations To Be Used:</h4>
+                    <div>
+                        <input type="checkbox" oninput="addToRaceList(0);" name="whi"> White<br>
+                        <input type="checkbox" oninput="addToRaceList(1);" name="afr"> African American<br>
+                        <input type="checkbox" checked="true" oninput="addToRaceList(2);" name="his"> Hispanic<br>
+                        <input type="checkbox" oninput="addToRaceList(3);" name="asi"> Asian<br>
+                        <input type="checkbox" oninput="addToRaceList(4);" name="nat"> Native American<br>
+                    </div>
+                    <br>
                 </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx" onclick="endOnly()">
-                    <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br>
-                </div><br>
-                <h4>Minority Populations To Be Used:</h4>
-                <div>
-                    <input type="checkbox" name="afr"> African American<br>
-                    <input type="checkbox" name="nat"> Native American<br>
-                    <input type="checkbox" name="his"> Hispanic<br>
-                    <input type="checkbox" name="asi"> Asian<br>
-                    <input type="checkbox" name="whi"> White<br>
-                </div><br>
-                <h4>Population Percentage Range:</h4>
-                <div id="percentage-slider"></div><br>
-                <label>Min: <span id = "lower-value"></span></label>
-                <label style = "float:right;">Max: <span id= "upper-value"></span></label>
-                <br><br>
-                <h4>Desired # of Districts:
-                    <input type="number" name="districts" style="width: 50px; color: black; float: right"></h4>
-                <br>
+                <div id = "popPercentSection" class = "hideable">
+                    <h4>Population Percentage Range:</h4>
+                    <div id="percentage-slider"></div><br>
+                    <label>Min: <span id = "lower-value"></span></label>
+                    <label style = "float:right;">Max: <span id= "upper-value"></span></label>
+                    <br><br>
+                </div>
+                <div id = "desiredNumDisSection" class = "hideable">
+                    <h4>Desired # of Districts:
+                        <input type="number" class = "numInput" name="districts" id="numDistrictsInput"
+                               min="27" max="45" value="36" onchange="setNumDis(this.value);"></h4>
+                    <br>
+                </div>
+                <div id = "iterateOrEndSection" class = "hideable">
+                    <h4>Please Select an Update Mode:</h4>
+                    <!--If iterative is selected, then the next button should enable-->
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx" onclick="iterateMode()">
+                        <label class="custom-control-label" for="iterate" style="color: white" >Iterative</label>
+                        <button class="enableOnInput_r" id="iterateButton"  disabled = 'disabled' onclick="nextIteration()">Next Iteration</button>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx" onclick="endOnly()">
+                        <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br><br>
+                    </div>
+                </div>
                 <button class="enableOnInput" id = "phase1Button" disabled='disabled' onclick="phase1()">Start</button>
-                <br><br>
-                <h4>Output: </h4><br></br>
-                <button class="enableOnInput" id = "toPhase2"  onclick="openTab(event, 'P2')">To Phase 2</button>
-                <br></br>
+                <br>
+                <div class="tab_leftheader">Output:</div>
+                <button class="enableOnInput" id = "toPhase2" style="display: none;" onclick="openTab(event, 'P2')">To Phase 2</button>
+                <br>
             </div>
         </div>
         <div id="P2" class="tabcontent">
@@ -277,7 +287,7 @@
                 <input type="number" name="popThresh" style="width: 50px; color: black; ">
             </div>
             <br>
-            <div class="tab_subheader">Output:</div>
+            <div class="tab_leftheader">Output:</div>
             <br>
             <p>((To Be Done: GM Scores, Population/Maj-Min Tables))</p>
             <button class="disabled" disabled>Original Districts</button>
