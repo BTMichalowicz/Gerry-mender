@@ -502,17 +502,41 @@ function endOnly() {
     setEndOnly();
 }
 //indices refer to race to be used: [WHITE,AFRICAN_AMERICAN,HISPANIC,ASIAN,NATIVE_AMERICAN]
-var raceList = [false, false, false, false, false];
+var raceList = [false, false, true, false, false];
 function addToRaceList(raceIndex){
     if( raceList[raceIndex] == false) { raceList[raceIndex] = true; }
     else { raceList[raceIndex] = false; }
 }
+function formatRL(){
+    var races = [];
+    var i = 0;
+    if (raceList[0] === true){
+        races[i] = 'WHITE';
+        i++;
+    }
+    if (raceList[1] === true){
+        races[i] = 'AFRICAN_AMERICAN';
+        i++;
+    }
+    if (raceList[2] === true){
+        races[i] = 'HISPANIC';
+        i++;
+    }
+    if (raceList[3] === true){
+        races[i] = 'ASIAN';
+        i++;
+    }
+    if (raceList[4] === true){
+        races[i] = 'NATIVE_AMERICAN';
+    }
+    return races;
+}
 function phase1() {
     var min = document.getElementById("lower-value").innerText;
     var max = document.getElementById("upper-value").innerText;
-    var races = raceList;
+    var races = formatRL();
+    alert(races);
     var numDis = document.getElementById("numDistrictsInput").value;
-    var runFull = iterative;
 
     //hide user inputs
     document.getElementById("minorityPopSection").style.display = 'none';
@@ -531,7 +555,6 @@ function phase1() {
     formData.append("minPopPerc", min);
     formData.append("maxPopPerc", max);
     formData.append("numDistricts", numDis);
-    formData.append("runFull", runFull);
 
     $.ajax({
         url: "http://localhost:8080/phase1",
