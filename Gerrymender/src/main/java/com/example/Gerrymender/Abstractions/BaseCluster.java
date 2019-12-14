@@ -76,6 +76,9 @@ public class BaseCluster {
         precincts.putAll(c.getPrecincts());
         for(String s : c.getPrecincts().keySet()) {
             c.getPrecincts().get(s).setClusterId(Integer.parseInt(ID));
+            if(countyName != null && c.getPrecincts().get(s).getCountyName() != countyName) {
+                countyName = null;
+            }
         }
         for(int i = 0; i < racePops.length; i++) {
             racePops[i] += c.getRacePops()[i];
