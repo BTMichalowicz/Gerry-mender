@@ -85,11 +85,8 @@ public class MainController {
         ObjectMapper obj = new ObjectMapper();
         try {
             String ret = obj.writeValueAsString(r);
-            System.out.println("Done phase 0: ");
-            System.out.println(ret);
             return ret;
         } catch (IOException e) {
-            System.out.println("Error phase 0");
             return "";
         }
     }

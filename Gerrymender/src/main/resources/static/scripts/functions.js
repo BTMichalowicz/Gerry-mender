@@ -455,7 +455,6 @@ function phase0() {
         dataType: "json",
         async: false,
         success: function (results) {
-            alert("Phase 0 has completed!");
             phase0Formatting(results);
             },
         error: function (e) {
@@ -472,29 +471,30 @@ function phase0() {
      document.getElementById("totalBlocs").innerHTML = (repBlocs + demBlocs);
  }
 function fillOutDemBlocs(result){
-    var i = 0;
+    var i = 0, d=0;
     $("#demBlocTable tr").remove();
     while(result[i] != null){
         if (result[i].party == "DEMOCRAT"){
             var demItem = [{ pID: result[i].precinctId, demo: result[i].majorityRace, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
             $("#blocTemplate").tmpl(demItem).appendTo("#demBlocTable tbody");
+            d++;
           }
         i++;
     }
-    return i;
+    return d;
 }
 function fillOutRepBlocs(result){
-    var i = 0;
+    var i = 0, r = 0;
     $("#repBlocTable tr").remove();
     while(result[i] != null){
         if (result[i].party == "REPUBLICAN"){
             var repItem = [{ pID: result[i].precinctId, demo: result[i].majorityRace, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
             $("#blocTemplate").tmpl(repItem).appendTo("#repBlocTable tbody");
-            alert(repItem);
+            r++;
         }
         i++;
     }
-    return i;
+    return r;
 }
 
  function sampleTable(){

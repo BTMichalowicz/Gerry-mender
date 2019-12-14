@@ -189,7 +189,7 @@
                     <td id = "demBlocsNum"></td>
                 </tr>
             </table>
-            <div class = "tab_subheader">Total: <span id = "totalBlocs"></span></div><br>
+            <h4>Total: <span id = "totalBlocs"></span></h4><br>
             <script id="blocTemplate" type="text/x-jquery-tmpl">
                     <tr>
                         <td width="25%">${pID}</td>
@@ -198,29 +198,33 @@
                         <td width="25%">${totalV}</td>
                     </tr>
                 </script>
-            <table id = "demBlocTable" style = "width: 100%; font-size: 14px;">
+            <table style = "width: 100%; font-size: 16px">
                 <caption style="font-size: 16px;">Democrat Blocs</caption>
+                <tr>
+                    <th>Precinct</th>
+                    <th>Race</th>
+                    <th>Votes Dem.</th>
+                    <th>Total Votes</th>
+                </tr>
+            </table>
+            <table id = "demBlocTable" style = "width: 100%; font-size: 14px;">
                 <thead>
-                    <tr>
-                        <th>Precinct</th>
-                        <th>Race</th>
-                        <th>Votes Dem.</th>
-                        <th>Total Votes</th>
-                    </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody><tr></tr></tbody>
             </table><br>
-            <table id = "repBlocTable" style = "width: 100%; font-size: 14px;">
+            <table style = "width: 100%; font-size: 16px">
                 <caption style="font-size: 16px;">Republican Blocs</caption>
+                <tr>
+                    <th>Precinct</th>
+                    <th>Race</th>
+                    <th>Votes Dem.</th>
+                    <th>Total Votes</th>
+                </tr>
+            </table>
+            <table id = "repBlocTable" style = "width: 100%; font-size: 14px;">
                 <thead>
-                    <tr>
-                        <th>Race</th>
-                        <th>Precinct</th>
-                        <th>Votes Rep.</th>
-                        <th>Total Votes</th>
-                    </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody><tr></tr></tbody>
             </table>
         </div>
         <div id="GM" class="tabcontent">
