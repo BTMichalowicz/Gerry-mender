@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import reactor.util.function.Tuple2;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
@@ -92,10 +94,25 @@ public class MainController {
     }
 
     @RequestMapping(value = "/phase1", method = RequestMethod.POST)
-    public @ResponseBody void phase1(String[] whichRaces, double minPopPerc, double maxPopPerc, int numDistricts) {
+    public @ResponseBody String phase1(String[] whichRaces, double minPopPerc, double maxPopPerc, int numDistricts) {
         alg.lock.lock();
+        String ret = "";
         if(alg.isRunning()) {
-            alg.getPhase1Queue().remove();
+            List<Tuple2<String, String>> r = null;
+            if(!alg.getPhase1Queue().isEmpty()) {
+                r = alg.getPhase1Queue().remove();
+            }
+            ObjectMapper obj = new ObjectMapper();
+            try {
+                if(r != null) {
+                    ret = obj.writeValueAsString(r);
+                }
+                alg.lock.unlock();
+                return ret;
+            } catch (IOException e) {
+                alg.lock.unlock();
+                return "";
+            }
         }
         else{
             Race[] races = new Race[whichRaces.length];
@@ -108,6 +125,7 @@ public class MainController {
             new Thread(run).start();
         }
         alg.lock.unlock();
+        return ret;
     }
 
     @RequestMapping(value="/updateState", method=RequestMethod.POST)
