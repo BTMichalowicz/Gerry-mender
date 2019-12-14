@@ -217,8 +217,8 @@
         </div>
         <div id="GM" class="tabcontent">
             <div class="tab_header">Gerrymending
-                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" 
-                    title ="Phase 1 of Redistricting: Put a range of population percentage and update mode (by iteration or one cumulative update)."></span>
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom"
+                      title ="Phase 1 of Redistricting: Put a range of population percentage and update mode (by iteration or one cumulative update)."></span>
             </div>
             <br>
             <div class="tab_subheader">Phase 1: Graph Partitioning</div>
@@ -233,24 +233,39 @@
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx" onclick="endOnly()">
-                    <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br></br>
-                </div>
+                    <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br>
+                </div><br>
+                <h4>Minority Populations To Be Used:</h4>
+                <div>
+                    <input type="checkbox" name="afr"> African American<br>
+                    <input type="checkbox" name="nat"> Native American<br>
+                    <input type="checkbox" name="his"> Hispanic<br>
+                    <input type="checkbox" name="asi"> Asian<br>
+                    <input type="checkbox" name="whi"> White<br>
+                </div><br>
+                <h4>Population Percentage Range:</h4>
+                <div id="percentage-slider"></div><br>
+                <label>Min: <span id = "lower-value"></span></label>
+                <label style = "float:right;">Max: <span id= "upper-value"></span></label>
+                <br><br>
+                <h4>Desired # of Districts:
+                    <input type="number" name="districts" style="width: 50px; color: black; float: right"></h4>
+                <br>
                 <button class="enableOnInput" id = "phase1Button" disabled='disabled' onclick="phase1()">Start</button>
-                <br></br>
+                <br><br>
                 <h4>Output: </h4><br></br>
-                <button class="enableOnInput" id = "toPhase2" disabled='disabled' onclick="openTab(event, 'P2')">To Phase 2</button>
+                <button class="enableOnInput" id = "toPhase2"  onclick="openTab(event, 'P2')">To Phase 2</button>
                 <br></br>
             </div>
         </div>
         <div id="P2" class="tabcontent">
             <!--Phase 2 ONLY should appear one Phase 1 COMPLETES.-->
-            <div class="tab_header">Phase 2: </div> 
+            <div class="tab_header">Phase 2: </div>
             <div class="tab_header">Simulated Annealing
-                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" 
-                    title ="Provide weights for the measures below, select which populations to consider, and input a desired number of districts to
-                    be drawn."></span>
+                <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom"
+                      title ="Provide weights for the measures below and the program will redraw districts."></span>
             </div>
-            <br><br>
+            <br>
             <h4>Objective Function Weights:</h4>
             <div class="content_centered">
                 <select name="Weights">
@@ -259,27 +274,11 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                 </select>
-                <input type="number" name="weights" style="width: 50px; color: black; ">
+                <input type="number" name="popThresh" style="width: 50px; color: black; ">
             </div>
-            <h4>Minority Populations Considered:.</h4>
-            <div>
-                <input type="checkbox" name="afr">African American<br>
-                <input type="checkbox" name="nat">Native American<br>
-                <input type="checkbox" name="his">Hispanic<br>
-                <input type="checkbox" name="asi">Asian<br>
-                <input type="checkbox" name="whi">White<br>
-            </div>
-            <h4>Population Percentages:</h4>
-                <div class = "tab_subheader">Range:</div><br>
-                    <div id="percentage-slider"></div><br>        
-                    Min: <span id = "lower-value"></span><br>
-                    Max: <span id= "upper-value"></span>
-            <br><br>
-            <h4>Desired # of Districts:
-                <input type="number" name="districts" style="width: 50px; color: black; float: right"></h4>
-            </br>
+            <br>
             <div class="tab_subheader">Output:</div>
-            <br></br>
+            <br>
             <p>((To Be Done: GM Scores, Population/Maj-Min Tables))</p>
             <button class="disabled" disabled>Original Districts</button>
             <button class="disabled" disabled>Generated Districts</button>
