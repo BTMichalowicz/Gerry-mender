@@ -32,7 +32,7 @@ public class MainController {
     VoteDisRepository voteDisRepository;
 
     Algorithm alg;
-
+    Map<String, BaseState> baseStateMap = new HashMap<>();
     @RequestMapping("/")
     public String welcome(){
         return "Homepage";
@@ -130,6 +130,12 @@ public class MainController {
 
     @RequestMapping(value="/updateState", method=RequestMethod.POST)
     public @ResponseBody void updateState(String id) {
+        if(baseStateMap.containsKey(id)) {
+            alg.lock.lock();
+            alg.setBaseState(baseStateMap.get(id));
+            alg.lock.unlock();
+            return;
+        }
         if(alg == null) {
             alg = new Algorithm();
         }
@@ -155,6 +161,7 @@ public class MainController {
         BaseState baseState = new BaseState(s);
         baseState.setPrecincts(basePrecincts);
         alg.setBaseState(baseState);
+        baseStateMap.put(id, baseState);
         alg.lock.unlock();
         System.out.println("State " + id + " has been updated.");
     }
