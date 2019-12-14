@@ -456,10 +456,7 @@ function phase0() {
         async: false,
         success: function (results) {
             alert("Phase 0 has completed!");
-            var demBlocs = fillOutDemBlocs(results);
-            var repBlocs = fillOutRepBlocs(results);
-            document.getElementById("demBlocsNum").innerHTML = demBlocs;
-            document.getElementById("repBlocsNum").innerHTML = repBlocs;
+            phase0Formatting(results);
             },
         error: function (e) {
             alert("Error in phase 0." + e);
@@ -467,13 +464,20 @@ function phase0() {
     })).responseText;
  }
 
+ function phase0Formatting(results){
+     var demBlocs = fillOutDemBlocs(results);
+     var repBlocs = fillOutRepBlocs(results);
+     document.getElementById("demBlocsNum").innerHTML = demBlocs;
+     document.getElementById("repBlocsNum").innerHTML = repBlocs;
+     document.getElementById("totalBlocs").innerHTML = (repBlocs + demBlocs);
+ }
 function fillOutDemBlocs(result){
     var i = 0;
-    var demItems = [];
     while(result[i] != null){
         if (result[i].party == "DEMOCRAT"){
-            var demItem = [{ demo: result[i].majorityRace, pID: result[i].precinctId, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
+            var demItem = [{ pID: result[i].precinctId, demo: result[i].majorityRace, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
             $("#blocTemplate").tmpl(demItem).appendTo("#demBlocTable tbody");
+            alert(demItem);
         }
         i++;
     }
@@ -483,8 +487,9 @@ function fillOutRepBlocs(result){
     var i = 0;
     while(result[i] != null){
         if (result[i].party == "REPUBLICAN"){
-            var repItem = [{ demo: result[i].majorityRace, pID: result[i].precinctId, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
+            var repItem = [{ pID: result[i].precinctId, demo: result[i].majorityRace, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
             $("#blocTemplate").tmpl(repItem).appendTo("#repBlocTable tbody");
+            alert(repItem);
         }
         i++;
     }

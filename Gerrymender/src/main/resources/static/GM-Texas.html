@@ -77,7 +77,7 @@
         <div id="Data" class="tabcontent">
             <div class="tab_header">Data Displayed
                 <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom"
-                      title ="Select an election below for a summary of Florida's voting and demographic data. "></span>
+                      title ="Select an election below for a summary of Texas's voting and demographic data. "></span>
             </div>
             <br>
             <form>
@@ -107,7 +107,7 @@
                 <caption>Voting Data</caption>
                 <tr>
                     <th>Party</th>
-                    <th>Votes for Party</th>
+                    <th># Votes</th>
                     <th>Percentage</th>
                 </tr>
                 <tr>
@@ -188,7 +188,8 @@
                     <td>Democrat</td>
                     <td id = "demBlocsNum"></td>
                 </tr>
-            </table><br>
+            </table>
+            <div class = "tab_subheader">Total: <span id = "totalBlocs"></span></div><br>
             <script id="blocTemplate" type="text/x-jquery-tmpl">
                     <tr>
                         <td width="25%">${demo}</td>
@@ -200,8 +201,8 @@
             <table id = "demBlocTable" style = "width: 100%; font-size: 14px;">
                 <caption style="font-size: 16px;">Democrat Blocs</caption>
                 <tr>
-                    <th>Race</th>
                     <th>Precinct</th>
+                    <th>Race</th>
                     <th>Votes Dem.</th>
                     <th>Total Votes</th>
                 </tr>

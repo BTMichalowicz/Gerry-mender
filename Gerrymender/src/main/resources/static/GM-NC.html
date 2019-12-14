@@ -73,7 +73,7 @@
         <div id="Data" class="tabcontent">
             <div class="tab_header">Data Displayed
                 <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom"
-                      title ="Select an election below for a summary of Florida's voting and demographic data. "></span>
+                      title ="Select an election below for a summary of North Carolina's voting and demographic data. "></span>
             </div>
                 <br>
                 <form>
@@ -96,7 +96,7 @@
                     <caption>Voting Data</caption>
                     <tr>
                         <th>Party</th>
-                        <th>Votes for Party</th>
+                        <th># Votes</th>
                         <th>Percentage</th>
                     </tr>
                     <tr>
@@ -162,25 +162,37 @@
             </div>
             <button class="enableOnInput" id="phase0Button" disabled='disabled' onclick="phase0()">Calculate</button>
             <br></br>
-            <div class="tab_subheader">Output:</div>
-            <br>
-            <h4>Democratic Blocs:</h4><br>
-            <script id="demBlocs" type="text/x-jquery-tmpl">
+            <div class = "tab_subheader">Total: <span id = "totalBlocs"></span></div><br>
+            <script id="blocTemplate" type="text/x-jquery-tmpl">
+                    <tr>
+                        <td width="25%">${demo}</td>
+                        <td width="25%">${pID}</td>
+                        <td width="25%">${partyV}</td>
+                        <td width="25%">${totalV}</td>
+                    </tr>
+                </script>
+            <table id = "demBlocTable" style = "width: 100%; font-size: 14px;">
+                <caption style="font-size: 16px;">Democrat Blocs</caption>
                 <tr>
-                    <td width="50%">${Attr}</td>
-                    <td width="50%">${Amount}</td>
+                    <th>Precinct</th>
+                    <th>Race</th>
+                    <th>Votes Dem.</th>
+                    <th>Total Votes</th>
                 </tr>
-                 </script>
-            <table class="table" id="demBlocList">
-                <thead>
+                <thead><tr></tr></thead>
+                <tbody></tbody>
+            </table><br>
+            <table id = "repBlocTable" style = "width: 100%; font-size: 14px;">
+                <caption style="font-size: 16px;">Republican Blocs</caption>
                 <tr>
+                    <th>Race</th>
+                    <th>Precinct</th>
+                    <th>Votes Rep.</th>
+                    <th>Total Votes</th>
                 </tr>
-                </thead>
-                <tbody>
-                </tbody>
+                <thead><tr></tr></thead>
+                <tbody></tbody>
             </table>
-            <h4>Republican Blocs:</h4><br>
-            <h4>Other Blocs:</h4><br>
         </div>
         <div id="GM" class="tabcontent">
             <div class="tab_header">Gerrymending

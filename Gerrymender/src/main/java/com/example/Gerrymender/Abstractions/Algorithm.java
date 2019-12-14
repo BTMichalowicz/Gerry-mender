@@ -151,7 +151,7 @@ public class Algorithm {
                 double votePerc = (double) v.getVotes()[v.getParty().ordinal()] / (double) v.getTotalVotes();
                 if (votePerc >= voteThreshold) {
                     p.setBloc(new VotingBloc(r, (int)v.getVotes()[v.getParty().ordinal()], v.getParty()));
-                    ret.add(new VotingBlocInfo(p.getID(), v.getParty(), (int)v.getVotes()[v.getParty().ordinal()], (int)v.getTotalVotes(), p.getMajorityRace()));
+                    ret.add(new VotingBlocInfo(p.getID(), v.getParty(), (int)v.getTotalVotes(), (int)v.getVotes()[v.getParty().ordinal()], p.getMajorityRace()));
                 }
             }
         }
