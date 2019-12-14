@@ -470,12 +470,18 @@ function phase0() {
      document.getElementById("repBlocsNum").innerHTML = repBlocs;
      document.getElementById("totalBlocs").innerHTML = (repBlocs + demBlocs);
  }
+
+ function adjustRace(race){
+    if (race == "AFRICAN_AMERICAN") return "BLACK";
+    else return race;
+ }
+
 function fillOutDemBlocs(result){
     var i = 0, d=0;
     $("#demBlocTable tr").remove();
     while(result[i] != null){
         if (result[i].party == "DEMOCRAT"){
-            var demItem = [{ pID: result[i].precinctId, demo: result[i].majorityRace, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
+            var demItem = [{ pID: result[i].precinctId, demo: adjustRace(result[i].majorityRace), partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
             $("#blocTemplate").tmpl(demItem).appendTo("#demBlocTable tbody");
             d++;
           }
@@ -488,7 +494,7 @@ function fillOutRepBlocs(result){
     $("#repBlocTable tr").remove();
     while(result[i] != null){
         if (result[i].party == "REPUBLICAN"){
-            var repItem = [{ pID: result[i].precinctId, demo: result[i].majorityRace, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
+            var repItem = [{ pID: result[i].precinctId, demo: adjustRace(result[i].majorityRace), partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
             $("#blocTemplate").tmpl(repItem).appendTo("#repBlocTable tbody");
             r++;
         }
