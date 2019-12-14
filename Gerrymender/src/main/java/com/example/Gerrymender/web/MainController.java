@@ -92,12 +92,16 @@ public class MainController {
     }
 
     @RequestMapping(value = "/phase1", method = RequestMethod.POST)
-    public @ResponseBody void phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
+    public @ResponseBody void phase1(String[] whichRaces, double minPopPerc, double maxPopPerc, int numDistricts) {
         alg.lock.lock();
         if(alg.isRunning()) {
             alg.getPhase1Queue().remove();
         }
         else{
+            Race[] races = new Race[whichRaces.length];
+            for(int i = 0; i < whichRaces.length; i++) {
+                    races[i] = (Race.valueOf(whichRaces[i]));
+            }
             Runnable run = () -> {
                 alg.phase1(races, minPopPerc / 100.0, maxPopPerc / 100.0, numDistricts);
             };
