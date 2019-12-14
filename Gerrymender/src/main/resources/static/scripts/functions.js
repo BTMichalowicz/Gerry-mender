@@ -473,18 +473,19 @@ function phase0() {
  }
 function fillOutDemBlocs(result){
     var i = 0;
+    $("#demBlocTable tr").remove();
     while(result[i] != null){
         if (result[i].party == "DEMOCRAT"){
             var demItem = [{ pID: result[i].precinctId, demo: result[i].majorityRace, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
             $("#blocTemplate").tmpl(demItem).appendTo("#demBlocTable tbody");
-            alert(demItem);
-        }
+          }
         i++;
     }
     return i;
 }
 function fillOutRepBlocs(result){
     var i = 0;
+    $("#repBlocTable tr").remove();
     while(result[i] != null){
         if (result[i].party == "REPUBLICAN"){
             var repItem = [{ pID: result[i].precinctId, demo: result[i].majorityRace, partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
