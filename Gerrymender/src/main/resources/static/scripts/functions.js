@@ -504,10 +504,9 @@ function phase1() {
     document.getElementById("minorityPopSection").style.display = 'none';
     document.getElementById("popPercentSection").style.display = 'none';
     document.getElementById("desiredNumDisSection").style.display = 'none';
-
-    if (iterative) {
-        enable("iterateButton", "#iterateButton");
-    }
+    document.getElementById("phase1Button").style.display = 'none';
+    if (!iterative) {document.getElementById("iterateOrEndSection").style.display = 'none'; }
+    if (iterative) { enable("iterateButton", "#iterateButton"); }
     disable("iterate", "#iterate");
     disable("endUpdate", "#endUpdate");
     disable("phase1Button", "#phase1Button");
