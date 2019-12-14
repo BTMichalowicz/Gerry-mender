@@ -537,7 +537,7 @@ function phase1() {
     alert(runFull);
 
     $.ajax({
-        url: "http://localhost:8080/updateState",
+        url: "http://localhost:8080/phase1",
         type: "POST",
         data: formData,
         processData: false,
