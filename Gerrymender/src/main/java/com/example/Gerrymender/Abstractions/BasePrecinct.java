@@ -18,7 +18,7 @@ public class BasePrecinct implements PrecinctInterface {
     private int majorityRacePop;
     private int clusterId;
     private Set<BasePrecinct> edges;
-    private int racePops[];
+    private int[] racePops;
 
     //New File imputs
     private Geometry geometry;

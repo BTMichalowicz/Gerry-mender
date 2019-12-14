@@ -17,8 +17,8 @@ public class BaseCluster {
     private Map<Pol_part, Integer> votes;
     private HashMap<String, BasePrecinct> precincts;
     private HashSet<BaseCluster> edges;
-    private int racePops[];
-    public BaseCluster(String ID, BaseState state, int population, int racePops[]) {
+    private int[] racePops;
+    public BaseCluster(String ID, BaseState state, int population, int[] racePops) {
         this.ID = ID;
         this.state = state;
         this.population = population;

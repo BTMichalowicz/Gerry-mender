@@ -92,12 +92,10 @@ public class Algorithm {
                 }
             }
         }
-        else if(idealPop - popEpsilon <= c.getPopulation() + n.getPopulation() && c.getPopulation() + n.getPopulation() <= idealPop + popEpsilon){
-            return true;
-        }
+        else return idealPop - popEpsilon <= c.getPopulation() + n.getPopulation() && c.getPopulation() + n.getPopulation() <= idealPop + popEpsilon;
         return false;
     }
-    public Map<String, String> phase1(Pol_part races[], double minPopPerc, double maxPopPerc, int numDistricts, boolean runFull) {
+    public Map<String, String> phase1(Pol_part[] races, double minPopPerc, double maxPopPerc, int numDistricts, boolean runFull) {
         lock.lock();
         isRunning = true;
         phase1Queue = new LinkedList<>();

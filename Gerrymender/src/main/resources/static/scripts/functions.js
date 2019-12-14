@@ -4,7 +4,6 @@ function numberWithCommas(x) {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
 }
-
 function moveZoomControl() {
     if (sliderState === 1) {
         container = map.zoomControl.getContainer(),
@@ -19,16 +18,13 @@ function moveZoomControl() {
         container.style.left = containerTop;
     }
 }
-
 function show_value(x, id) {
     document.getElementById(id).innerHTML = x;
 }
-
 function enable(id, ID) {
     document.getElementById(id).style.color = 'black';
     $(ID).prop('disabled', false);
 }
-
 function disable(id, ID) {
     document.getElementById(id).style.color = 'lightgrey';
     $(ID).prop('disabled', true);
@@ -47,13 +43,11 @@ function toggleSlider() {
         setTimeout(moveZoomControl, 200);
     }
 }
-
 function toggleInfoSlider(feature) {
     document.getElementById("slide-info").style.width = "350px";
     infoStat = feature.properties.id;
     getInfo(feature, true);
 }
-
 function closeInfo() {
     document.getElementById("slide-info").style.width = "0";
     infoStat = "null";
@@ -63,7 +57,6 @@ function closeInfo() {
 function dropdown() {
     document.getElementById("stateDropdown").classList.toggle("show");
 }
-
 window.onclick = function (event) {
     if (!event.target.matches('.dropbtn')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -75,8 +68,7 @@ window.onclick = function (event) {
             }
         }
     }
-}
-
+};
 function toggleHomeHelp() {
     if (sliderState === 0) { //Open slider
         document.getElementById("slide-menu").style.width = "360px";
@@ -90,37 +82,36 @@ function toggleHomeHelp() {
 }
 
 /*State Pages*/
-
-window.onload = function(){
+window.onload = function () {
     //Threshold Sliders
     var popSlider = document.getElementById('popSlider');
 
-    noUiSlider.create(popSlider,{
+    noUiSlider.create(popSlider, {
         start: [60],
         connect: 'lower',
         range: {
-            'min' : [51],
-            'max' : [100]
+            'min': [51],
+            'max': [100]
         },
-   });
+    });
 
-    popSlider.noUiSlider.on('update', function(values, handle){
+    popSlider.noUiSlider.on('update', function (values, handle) {
         document.getElementById('popThresh_value').innerHTML = values[handle];
         popUpdated(values[handle]);
     });
 
     var voteSlider = document.getElementById('voteSlider');
 
-    noUiSlider.create(voteSlider,{
+    noUiSlider.create(voteSlider, {
         start: [60],
         connect: 'lower',
         range: {
-            'min' : [51],
-            'max' : [100]
+            'min': [51],
+            'max': [100]
         },
-   });
+    });
 
-    voteSlider.noUiSlider.on('update', function(values, handle){
+    voteSlider.noUiSlider.on('update', function (values, handle) {
         document.getElementById('voteThresh_value').innerHTML = values[handle];
         voteUpdated(values[handle]);
     });
@@ -137,16 +128,15 @@ window.onload = function(){
         connect: true
     });
     var sliderValues = [
-       document.getElementById('lower-value'),
-       document.getElementById('upper-value')
-  ];
+        document.getElementById('lower-value'),
+        document.getElementById('upper-value')
+    ];
 
     slider.noUiSlider.on('update', function (values, handle) {
         sliderValues[handle].innerHTML = values[handle];
     });
-}
-
-function updateState(id){
+};
+function updateState(id) {
     var formData = new FormData();
     formData.append("id", id);
     $.ajax({
@@ -159,19 +149,15 @@ function updateState(id){
         async: true
     });
 }
-
 var currentState;
-
 function setCurrentState(stateCode) {
     currentState = stateCode;
 }
-
-function getCurrentState(){
-   if (currentState == 'FL') return "Florida";
-   if (currentState == 'NC') return "North Carolina";
-   if (currentState == 'TX') return "Texas";
+function getCurrentState() {
+    if (currentState == 'FL') return "Florida";
+    if (currentState == 'NC') return "North Carolina";
+    if (currentState == 'TX') return "Texas";
 }
-
 function onEachStateFeature(feature, layer) {
     //bind click
     layer.on('click', function (e) {
@@ -191,13 +177,9 @@ function onEachStateFeature(feature, layer) {
 
 //Layer functions
 var pLayer;
-
-//called when layer is precincts
 function setPLayer() {
     pLayer = true;
 }
-
-//called when layer is districts
 function setDLayer() {
     pLayer = false;
 }
@@ -244,21 +226,18 @@ function openTab(evt, tabName) {
 }
 
 //Info Panels
-
-function getYear(){
+function getYear() {
     if ($('#2016C').is(':checked') || $('#2016P').is(':checked')) return 2016;
     else return 2018;
 }
-
-function getEType(){
+function getEType() {
     if ($('#2016C').is(':checked') || $('#2018C').is(':checked')) return "CONGRESSIONAL";
     else return "PRESIDENT";
 }
-
-function getInfo(feature, clicked){
+function getInfo(feature, clicked) {
     $(document).ready(function () {
         $("#small-info-table tr").remove();
-        if(clicked) $("#itemList tr").remove();
+        if (clicked) $("#itemList tr").remove();
         var stateName = getCurrentState();
         var year = getYear();
         var etype = getEType();
@@ -290,7 +269,7 @@ function getInfo(feature, clicked){
             }
         }).responseText);
         var items;
-        if (pLayer) items =  precinctItems(result);
+        if (pLayer) items = precinctItems(result);
         else items = districtItems(result);
 
         $("#small-info-table tr").remove();
@@ -298,8 +277,7 @@ function getInfo(feature, clicked){
         $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
     });
 }
-
-function precinctItems(result){
+function precinctItems(result) {
     var items = [
         {Attr: "Code", Amount: result[0].nameID},
         {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
@@ -311,8 +289,7 @@ function precinctItems(result){
     ];
     return items;
 }
-
-function districtItems(result){
+function districtItems(result) {
     var items = [
         {Attr: "District #", Amount: result[0].nameID},
         {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
@@ -352,7 +329,6 @@ function show2018Data(stateCode) {
         alert("An error has occurred.");
     }
 }
-
 function show2016CData(stateCode) {
     if (stateCode === 'FL') {
         document.getElementById("votesRepublican").innerHTML = "4,733,630";
@@ -379,7 +355,6 @@ function show2016CData(stateCode) {
         alert("An error has occurred.");
     }
 }
-
 function show2016PData(stateCode) {
     if (stateCode === 'FL') {
         document.getElementById("votesRepublican").innerHTML = "4,617,886";
@@ -413,11 +388,10 @@ var voteSelected = false;
 
 function setPopSelected() {
     popSelected = true;
-};
+}
 function setVoteSelected() {
     voteSelected = true;
-};
-
+}
 function popUpdated(value) {
     setPopSelected();
     show_value(value, 'popThresh_value');
@@ -425,7 +399,6 @@ function popUpdated(value) {
         enable("phase0Button", "#phase0Button");
     }
 }
-
 function voteUpdated(value) {
     setVoteSelected();
     show_value(value, 'voteThresh_value');
@@ -433,7 +406,6 @@ function voteUpdated(value) {
         enable("phase0Button", "#phase0Button");
     }
 }
-
 function phase0() {
     var year = getYear();
     var eType = getEType();
@@ -456,45 +428,52 @@ function phase0() {
         async: false,
         success: function (results) {
             phase0Formatting(results);
-            },
+        },
         error: function (e) {
             alert("Error in phase 0." + e);
-            }
+        }
     })).responseText;
- }
-
- function phase0Formatting(results){
-     var demBlocs = fillOutDemBlocs(results);
-     var repBlocs = fillOutRepBlocs(results);
-     document.getElementById("demBlocsNum").innerHTML = demBlocs;
-     document.getElementById("repBlocsNum").innerHTML = repBlocs;
-     document.getElementById("totalBlocs").innerHTML = (repBlocs + demBlocs);
- }
-
- function adjustRace(race){
+}
+function phase0Formatting(results) {
+    var demBlocs = fillOutDemBlocs(results);
+    var repBlocs = fillOutRepBlocs(results);
+    document.getElementById("demBlocsNum").innerHTML = demBlocs;
+    document.getElementById("repBlocsNum").innerHTML = repBlocs;
+    document.getElementById("totalBlocs").innerHTML = (repBlocs + demBlocs);
+}
+function adjustRace(race) {
     if (race == "AFRICAN_AMERICAN") return "BLACK";
     else return race;
- }
-
-function fillOutDemBlocs(result){
-    var i = 0, d=0;
+}
+function fillOutDemBlocs(result) {
+    var i = 0, d = 0;
     $("#demBlocTable tr").remove();
-    while(result[i] != null){
-        if (result[i].party == "DEMOCRAT"){
-            var demItem = [{ pID: result[i].precinctId, demo: adjustRace(result[i].majorityRace), partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
+    while (result[i] != null) {
+        if (result[i].party == "DEMOCRAT") {
+            var demItem = [{
+                pID: result[i].precinctId,
+                demo: adjustRace(result[i].majorityRace),
+                partyV: numberWithCommas(result[i].partyVotes),
+                totalV: numberWithCommas(result[i].totalVotes),
+            }];
             $("#blocTemplate").tmpl(demItem).appendTo("#demBlocTable tbody");
             d++;
-          }
+        }
         i++;
     }
     return d;
 }
-function fillOutRepBlocs(result){
+function fillOutRepBlocs(result) {
     var i = 0, r = 0;
     $("#repBlocTable tr").remove();
-    while(result[i] != null){
-        if (result[i].party == "REPUBLICAN"){
-            var repItem = [{ pID: result[i].precinctId, demo: adjustRace(result[i].majorityRace), partyV: result[i].partyVotes, totalV: result[i].totalVotes, }];
+    while (result[i] != null) {
+        if (result[i].party == "REPUBLICAN") {
+            var repItem = [{
+                pID: result[i].precinctId,
+                demo: adjustRace(result[i].majorityRace),
+                partyV: numberWithCommas(result[i].partyVotes),
+                totalV: numberWithCommas(result[i].totalVotes),
+            }];
             $("#blocTemplate").tmpl(repItem).appendTo("#repBlocTable tbody");
             r++;
         }
@@ -503,37 +482,24 @@ function fillOutRepBlocs(result){
     return r;
 }
 
- function sampleTable(){
-     var items = [ {pid: "pid", party: "rep", totalV: "5", partyV: "4"},
-         {pid: "pid2", party: "rep", totalV: "9", partyV: "6"},
-         {pid: "pid3", party: "dem", totalV: "9", partyV: "8"}
-     ];
-     $("#sampleTemplate").tmpl(items).appendTo("#sampleTable tbody");
- }
-
- //Phase 1
+//Phase 1
 var iterative = false;
-
-function setIterative(){
+function setIterative() {
     iterative = true;
 }
-
-function setEndOnly(){
+function setEndOnly() {
     iterative = false;
 }
-
-function iterateMode(){
-   enable("phase1Button", "#phase1Button");
-   setIterative();
+function iterateMode() {
+    enable("phase1Button", "#phase1Button");
+    setIterative();
 }
-
-function endOnly(){ 
-    enable("phase1Button", "#phase1Button"); 
+function endOnly() {
+    enable("phase1Button", "#phase1Button");
     setEndOnly();
 }
-
-function phase1(){
-    if(iterative){
+function phase1() {
+    if (iterative) {
         enable("iterateButton", "#iterateButton");
     }
     disable("iterate", "#iterate");
@@ -543,45 +509,44 @@ function phase1(){
 }
 
 //Phase 2
-
-function phase2(){
+function phase2() {
     alert("how did you do this it's not even IMPLEMENTED");
 }
 
-    var district_color = new Map();
-    district_color.set(1, '#ff6d3a');
-    district_color.set(2, '#1531ff');
-    district_color.set(3, '#B22222');
-    district_color.set(4, '#1E90FF');
-    district_color.set(5, '#FFD700');
-    district_color.set(6, '#ADFF2F');
-    district_color.set(7, '#4B0082');
-    district_color.set(8, '#CD853F');
-    district_color.set(9, '#40E0D0');
-    district_color.set(10, '#FF6347');
-    district_color.set(11, '#6A5ACD');
-    district_color.set(12, '#0FFD70');
-    district_color.set(13, '#B0C4DE');
-    district_color.set(14, '#FF0000');
-    district_color.set(15, '#50b2ff');
-    district_color.set(16, '#5effc2');
-    district_color.set(17, '#20f8ff');
-    district_color.set(18, '#ffa71d');
-    district_color.set(19, '#ff2fab');
-    district_color.set(20, '#faffbd');
-    district_color.set(21, '#cbcdff');
-    district_color.set(22, '#ffb7b9');
-    district_color.set(23, '#adff8f');
-    district_color.set(24, '#eaff78');
-    district_color.set(25, '#6fff6b');
-    district_color.set(26, '#e584ff');
-    district_color.set(27, '#51caff');
-    district_color.set(28, '#ffe46e');
-    district_color.set(29, '#57b8ff');
-    district_color.set(30, '#ff71c7');
-    district_color.set(31, '#90ff83');
-    district_color.set(32, '#ffd48f');
-    district_color.set(33, '#58c3ff');
-    district_color.set(34, '#ff9de8');
-    district_color.set(35, '#a7ff74');
-    district_color.set(36, '#ff726f');
+var district_color = new Map();
+district_color.set(1, '#ff6d3a');
+district_color.set(2, '#1531ff');
+district_color.set(3, '#B22222');
+district_color.set(4, '#1E90FF');
+district_color.set(5, '#FFD700');
+district_color.set(6, '#ADFF2F');
+district_color.set(7, '#4B0082');
+district_color.set(8, '#CD853F');
+district_color.set(9, '#40E0D0');
+district_color.set(10, '#FF6347');
+district_color.set(11, '#6A5ACD');
+district_color.set(12, '#0FFD70');
+district_color.set(13, '#B0C4DE');
+district_color.set(14, '#FF0000');
+district_color.set(15, '#50b2ff');
+district_color.set(16, '#5effc2');
+district_color.set(17, '#20f8ff');
+district_color.set(18, '#ffa71d');
+district_color.set(19, '#ff2fab');
+district_color.set(20, '#faffbd');
+district_color.set(21, '#cbcdff');
+district_color.set(22, '#ffb7b9');
+district_color.set(23, '#adff8f');
+district_color.set(24, '#eaff78');
+district_color.set(25, '#6fff6b');
+district_color.set(26, '#e584ff');
+district_color.set(27, '#51caff');
+district_color.set(28, '#ffe46e');
+district_color.set(29, '#57b8ff');
+district_color.set(30, '#ff71c7');
+district_color.set(31, '#90ff83');
+district_color.set(32, '#ffd48f');
+district_color.set(33, '#58c3ff');
+district_color.set(34, '#ff9de8');
+district_color.set(35, '#a7ff74');
+district_color.set(36, '#ff726f');
