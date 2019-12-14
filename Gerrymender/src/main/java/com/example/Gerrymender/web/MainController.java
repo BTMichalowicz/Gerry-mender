@@ -97,12 +97,12 @@ public class MainController {
     public @ResponseBody String phase1(String[] whichRaces, double minPopPerc, double maxPopPerc, int numDistricts) {
         alg.lock.lock();
         String ret = "";
+        ObjectMapper obj = new ObjectMapper();
         if(alg.isRunning()) {
             List<Tuple2<String, String>> r = null;
             if(!alg.getPhase1Queue().isEmpty()) {
                 r = alg.getPhase1Queue().remove();
             }
-            ObjectMapper obj = new ObjectMapper();
             try {
                 if(r != null) {
                     ret = obj.writeValueAsString(r);
@@ -124,8 +124,23 @@ public class MainController {
             };
             new Thread(run).start();
         }
-        alg.lock.unlock();
-        return ret;
+        try {
+            ret = obj.writeValueAsString(ret);
+            alg.lock.unlock();
+            return ret;
+        } catch (IOException e) {
+            alg.lock.unlock();
+            return "";
+        }
+    }
+
+    @RequestMapping(value = "/phase2", method = RequestMethod.POST)
+    public @ResponseBody String phase2(double[] weights, int numIters) {
+        Map<Measure, Double> measureMap = new HashMap<>();
+        for(int i = 0; i < weights.length; i++) {
+            measureMap.put(Measure.values()[i], weights[i]);
+        }
+        return null;
     }
 
     @RequestMapping(value="/updateState", method=RequestMethod.POST)
