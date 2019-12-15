@@ -184,7 +184,6 @@ function setPLayer() {
 function setDLayer() {
     pLayer = false;
 }
-
 function onEachPFeature(feature, layer) {
     precinctLayer.addLayer(layer);
     var currentColor;
@@ -538,7 +537,6 @@ function formatRL(){
 }
 function beginPhase1() {
     //hide user inputs
-
     document.getElementById("minorityPopSection").style.display = 'none';
     document.getElementById("popPercentSection").style.display = 'none';
     document.getElementById("desiredNumDisSection").style.display = 'none';
@@ -552,9 +550,13 @@ function beginPhase1() {
     disable("iterate", "#iterate");
     disable("endUpdate", "#endUpdate");
     disable("phase1Button", "#phase1Button");
+    if(!iterative){ loopPhase1(); }
     phase1Iterate();
 }
 
+function loopPhase1(){
+   alert("soon i make happen");
+}
 function phase1Iterate(){
     var min = document.getElementById("lower-value").innerText;
     var max = document.getElementById("upper-value").innerText;
@@ -582,9 +584,9 @@ function phase1Iterate(){
     })).responseText;
     return result;
 }
+var clusters = [];
 function processPhase1(result){
-    // format: [{"t1":"3810421","t2":"4875"}], [{ "t1": precinctID, "t2": clusterId}]
-    alert(":) " + result);
+    alert("Precinct " + result[0].t1 + " added to cluster " + result[0].t2 + ".");
 }
 
 //Phase 2
