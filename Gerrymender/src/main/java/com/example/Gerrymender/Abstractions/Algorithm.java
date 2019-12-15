@@ -161,6 +161,7 @@ public class Algorithm {
         }
         List<Tuple2<String, String>> end = new ArrayList<>();
         end.add(Tuples.of("END", "END"));
+        System.out.println("Sent END!");
         phase1Queue.add(end);
         BaseState.setDistricts(baseDistricts);
         phase1Semaphore.release();

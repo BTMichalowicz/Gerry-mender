@@ -546,47 +546,71 @@ function beginPhase1() {
     }
     if (iterative) {
         enable("iterateButton", "#iterateButton");
+        enable("letRunButton", "#letRunButton");
     }
     disable("iterate", "#iterate");
     disable("endUpdate", "#endUpdate");
     disable("phase1Button", "#phase1Button");
-    if(!iterative){ loopPhase1(); }
+
     phase1Iterate();
 }
 
-function loopPhase1(){
-   alert("soon i make happen");
+var ended = false;
+function setEnded(value){
+    ended = value;
 }
+function iterationEnded(){
+    alert("Phase 1 Completed.");
+}
+
 function phase1Iterate(){
-    var min = document.getElementById("lower-value").innerText;
-    var max = document.getElementById("upper-value").innerText;
-    var races = formatRL();
-    var numDis = document.getElementById("numDistrictsInput").value;
-    var formData = new FormData();
-    formData.append("whichRaces", races);
-    formData.append("minPopPerc", min);
-    formData.append("maxPopPerc", max);
-    formData.append("numDistricts", numDis);
-    var result = $.parseJSON($.ajax({
-        url: "http://localhost:8080/phase1",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        async: false,
-        success: function(results){
-            processPhase1(results);
-        },
-        error: function(error) {
-            alert("Error: " + error);
+    if(!ended) {
+        var min = document.getElementById("lower-value").innerText;
+        var max = document.getElementById("upper-value").innerText;
+        var races = formatRL();
+        var numDis = document.getElementById("numDistrictsInput").value;
+        var formData = new FormData();
+        formData.append("whichRaces", races);
+        formData.append("minPopPerc", min);
+        formData.append("maxPopPerc", max);
+        formData.append("numDistricts", numDis);
+        var result = $.parseJSON($.ajax({
+            url: "http://localhost:8080/phase1",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            async: true,
+            success: function (results) {
+                processPhase1(results);
+            },
+            error: function (error) {
+                alert("Error: " + error);
+            }
+        })).responseText;
     }
-    })).responseText;
-    return result;
+    else iterationEnded();
 }
 var clusters = [];
 function processPhase1(result){
-    alert("Precinct " + result[0].t1 + " added to cluster " + result[0].t2 + ".");
+    alert("Processing Phase 1 iteration...");
+    //first iteration of phase 1 returns empty string
+    if (result == ""){
+        phase1Iterate();
+    }
+    //next iterations return in format [{"t1":"precinctID"},{"t2":"clusterID"}]
+    else {
+        //get the first element, if the end is met it will be "END"
+        var test = result[0].t1;
+        //if we have not gotten "END", we want to process the results
+        if (test != "END") {
+            //alert("Precinct " + result[0].t1 + " added to cluster " + result[0].t2 + ".");
+            if (!iterative) phase1Iterate();
+        }
+        //if "END", we want to break the loop if it's there
+        else setEnded(true);
+    }
 }
 
 //Phase 2

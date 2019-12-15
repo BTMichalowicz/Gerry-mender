@@ -108,7 +108,6 @@ public class MainController {
             try {
                 if(r != null) {
                     ret = obj.writeValueAsString(r);
-                    System.out.println(ret);
                 }
                 alg.lock.unlock();
                 return ret;
