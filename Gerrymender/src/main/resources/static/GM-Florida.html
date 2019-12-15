@@ -364,9 +364,31 @@
     updateState('Florida');
 
     //geoJson Manipulation
-
-    var precinctLayer = L.layerGroup();
-    var districtLayer = L.layerGroup().addTo(map);
+    var precinctLayer = L.geoJson(TX, {
+        style: function (feature) {
+            return {
+                color: 'black',
+                fillColor: 'red',
+                weight: 1,
+                opacity: 0.8,
+                fillOpacity: 0.5
+            };
+        },
+        onEachFeature: onEachFeature,
+    });
+    var districtLayer = L.geoJson(txLayer, {
+        style: function (feature) {
+            return {
+                color: 'black',
+                fillColor: district_color.get(feature.properties.DISTRICT),
+                //fillColor: colorByVotes();
+                weight: 1,
+                opacity: 0.8,
+                fillOpacity: 0.5
+            };
+        },
+        onEachFeature: onEachFeature,
+    }).addTo(map);
     setDLayer();
 
     var baseLayers = {
@@ -381,41 +403,20 @@
 
     L.control.layers(baseLayers, null).addTo(map);
 
-    var districts = L.geoJson(floridaOriDis, {
-        style: function (feature) {
-            return {
-                color: 'black',
-                fillColor: district_color.get(feature.properties.DISTRICT),
-                //fillColor: colorByVotes();
-                weight: 1,
-                opacity: 0.8,
-                fillOpacity: 0.5
-            };
-        },
-        onEachFeature: onEachDFeature,
-    }).addTo(map);
-
-
-    var precincts = L.geoJson(flp, {
-        style: function (feature) {
-            return {color: 'black', fillColor: 'red', weight: 1, opacity: 0.8, fillOpacity: 0.5};
-        },
-        onEachFeature: onEachPFeature,
-    });
     map.on('zoomend', function () {
         var zoomlevel = map.getZoom();
         //zoomlevel increases as zoom in
-        if (zoomlevel > 8) {
-            if (map.hasLayer(districts)) {
-                map.removeLayer(districts);
-                map.addLayer(precincts);
+        if (zoomlevel > 7) {
+            if (map.hasLayer(districtLayer)) {
+                map.removeLayer(districtLayer);
+                map.addLayer(precinctLayer);
                 setPLayer();
             }
         }
-        if (zoomlevel <= 8) {
-            if (map.hasLayer(precincts)) {
-                map.removeLayer(precincts);
-                map.addLayer(districts);
+        if (zoomlevel <= 7) {
+            if (map.hasLayer(precinctLayer)) {
+                map.removeLayer(precinctLayer);
+                map.addLayer(districtLayer);
                 setDLayer();
             }
         }
