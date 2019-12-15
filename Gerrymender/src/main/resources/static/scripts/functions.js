@@ -187,17 +187,11 @@ function setPLayer() {
 function setDLayer() {
     pLayer = false;
 }
-function onEachPFeature(feature, layer) {
-    precinctLayer.addLayer(layer);
+function onEachFeature(feature, layer) {
     var currentColor;
-    precinctLayer.on("mouseover", function (e) {
-        currentColor = "red";
-        layer.setStyle({fillColor: "white"});
-        document.getElementById("small-info-window").style.display = 'block';
-        $(getInfo(feature, false));
-    });
     layer.on("mouseover", function (e) {
-        currentColor = "red";
+        if(pLayer) currentColor = "red";
+        else currentColor = district_color.get(feature.properties.DISTRICT);
         layer.setStyle({fillColor: "white"});
         document.getElementById("small-info-window").style.display = 'block';
         $(getInfo(feature, false));
@@ -207,47 +201,7 @@ function onEachPFeature(feature, layer) {
         //$(popup1.remove());
         document.getElementById("small-info-window").style.display = 'none';
     });
-    precinctLayer.on("mouseout", function (e) {
-        layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
-        //$(popup1.remove());
-        document.getElementById("small-info-window").style.display = 'none';
-    });
     layer.on("click", function (e) {
-        $(toggleInfoSlider(feature));
-    });
-    precinctLayer.on("click", function (e) {
-        $(toggleInfoSlider(feature));
-    });
-}
-function onEachDFeature(feature, layer) {
-    districtLayer.addLayer(layer);
-    var currentColor;
-    layer.on("mouseover", function (e) {
-        currentColor = district_color.get(feature.properties.DISTRICT);
-        layer.setStyle({fillColor: "white"});
-        document.getElementById("small-info-window").style.display = 'block';
-        $(getInfo(feature, false));
-    });
-    districtLayer.on("mouseover", function (e) {
-        currentColor = district_color.get(feature.properties.DISTRICT);
-        layer.setStyle({fillColor: "white"});
-        document.getElementById("small-info-window").style.display = 'block';
-        $(getInfo(feature, false));
-    });
-    layer.on("mouseout", function (e) {
-        layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
-        //$(popup1.remove());
-        document.getElementById("small-info-window").style.display = 'none';
-    });
-    districtLayer.on("mouseout", function (e) {
-        layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
-        //$(popup1.remove());
-        document.getElementById("small-info-window").style.display = 'none';
-    });
-    layer.on("click", function (e) {
-        $(toggleInfoSlider(feature));
-    });
-    districtLayer.on("click", function (e) {
         $(toggleInfoSlider(feature));
     });
 }
