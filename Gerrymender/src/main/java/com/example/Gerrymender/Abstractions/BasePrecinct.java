@@ -50,13 +50,6 @@ public class BasePrecinct implements PrecinctInterface {
                 maxPop = racePops[i];
                 maxRace = Race.values()[i];
             }
-<<<<<<< Updated upstream
-            this.majorityRacePop = maxPop;
-            this.majorityRace = maxRace;
-            this.edges = new HashSet<BasePrecinct>();
-            countyName = p.getCountyName();
-
-=======
         }
         this.majorityRacePop = maxPop;
         this.majorityRace = maxRace;
@@ -64,7 +57,6 @@ public class BasePrecinct implements PrecinctInterface {
         countyName = p.getCountyName();
         this.points = p.getPoints();
         this.geometry = JSONToGeometry(this.points);
->>>>>>> Stashed changes
     }
 
     public BasePrecinct(
