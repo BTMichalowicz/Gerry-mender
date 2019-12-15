@@ -98,6 +98,7 @@ public class MainController {
         alg.lock.lock();
         String ret = "";
         ObjectMapper obj = new ObjectMapper();
+        System.out.println("IS running??? " + alg.isRunning());
         if(alg.isRunning()) {
             List<Tuple2<String, String>> r = null;
             if(!alg.getPhase1Queue().isEmpty()) {
@@ -112,7 +113,7 @@ public class MainController {
                 return ret;
             } catch (IOException e) {
                 alg.lock.unlock();
-                return "";
+                return "error";
             }
         }
         else{
@@ -128,10 +129,11 @@ public class MainController {
         try {
             ret = obj.writeValueAsString(ret);
             alg.lock.unlock();
+            System.out.println("ret as string: " + ret);
             return ret;
         } catch (IOException e) {
             alg.lock.unlock();
-            return "";
+            return "error writing to string";
         }
     }
 

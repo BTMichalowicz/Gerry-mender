@@ -266,14 +266,14 @@
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx" onclick="iterateMode()">
                         <label class="custom-control-label" for="iterate" style="color: white" >Iterative</label>
-                        <button class="enableOnInput_r" id="iterateButton"  disabled = 'disabled' onclick="nextIteration()">Next Iteration</button>
+                        <button class="enableOnInput_r" id="iterateButton"  disabled = 'disabled' onclick="phase1Iterate()">Next Iteration</button>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx" onclick="endOnly()">
                         <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br><br>
                     </div>
                 </div>
-                <button class="enableOnInput" id = "phase1Button" disabled='disabled' onclick="phase1()">Start</button>
+                <button class="enableOnInput" id = "phase1Button" disabled='disabled' onclick="beginPhase1()">Start</button>
                 <br>
                 <div class="tab_leftheader">Output:</div>
                 <button class="enableOnInput" id = "toPhase2" style="display: none;" onclick="openTab(event, 'P2')">To Phase 2</button>

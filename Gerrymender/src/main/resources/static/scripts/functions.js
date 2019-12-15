@@ -509,54 +509,43 @@ function addToRaceList(raceIndex){
 }
 function formatRL(){
     var races = [];
-    var i = 0;
-    if (raceList[0] === true){
-        races[i] = 'WHITE';
-        i++;
-    }
-    if (raceList[1] === true){
-        races[i] = 'AFRICAN_AMERICAN';
-        i++;
-    }
-    if (raceList[2] === true){
-        races[i] = 'HISPANIC';
-        i++;
-    }
-    if (raceList[3] === true){
-        races[i] = 'ASIAN';
-        i++;
-    }
-    if (raceList[4] === true){
-        races[i] = 'NATIVE_AMERICAN';
-    }
+    if (raceList[0] === true){ races.push("WHITE"); }
+    if (raceList[1] === true){ races.push("AFRICAN_AMERICAN"); }
+    if (raceList[2] === true){ races.push("HISPANIC"); }
+    if (raceList[3] === true){ races.push("ASIAN"); }
+    if (raceList[4] === true){ races.push("NATIVE_AMERICAN"); }
     return races;
 }
-function phase1() {
-    var min = document.getElementById("lower-value").innerText;
-    var max = document.getElementById("upper-value").innerText;
-    var races = formatRL();
-    alert(races);
-    var numDis = document.getElementById("numDistrictsInput").value;
-
+function beginPhase1() {
     //hide user inputs
+
     document.getElementById("minorityPopSection").style.display = 'none';
     document.getElementById("popPercentSection").style.display = 'none';
     document.getElementById("desiredNumDisSection").style.display = 'none';
     document.getElementById("phase1Button").style.display = 'none';
-    if (!iterative) {document.getElementById("iterateOrEndSection").style.display = 'none'; }
-    if (iterative) { enable("iterateButton", "#iterateButton"); }
+    if (!iterative) {
+        document.getElementById("iterateOrEndSection").style.display = 'none';
+    }
+    if (iterative) {
+        enable("iterateButton", "#iterateButton");
+    }
     disable("iterate", "#iterate");
     disable("endUpdate", "#endUpdate");
     disable("phase1Button", "#phase1Button");
+    phase1Iterate();
+}
 
-    //phase 1 first iteration
+function phase1Iterate(){
+    var min = document.getElementById("lower-value").innerText;
+    var max = document.getElementById("upper-value").innerText;
+    var races = formatRL();
+    var numDis = document.getElementById("numDistrictsInput").value;
     var formData = new FormData();
-    formData.append("races", races);
+    formData.append("whichRaces", races);
     formData.append("minPopPerc", min);
     formData.append("maxPopPerc", max);
     formData.append("numDistricts", numDis);
-
-    $.ajax({
+    var result = $.parseJSON($.ajax({
         url: "http://localhost:8080/phase1",
         type: "POST",
         data: formData,
@@ -564,13 +553,17 @@ function phase1() {
         contentType: false,
         dataType: "json",
         async: false,
-        success: function(){
-            alert("Success.");
+        success: function(results){
+            processPhase1(results);
         },
-        error: function(){
-            alert("Error.");
-        }
-    });
+        error: function(error) {
+            alert("Error: " + error);
+    }
+    })).responseText;
+    return result;
+}
+function processPhase1(result){
+    alert(":) " + result);
 }
 
 //Phase 2

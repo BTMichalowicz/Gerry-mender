@@ -84,6 +84,7 @@ public class Algorithm {
     public void phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
         lock.lock();
         isRunning = true;
+        System.out.print("Is Run? " + isRunning);
         phase1Queue = new LinkedList<>();
         lock.unlock();
         initializeClusters();
