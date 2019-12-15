@@ -75,6 +75,7 @@ public class Algorithm {
             p.setClusterId(count);
             c.addPrecinct(p);
             clusters.put("" + count, c);
+            count++;
         }
         for (Map.Entry<String, BaseCluster> clust : clusters.entrySet()) {
             BaseCluster c = clust.getValue();
@@ -114,7 +115,9 @@ public class Algorithm {
         System.out.print("Is Run? " + isRunning);
         phase1Queue = new LinkedList<>();
         lock.unlock();
+        System.out.println("BEfore init");
         initializeClusters();
+        System.out.println("After init");
         Map<String, BaseCluster> clusters = BaseState.getClusters();
         int avgPop = BaseState.getPopulation() / numDistricts;
         double avgPopEpsilon = avgPop * .25;
@@ -143,6 +146,7 @@ public class Algorithm {
                 }
                 phase1Queue.add(changes);
                 phase1Semaphore.release();
+                System.out.println(changes);
                 combine(clusters.get(key), bestNeighbor);
             }
         }
