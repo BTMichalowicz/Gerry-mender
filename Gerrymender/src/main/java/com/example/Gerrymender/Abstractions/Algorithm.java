@@ -113,12 +113,9 @@ public class Algorithm {
     public void phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
         lock.lock();
         isRunning = true;
-        System.out.print("Is Run? " + isRunning);
         phase1Queue = new LinkedList<>();
         lock.unlock();
-        System.out.println("BEfore init");
         initializeClusters();
-        System.out.println("After init");
         Map<String, BaseCluster> clusters = BaseState.getClusters();
         int avgPop = BaseState.getPopulation() / numDistricts;
         double avgPopEpsilon = avgPop * .25;
