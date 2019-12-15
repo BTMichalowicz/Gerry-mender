@@ -24,15 +24,20 @@ public class Algorithm {
     private boolean isRunning;
     private Queue<List<Tuple2<String, String>>> phase1Queue;
     private Semaphore phase1Semaphore;
+    private Queue<Tuple2<String, String>> phase2Queue;
+    private Semaphore phase2Semaphore;
     public Algorithm(BaseState s) {
         BaseState = s;
         lock = new ReentrantLock();
         isRunning = false;
         phase1Semaphore = new Semaphore(0);
+        phase2Semaphore = new Semaphore(0);
     }
     public Algorithm() {
         lock = new ReentrantLock();
         isRunning = false;
+        phase1Semaphore = new Semaphore(0);
+        phase2Semaphore = new Semaphore(0);
     }
     public void setBaseState(BaseState s) {
         this.BaseState = s;
@@ -44,10 +49,10 @@ public class Algorithm {
         return isRunning;
     }
 
-    public Queue<List<Tuple2<String, String>>> getPhase1Queue() {
-        return phase1Queue;
-    }
+    public Queue<List<Tuple2<String, String>>> getPhase1Queue() { return phase1Queue; }
     public Semaphore getPhase1Semaphore() { return phase1Semaphore; }
+    public Queue<Tuple2<String, String>> getPhase2Queue() { return phase2Queue; }
+    public Semaphore getPhase2Semaphore() { return phase2Semaphore; }
     private void combine(BaseCluster c1, BaseCluster c2) {
         c1.combine(c2);
         for (BaseCluster c : c2.getEdges()) {
@@ -83,6 +88,26 @@ public class Algorithm {
         BaseState.setClusters(clusters);
     }
 
+    public void phase2(int numIterations) {
+        Map<String, BaseDistrict> baseDistricts = BaseState.getDistricts();
+        lock.lock();
+        phase2Queue = new LinkedList<>();
+        isRunning = true;
+        lock.lock();
+        int numDistricts = baseDistricts.size();
+        for(int i = 0; i < numIterations; i++) {
+            BaseDistrict district = baseDistricts.get("" + (i%numDistricts + 1));
+            Move m = getMoveFromDistrict(district);
+            if(m != null) {
+                phase2Queue.add(Tuples.of(m.getPrecinct().getID(), m.getTo().getID()));
+                phase2Semaphore.release();
+            }
+        }
+        lock.lock();
+        isRunning = false;
+        lock.lock();
+    }
+
     public void phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
         lock.lock();
         isRunning = true;
@@ -115,10 +140,8 @@ public class Algorithm {
                 for(BasePrecinct p : bestNeighbor.getPrecincts().values()) {
                     changes.add(Tuples.of(p.getID(), bestNeighbor.getID()));
                 }
-                lock.lock();
                 phase1Queue.add(changes);
                 phase1Semaphore.release();
-                lock.unlock();
                 combine(clusters.get(key), bestNeighbor);
             }
         }
@@ -159,6 +182,7 @@ public class Algorithm {
         }
         return ret;
     }
+
 
     private BaseState BaseState;
     private HashMap<String, String> precinctDistrictMap; //precinctID --> districtID

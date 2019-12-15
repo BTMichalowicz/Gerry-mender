@@ -138,10 +138,37 @@ public class MainController {
     }
 
     @RequestMapping(value = "/phase2", method = RequestMethod.POST)
-    public @ResponseBody String phase2(double[] weights, int numIters) {
+    public @ResponseBody String phase2(double[] weights, int numIters)  {
         Map<Measure, Double> measureMap = new HashMap<>();
         for(int i = 0; i < weights.length; i++) {
             measureMap.put(Measure.values()[i], weights[i]);
+        }
+        ObjectMapper obj = new ObjectMapper();
+        String ret = "";
+        alg.lock.lock();
+        if(alg.isRunning()) {
+            try {
+                alg.getPhase2Semaphore().acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Tuple2<String, String> r = alg.getPhase2Queue().remove();
+            try {
+                if(r != null) {
+                    ret = obj.writeValueAsString(r);
+                    System.out.println(ret);
+                }
+                alg.lock.unlock();
+                return ret;
+            } catch (IOException e) {
+                alg.lock.unlock();
+                return "";
+            }
+        }
+        else {
+            alg.setDistrictScoreFunction(DefaultMeasures.defaultMeasuresWithWeights(measureMap));
+            Runnable run = () -> { alg.phase2(numIters);};
+
         }
         return null;
     }
