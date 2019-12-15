@@ -85,6 +85,7 @@ public class BaseCluster {
         }
         edges.addAll(c.getEdges());
         population += c.getPopulation();
+        ID = Integer.parseInt(ID) < Integer.parseInt(c.getID()) ? ID : c.getID();
     }
 
     public void addPrecinct(BasePrecinct p) {

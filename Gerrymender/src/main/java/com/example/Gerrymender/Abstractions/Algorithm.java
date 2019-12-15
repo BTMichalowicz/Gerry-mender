@@ -55,7 +55,8 @@ public class Algorithm {
     public Semaphore getPhase2Semaphore() { return phase2Semaphore; }
     private void combine(BaseCluster c1, BaseCluster c2) {
         c1.combine(c2);
-        for (BaseCluster c : c2.getEdges()) {
+        for (int i = 0; i < c2.getEdges().size(); i++) {
+            BaseCluster c = (BaseCluster)c2.getEdges().toArray()[i];
             Set<BaseCluster> edge = c.getEdges();
             edge.remove(c2);
             edge.add(c1);
@@ -94,7 +95,7 @@ public class Algorithm {
         lock.lock();
         phase2Queue = new LinkedList<>();
         isRunning = true;
-        lock.lock();
+        lock.unlock();
         int numDistricts = baseDistricts.size();
         for(int i = 0; i < numIterations; i++) {
             BaseDistrict district = baseDistricts.get("" + (i%numDistricts + 1));
@@ -106,7 +107,7 @@ public class Algorithm {
         }
         lock.lock();
         isRunning = false;
-        lock.lock();
+        lock.unlock();
     }
 
     public void phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
@@ -126,27 +127,28 @@ public class Algorithm {
             if(clusters.size() <= 2 * numDistricts) {
                 lastIter = true;
             }
-            for(String key : clusters.keySet()) {
+            for (int i = 0; i < clusters.size(); i++) {
+                String key = (String)clusters.keySet().toArray()[i];
                 BaseCluster bestNeighbor = null;
                 Tuple2<Double, Double> bestJoinability = Tuples.of(0.0, 0.0);
                 BaseCluster c = clusters.get(key);
-                for(BaseCluster neighbor : c.getEdges()) {
+                for (BaseCluster neighbor : c.getEdges()) {
                     Tuple2<Double, Double> join = c.joinability(neighbor, minPopPerc, maxPopPerc, avgPop, avgPopEpsilon, races, lastIter, BaseState);
                     if (BaseCluster.maxJoinability(bestJoinability, join, lastIter)) {
                         bestJoinability = join;
                         bestNeighbor = neighbor;
                     }
                 }
-                if(bestNeighbor == null) {
+                if (bestNeighbor == null) {
                     bestNeighbor = clusters.get(clusters.keySet().toArray()[new Random().nextInt(clusters.keySet().size())]);
                 }
                 List<Tuple2<String, String>> changes = new ArrayList<>();
-                for(BasePrecinct p : bestNeighbor.getPrecincts().values()) {
-                    changes.add(Tuples.of(p.getID(), bestNeighbor.getID()));
+                String id = Integer.parseInt(clusters.get(key).getID()) < Integer.parseInt(bestNeighbor.getID()) ? clusters.get(key).getID() : bestNeighbor.getID();
+                for (BasePrecinct p : bestNeighbor.getPrecincts().values()) {
+                    changes.add(Tuples.of(p.getID(), id));
                 }
                 phase1Queue.add(changes);
                 phase1Semaphore.release();
-                System.out.println(changes);
                 combine(clusters.get(key), bestNeighbor);
             }
         }
