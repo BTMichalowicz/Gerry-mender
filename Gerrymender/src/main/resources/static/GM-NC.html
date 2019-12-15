@@ -359,6 +359,21 @@
     /*geoJson Manipulation*/
     setCurrentState('NC');
     updateState('North Carolina');
+    var precinctLayer = L.layerGroup();
+    var districtLayer = L.layerGroup().addTo(map);
+    setDLayer();
+
+    var baseLayers = {
+        "Districts": districtLayer,
+        "Precincts": precinctLayer,
+    };
+
+    map.on('baselayerchange', function(){
+        if(!pLayer){setPLayer();}
+        else setDLayer();
+    });
+
+    L.control.layers(baseLayers, null).addTo(map);
 
     var districts = L.geoJson(ncLayer, { 
         style: function (feature) { return { 
@@ -368,7 +383,7 @@
             opacity: 0.8, 
             fillOpacity: 0.5};
         },
-        onEachFeature: onEachFeature,
+        onEachFeature: onEachDFeature,
     }).addTo(map);
 
     var precincts = L.geoJson(NC, {
@@ -379,7 +394,7 @@
             opacity: 0.8, 
             fillOpacity: 0.5};
         },
-        onEachFeature: onEachFeature,
+        onEachFeature: onEachPFeature,
     });
 
     map.on('zoomend', function () {

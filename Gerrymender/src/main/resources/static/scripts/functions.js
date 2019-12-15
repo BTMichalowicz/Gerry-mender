@@ -159,6 +159,7 @@ function getCurrentState() {
     if (currentState == 'TX') return "Texas";
 }
 function onEachStateFeature(feature, layer) {
+
     //bind click
     layer.on('click', function (e) {
         //alert(feature.properties.name);
@@ -184,14 +185,33 @@ function setDLayer() {
     pLayer = false;
 }
 
-//Mouseover
-function onEachFeature(feature, layer) {
+function onEachPFeature(feature, layer) {
+    precinctLayer.addLayer(layer);
     var currentColor;
-
     layer.on("mouseover", function (e) {
-        if (pLayer) {
-            currentColor = "red";
-        } else currentColor = district_color.get(feature.properties.DISTRICT);
+        currentColor = "red";
+        layer.setStyle({fillColor: "white"});
+        document.getElementById("small-info-window").style.width = "220px";
+        if (sliderState == 1)
+            document.getElementById("small-info-window").style.left = "370px";
+        else
+            document.getElementById("small-info-window").style.left = "50px";
+        $(getInfo(feature, false));
+    });
+    layer.on("mouseout", function (e) {
+        layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
+        //$(popup1.remove());
+        document.getElementById("small-info-window").style.width = "0";
+    });
+    layer.on("click", function (e) {
+        $(toggleInfoSlider(feature));
+    });
+}
+function onEachDFeature(feature, layer) {
+    districtLayer.addLayer(layer);
+    var currentColor;
+    layer.on("mouseover", function (e) {
+        currentColor = district_color.get(feature.properties.DISTRICT);
         layer.setStyle({fillColor: "white"});
         document.getElementById("small-info-window").style.width = "220px";
         if (sliderState == 1)
@@ -563,6 +583,7 @@ function phase1Iterate(){
     return result;
 }
 function processPhase1(result){
+    // format: [{"t1":"3810421","t2":"4875"}], [{ "t1": precinctID, "t2": clusterId}]
     alert(":) " + result);
 }
 
@@ -608,3 +629,12 @@ district_color.set(33, '#58c3ff');
 district_color.set(34, '#ff9de8');
 district_color.set(35, '#a7ff74');
 district_color.set(36, '#ff726f');
+district_color.set(37, '#2680c8');
+district_color.set(38, '#268fc8');
+district_color.set(39, '#ffd6bc');
+district_color.set(40, '#13113f');
+district_color.set(41, '#57b9ff');
+district_color.set(42, '#6230ff');
+district_color.set(43, '#623998');
+district_color.set(44, '#bec413');
+district_color.set(45, '#413bec');

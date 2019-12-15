@@ -357,6 +357,23 @@
     updateState('Florida');
 
     //geoJson Manipulation
+
+    var precinctLayer = L.layerGroup();
+    var districtLayer = L.layerGroup().addTo(map);
+    setDLayer();
+
+    var baseLayers = {
+        "Districts": districtLayer,
+        "Precincts": precinctLayer,
+    };
+
+    map.on('baselayerchange', function(){
+        if(!pLayer){setPLayer();}
+        else setDLayer();
+    });
+
+    L.control.layers(baseLayers, null).addTo(map);
+
     var districts = L.geoJson(floridaOriDis, {
         style: function (feature) {
             return {
@@ -368,16 +385,15 @@
                 fillOpacity: 0.5
             };
         },
-        onEachFeature: onEachFeature,
+        onEachFeature: onEachDFeature,
     }).addTo(map);
 
 
     var precincts = L.geoJson(flp, {
         style: function (feature) {
-            //todo: fillColor should represent how the precinct voted (red or blue)
             return {color: 'black', fillColor: 'red', weight: 1, opacity: 0.8, fillOpacity: 0.5};
         },
-        onEachFeature: onEachFeature,
+        onEachFeature: onEachPFeature,
     });
     map.on('zoomend', function () {
         var zoomlevel = map.getZoom();
