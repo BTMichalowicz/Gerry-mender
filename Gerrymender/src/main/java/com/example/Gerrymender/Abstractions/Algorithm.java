@@ -14,6 +14,7 @@ import reactor.util.function.Tuples;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.Comparator;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Algorithm {
@@ -22,11 +23,12 @@ public class Algorithm {
     public ReentrantLock lock;
     private boolean isRunning;
     private Queue<List<Tuple2<String, String>>> phase1Queue;
-
+    private Semaphore phase1Semaphore;
     public Algorithm(BaseState s) {
         BaseState = s;
         lock = new ReentrantLock();
         isRunning = false;
+        phase1Semaphore = new Semaphore(0);
     }
     public Algorithm() {
         lock = new ReentrantLock();
@@ -45,7 +47,7 @@ public class Algorithm {
     public Queue<List<Tuple2<String, String>>> getPhase1Queue() {
         return phase1Queue;
     }
-
+    public Semaphore getPhase1Semaphore() { return phase1Semaphore; }
     private void combine(BaseCluster c1, BaseCluster c2) {
         c1.combine(c2);
         for (BaseCluster c : c2.getEdges()) {
@@ -115,6 +117,7 @@ public class Algorithm {
                 }
                 lock.lock();
                 phase1Queue.add(changes);
+                phase1Semaphore.release();
                 lock.unlock();
                 combine(clusters.get(key), bestNeighbor);
             }

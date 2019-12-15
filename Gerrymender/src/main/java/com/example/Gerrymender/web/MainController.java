@@ -99,10 +99,12 @@ public class MainController {
         String ret = "";
         ObjectMapper obj = new ObjectMapper();
         if(alg.isRunning()) {
-            List<Tuple2<String, String>> r = null;
-            if(!alg.getPhase1Queue().isEmpty()) {
-                r = alg.getPhase1Queue().remove();
+            try {
+                alg.getPhase1Semaphore().acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            List<Tuple2<String, String>> r = alg.getPhase1Queue().remove();
             try {
                 if(r != null) {
                     ret = obj.writeValueAsString(r);
