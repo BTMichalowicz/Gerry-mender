@@ -171,7 +171,7 @@
                 Voting Threshold: <span id="voteThresh_value"></span>%<br>
                     <div id = "voteSlider"></div><br>
             </div>
-            <button class="enableOnInput" id="phase0Button" onclick="phase0()">Calculate</button>
+            <button class="ctr_buttont" id="phase0Button" onclick="phase0()">Calculate</button>
             <br>
             <div class="tab_leftheader">Output:</div>
             <table id = "blocSummaryTable" style = "width:100%; font-size: 18px">
@@ -427,14 +427,18 @@
         if (zoomlevel > 7) {
             if (map.hasLayer(districts)) {
                 map.removeLayer(districts);
+                map.removeLayer(districtLayer);
                 map.addLayer(precincts);
+                map.addLayer(precinctLayer);
                 setPLayer();
             }
         }
         if (zoomlevel <= 7) {
             if (map.hasLayer(precincts)) {
                 map.removeLayer(precincts);
+                map.removeLayer(precinctLayer);
                 map.addLayer(districts);
+                map.addLayer(districtLayer);
                 setDLayer();
             }
         }

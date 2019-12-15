@@ -87,7 +87,7 @@ var phase1Operational = false;
 function setPhase1Operational (){ phase1Operational = true; }
 function setStateUpdated(){
     //stateUpdated = true;
-    alert("State updated: " + stateUpdated);
+    alert("State updated: ");
     //enable("phase0Button", "#phase0Button");
     //alert("enabled phase 0 button");
 }
@@ -148,8 +148,8 @@ function updateState(id) {
         contentType: false,
         dataType: "json",
         async: true,
-        success: function(){
-            enable("phase0Button", "#phase0Button");
+        complete: function(){
+            alert("State Updated.")
         }
     });
 }
@@ -190,6 +190,12 @@ function setDLayer() {
 function onEachPFeature(feature, layer) {
     precinctLayer.addLayer(layer);
     var currentColor;
+    precinctLayer.on("mouseover", function (e) {
+        currentColor = "red";
+        layer.setStyle({fillColor: "white"});
+        document.getElementById("small-info-window").style.display = 'block';
+        $(getInfo(feature, false));
+    });
     layer.on("mouseover", function (e) {
         currentColor = "red";
         layer.setStyle({fillColor: "white"});
@@ -201,7 +207,15 @@ function onEachPFeature(feature, layer) {
         //$(popup1.remove());
         document.getElementById("small-info-window").style.display = 'none';
     });
+    precinctLayer.on("mouseout", function (e) {
+        layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
+        //$(popup1.remove());
+        document.getElementById("small-info-window").style.display = 'none';
+    });
     layer.on("click", function (e) {
+        $(toggleInfoSlider(feature));
+    });
+    precinctLayer.on("click", function (e) {
         $(toggleInfoSlider(feature));
     });
 }
@@ -214,12 +228,26 @@ function onEachDFeature(feature, layer) {
         document.getElementById("small-info-window").style.display = 'block';
         $(getInfo(feature, false));
     });
+    districtLayer.on("mouseover", function (e) {
+        currentColor = district_color.get(feature.properties.DISTRICT);
+        layer.setStyle({fillColor: "white"});
+        document.getElementById("small-info-window").style.display = 'block';
+        $(getInfo(feature, false));
+    });
     layer.on("mouseout", function (e) {
         layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
         //$(popup1.remove());
         document.getElementById("small-info-window").style.display = 'none';
     });
+    districtLayer.on("mouseout", function (e) {
+        layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
+        //$(popup1.remove());
+        document.getElementById("small-info-window").style.display = 'none';
+    });
     layer.on("click", function (e) {
+        $(toggleInfoSlider(feature));
+    });
+    districtLayer.on("click", function (e) {
         $(toggleInfoSlider(feature));
     });
 }
