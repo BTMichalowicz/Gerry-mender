@@ -22,6 +22,7 @@ public class Algorithm {
     public ReentrantLock lock;
     private boolean isRunning;
     private Queue<List<Tuple2<String, String>>> phase1Queue;
+
     public Algorithm(BaseState s) {
         BaseState = s;
         lock = new ReentrantLock();

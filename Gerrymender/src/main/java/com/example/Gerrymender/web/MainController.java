@@ -31,7 +31,7 @@ public class MainController {
     @Autowired
     VoteDisRepository voteDisRepository;
 
-    Algorithm alg;
+    MyAlgorithm alg;
     Map<String, BaseState> baseStateMap = new HashMap<>();
     @RequestMapping("/")
     public String welcome(){
@@ -106,6 +106,7 @@ public class MainController {
             try {
                 if(r != null) {
                     ret = obj.writeValueAsString(r);
+                    System.out.println(ret);
                 }
                 alg.lock.unlock();
                 return ret;
@@ -152,7 +153,7 @@ public class MainController {
             return;
         }
         if(alg == null) {
-            alg = new Algorithm();
+            alg = new MyAlgorithm();
         }
         alg.lock.lock();
         State s = stateRepository.findById(id).orElse(null);

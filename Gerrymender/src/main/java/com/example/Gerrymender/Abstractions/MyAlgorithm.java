@@ -8,6 +8,7 @@ public class MyAlgorithm extends Algorithm {
     public MyAlgorithm(BaseState BaseState, DefaultMeasures measures) {
         super(BaseState, measures);
     }
+    public MyAlgorithm() {super();}
 
     public String describeDistrict(BaseDistrict d) {
         String to_return = "{ \"ID\": \"" + d.getID() + "\", \"MEASURES\": [";
