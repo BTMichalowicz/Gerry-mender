@@ -293,25 +293,22 @@ html,body{
     text-align: left;
     font-size: 14px;
     float: bottom;
-    padding: 10px;
+    padding: 10px 5px;
 }
 
 #small-info-window{
     display: none;
     width: 650px;
     height: 40px;
-    left: 30%;
+    left: 29%;
     position: fixed;
-    z-index: 1;
     bottom: 10px;
     background-color: #343a40;
     color: lightgrey;
     overflow-x: hidden;
     overflow-y: hidden;
-    text-align: left;
     font-size: 14px;
     float: bottom;
-    padding: 10px;
 }
 
 .table{
