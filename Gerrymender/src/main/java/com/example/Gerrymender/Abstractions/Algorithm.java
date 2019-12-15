@@ -159,7 +159,11 @@ public class Algorithm {
             baseDistricts.put("" + i, district);
             i++;
         }
+        List<Tuple2<String, String>> end = new ArrayList<>();
+        end.add(Tuples.of("END", "END"));
+        phase1Queue.add(end);
         BaseState.setDistricts(baseDistricts);
+        phase1Semaphore.release();
         lock.lock();
         isRunning = false;
         lock.unlock();
