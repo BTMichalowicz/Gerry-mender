@@ -44,7 +44,7 @@ function toggleSlider() {
     }
 }
 function toggleInfoSlider(feature) {
-    document.getElementById("slide-info").style.width = "350px";
+    document.getElementById("slide-info").style.width = "250px";
     infoStat = feature.properties.id;
     getInfo(feature, true);
 }
@@ -94,7 +94,6 @@ function setStateUpdated(){
 window.onload = function () {
     //Threshold Sliders
     var popSlider = document.getElementById('popSlider');
-
     noUiSlider.create(popSlider, {
         start: [60],
         connect: 'lower',
@@ -103,14 +102,11 @@ window.onload = function () {
             'max': [100]
         },
     });
-
     popSlider.noUiSlider.on('update', function (values, handle) {
         document.getElementById('popThresh_value').innerHTML = values[handle];
         popUpdated(values[handle]);
     });
-
     var voteSlider = document.getElementById('voteSlider');
-
     noUiSlider.create(voteSlider, {
         start: [60],
         connect: 'lower',
@@ -119,15 +115,12 @@ window.onload = function () {
             'max': [100]
         },
     });
-
     voteSlider.noUiSlider.on('update', function (values, handle) {
         document.getElementById('voteThresh_value').innerHTML = values[handle];
         voteUpdated(values[handle]);
     });
-
     //Range Slider
     var slider = document.getElementById('percentage-slider');
-
     noUiSlider.create(slider, {
         start: [20, 80],
         range: {
@@ -140,7 +133,6 @@ window.onload = function () {
         document.getElementById('lower-value'),
         document.getElementById('upper-value')
     ];
-
     slider.noUiSlider.on('update', function (values, handle) {
         sliderValues[handle].innerHTML = values[handle];
     });
@@ -171,7 +163,6 @@ function getCurrentState() {
     if (currentState == 'TX') return "Texas";
 }
 function onEachStateFeature(feature, layer) {
-
     //bind click
     layer.on('click', function (e) {
         //alert(feature.properties.name);
@@ -202,17 +193,13 @@ function onEachPFeature(feature, layer) {
     layer.on("mouseover", function (e) {
         currentColor = "red";
         layer.setStyle({fillColor: "white"});
-        document.getElementById("small-info-window").style.width = "220px";
-        if (sliderState == 1)
-            document.getElementById("small-info-window").style.left = "370px";
-        else
-            document.getElementById("small-info-window").style.left = "50px";
+        document.getElementById("small-info-window").style.display = 'block';
         $(getInfo(feature, false));
     });
     layer.on("mouseout", function (e) {
         layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
         //$(popup1.remove());
-        document.getElementById("small-info-window").style.width = "0";
+        document.getElementById("small-info-window").style.display = 'none';
     });
     layer.on("click", function (e) {
         $(toggleInfoSlider(feature));
@@ -224,17 +211,13 @@ function onEachDFeature(feature, layer) {
     layer.on("mouseover", function (e) {
         currentColor = district_color.get(feature.properties.DISTRICT);
         layer.setStyle({fillColor: "white"});
-        document.getElementById("small-info-window").style.width = "220px";
-        if (sliderState == 1)
-            document.getElementById("small-info-window").style.left = "370px";
-        else
-            document.getElementById("small-info-window").style.left = "50px";
+        document.getElementById("small-info-window").style.display = 'block';
         $(getInfo(feature, false));
     });
     layer.on("mouseout", function (e) {
         layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
         //$(popup1.remove());
-        document.getElementById("small-info-window").style.width = "0";
+        document.getElementById("small-info-window").style.display = 'none';
     });
     layer.on("click", function (e) {
         $(toggleInfoSlider(feature));
@@ -304,13 +287,20 @@ function getInfo(feature, clicked) {
                 alert("Error sending request: " + formData);
             }
         }).responseText);
-        var items;
-        if (pLayer) items = precinctItems(result);
-        else items = districtItems(result);
-
+        var tItems, smolItems, smolHeader;
+        if (pLayer) {
+            tItems = precinctItems(result);
+            smolHeader = getSmolHeader("Code");
+        }
+        else {
+            tItems = districtItems(result);
+            smolHeader = getSmolHeader("District #");
+        }
+        smolItems = getSmolItems(result);
+        if (clicked) $("#itemTemplate").tmpl(tItems).appendTo("#itemList tbody");
         $("#small-info-table tr").remove();
-        if (clicked) $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
-        $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
+        $("#smallInfoTemplate").tmpl(smolHeader).appendTo("#small-info-table tbody");
+        $("#smallInfoTemplate").tmpl(smolItems).appendTo("#small-info-table tbody");
     });
 }
 function precinctItems(result) {
@@ -329,7 +319,7 @@ function precinctItems(result) {
 }
 function districtItems(result) {
     var items = [
-        {Attr: "Code", Amount: result[0].nameID},
+        {Attr: "District #", Amount: result[0].nameID},
         {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
         {Attr: "Black", Amount: numberWithCommas(result[0].africanAmerican_pop)},
         {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
@@ -340,6 +330,34 @@ function districtItems(result) {
         {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
     ];
     return items;
+}
+function getSmolHeader(code){
+    var smolHeader = [{
+        code: code,
+        tPop: "Total Pop.",
+        bPop: "Black",
+        wPop: "White",
+        hPop: "Hispanic",
+        aPop: "Asian",
+        nPop: "Native",
+        repV: "R. Votes",
+        demV: "D. Votes",
+    }];
+    return smolHeader;
+}
+function getSmolItems(result){
+    var smolItems = [{
+        code: result[0].nameID,
+        tPop: numberWithCommas(result[0].totalPop),
+        bPop: numberWithCommas(result[0].africanAmerican_pop),
+        wPop: numberWithCommas(result[0].white_pop),
+        hPop: numberWithCommas(result[0].hispanic_pop),
+        aPop: numberWithCommas(result[0].asian_pop),
+        nPop: numberWithCommas(result[0].nativeAmerican_pop),
+        repV: numberWithCommas(result[1].numrepub),
+        demV: numberWithCommas(result[1].numdemocrat),
+        }];
+    return smolItems;
 }
 
 // Data Tab
