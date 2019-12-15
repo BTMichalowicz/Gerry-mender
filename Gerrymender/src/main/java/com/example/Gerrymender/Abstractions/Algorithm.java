@@ -137,7 +137,7 @@ public class Algorithm {
                     }
                 }
                 if (bestNeighbor == null) {
-                    bestNeighbor = clusters.get(clusters.keySet().toArray()[new Random().nextInt(clusters.keySet().size())]);
+                   continue;
                 }
                 List<Tuple2<String, String>> changes = new ArrayList<>();
                 String id = Integer.parseInt(clusters.get(key).getID()) < Integer.parseInt(bestNeighbor.getID()) ? clusters.get(key).getID() : bestNeighbor.getID();
