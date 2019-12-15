@@ -594,7 +594,6 @@ function phase1Iterate(){
 }
 var clusters = [];
 function processPhase1(result){
-    alert("Processing Phase 1 iteration...");
     //first iteration of phase 1 returns empty string
     if (result == ""){
         phase1Iterate();
