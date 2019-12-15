@@ -44,7 +44,7 @@ function toggleSlider() {
     }
 }
 function toggleInfoSlider(feature) {
-    document.getElementById("slide-info").style.width = "350px";
+    document.getElementById("slide-info").style.width = "250px";
     infoStat = feature.properties.id;
     getInfo(feature, true);
 }
@@ -82,10 +82,18 @@ function toggleHomeHelp() {
 }
 
 /*State Pages*/
+var stateUpdated = false;
+var phase1Operational = false;
+function setPhase1Operational (){ phase1Operational = true; }
+function setStateUpdated(){
+    //stateUpdated = true;
+    alert("State updated: " + stateUpdated);
+    //enable("phase0Button", "#phase0Button");
+    //alert("enabled phase 0 button");
+}
 window.onload = function () {
     //Threshold Sliders
     var popSlider = document.getElementById('popSlider');
-
     noUiSlider.create(popSlider, {
         start: [60],
         connect: 'lower',
@@ -94,14 +102,11 @@ window.onload = function () {
             'max': [100]
         },
     });
-
     popSlider.noUiSlider.on('update', function (values, handle) {
         document.getElementById('popThresh_value').innerHTML = values[handle];
         popUpdated(values[handle]);
     });
-
     var voteSlider = document.getElementById('voteSlider');
-
     noUiSlider.create(voteSlider, {
         start: [60],
         connect: 'lower',
@@ -110,15 +115,12 @@ window.onload = function () {
             'max': [100]
         },
     });
-
     voteSlider.noUiSlider.on('update', function (values, handle) {
         document.getElementById('voteThresh_value').innerHTML = values[handle];
         voteUpdated(values[handle]);
     });
-
     //Range Slider
     var slider = document.getElementById('percentage-slider');
-
     noUiSlider.create(slider, {
         start: [20, 80],
         range: {
@@ -131,7 +133,6 @@ window.onload = function () {
         document.getElementById('lower-value'),
         document.getElementById('upper-value')
     ];
-
     slider.noUiSlider.on('update', function (values, handle) {
         sliderValues[handle].innerHTML = values[handle];
     });
@@ -146,7 +147,10 @@ function updateState(id) {
         processData: false,
         contentType: false,
         dataType: "json",
-        async: true
+        async: true,
+        complete: function(){
+            alert("ajax finish");
+        }
     });
 }
 var currentState;
@@ -159,7 +163,6 @@ function getCurrentState() {
     if (currentState == 'TX') return "Texas";
 }
 function onEachStateFeature(feature, layer) {
-
     //bind click
     layer.on('click', function (e) {
         //alert(feature.properties.name);
@@ -190,17 +193,13 @@ function onEachPFeature(feature, layer) {
     layer.on("mouseover", function (e) {
         currentColor = "red";
         layer.setStyle({fillColor: "white"});
-        document.getElementById("small-info-window").style.width = "220px";
-        if (sliderState == 1)
-            document.getElementById("small-info-window").style.left = "370px";
-        else
-            document.getElementById("small-info-window").style.left = "50px";
+        document.getElementById("small-info-window").style.display = 'block';
         $(getInfo(feature, false));
     });
     layer.on("mouseout", function (e) {
         layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
         //$(popup1.remove());
-        document.getElementById("small-info-window").style.width = "0";
+        document.getElementById("small-info-window").style.display = 'none';
     });
     layer.on("click", function (e) {
         $(toggleInfoSlider(feature));
@@ -212,17 +211,13 @@ function onEachDFeature(feature, layer) {
     layer.on("mouseover", function (e) {
         currentColor = district_color.get(feature.properties.DISTRICT);
         layer.setStyle({fillColor: "white"});
-        document.getElementById("small-info-window").style.width = "220px";
-        if (sliderState == 1)
-            document.getElementById("small-info-window").style.left = "370px";
-        else
-            document.getElementById("small-info-window").style.left = "50px";
+        document.getElementById("small-info-window").style.display = 'block';
         $(getInfo(feature, false));
     });
     layer.on("mouseout", function (e) {
         layer.setStyle({color: "black", fillColor: currentColor, weight: 1, opacity: 0.8, fillOpacity: 0.5});
         //$(popup1.remove());
-        document.getElementById("small-info-window").style.width = "0";
+        document.getElementById("small-info-window").style.display = 'none';
     });
     layer.on("click", function (e) {
         $(toggleInfoSlider(feature));
@@ -231,6 +226,11 @@ function onEachDFeature(feature, layer) {
 
 //Menu Tabs
 function openTab(evt, tabName) {
+    if (stateUpdated){
+        if (phase1Operational){
+            enable("phase1Button", "#phase1Button");
+        }
+    }
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -287,22 +287,31 @@ function getInfo(feature, clicked) {
                 alert("Error sending request: " + formData);
             }
         }).responseText);
-        var items;
-        if (pLayer) items = precinctItems(result);
-        else items = districtItems(result);
-
+        var tItems, smolItems, smolHeader;
+        if (pLayer) {
+            tItems = precinctItems(result);
+            smolHeader = getSmolHeader("Code");
+        }
+        else {
+            tItems = districtItems(result);
+            smolHeader = getSmolHeader("District #");
+        }
+        smolItems = getSmolItems(result);
+        if (clicked) $("#itemTemplate").tmpl(tItems).appendTo("#itemList tbody");
         $("#small-info-table tr").remove();
-        if (clicked) $("#itemTemplate").tmpl(items).appendTo("#itemList tbody");
-        $("#smallInfoTemplate").tmpl(items).appendTo("#small-info-table tbody");
+        $("#smallInfoTemplate").tmpl(smolHeader).appendTo("#small-info-table tbody");
+        $("#smallInfoTemplate").tmpl(smolItems).appendTo("#small-info-table tbody");
     });
 }
 function precinctItems(result) {
     var items = [
         {Attr: "Code", Amount: result[0].nameID},
         {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
+        {Attr: "Black", Amount: numberWithCommas(result[0].africanAmerican_pop)},
         {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
         {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
         {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
+        {Attr: "Native", Amount: numberWithCommas(result[0].nativeAmerican_pop)},
         {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
         {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
     ];
@@ -312,13 +321,43 @@ function districtItems(result) {
     var items = [
         {Attr: "District #", Amount: result[0].nameID},
         {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
+        {Attr: "Black", Amount: numberWithCommas(result[0].africanAmerican_pop)},
         {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
         {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
         {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
+        {Attr: "Native", Amount: numberWithCommas(result[0].nativeAmerican_pop)},
         {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
         {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
     ];
     return items;
+}
+function getSmolHeader(code){
+    var smolHeader = [{
+        code: code,
+        tPop: "Total Pop.",
+        bPop: "Black",
+        wPop: "White",
+        hPop: "Hispanic",
+        aPop: "Asian",
+        nPop: "Native",
+        repV: "R. Votes",
+        demV: "D. Votes",
+    }];
+    return smolHeader;
+}
+function getSmolItems(result){
+    var smolItems = [{
+        code: result[0].nameID,
+        tPop: numberWithCommas(result[0].totalPop),
+        bPop: numberWithCommas(result[0].africanAmerican_pop),
+        wPop: numberWithCommas(result[0].white_pop),
+        hPop: numberWithCommas(result[0].hispanic_pop),
+        aPop: numberWithCommas(result[0].asian_pop),
+        nPop: numberWithCommas(result[0].nativeAmerican_pop),
+        repV: numberWithCommas(result[1].numrepub),
+        demV: numberWithCommas(result[1].numdemocrat),
+        }];
+    return smolItems;
 }
 
 // Data Tab
@@ -413,16 +452,10 @@ function setVoteSelected() {
 function popUpdated(value) {
     setPopSelected();
     show_value(value, 'popThresh_value');
-    if (popSelected && voteSelected) {
-        enable("phase0Button", "#phase0Button");
-    }
 }
 function voteUpdated(value) {
     setVoteSelected();
     show_value(value, 'voteThresh_value');
-    if (popSelected && voteSelected) {
-        enable("phase0Button", "#phase0Button");
-    }
 }
 function phase0() {
     var year = getYear();
@@ -507,13 +540,15 @@ function setNumDis(value){
 }
 var iterative = false;
 function setIterative() {
+    phase1Operational = true;
     iterative = true;
 }
 function setEndOnly() {
+    setPhase1Operational();
     iterative = false;
 }
 function iterateMode() {
-    enable("phase1Button", "#phase1Button");
+    if (stateUpdated) enable("phase1Button", "#phase1Button");
     setIterative();
 }
 function endOnly() {
@@ -551,10 +586,9 @@ function beginPhase1() {
     disable("iterate", "#iterate");
     disable("endUpdate", "#endUpdate");
     disable("phase1Button", "#phase1Button");
-
+    alert("Phase 1 Begun!");
     phase1Iterate();
 }
-
 var ended = false;
 function setEnded(value){
     ended = value;

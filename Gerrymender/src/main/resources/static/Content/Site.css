@@ -279,23 +279,36 @@ html,body{
     text-align: center;
 }
 
-#small-info-window {
-    height: 300px;
-    width: 0;
+#small-info-table{
+    width: 650px;
+    height: 0px;
+    left: 30%;
     position: fixed;
     z-index: 1;
-    left: 20px;
-    bottom: 20px;
+    bottom: 10px;
     background-color: #343a40;
     color: lightgrey;
     overflow-x: hidden;
     overflow-y: hidden;
     text-align: left;
     font-size: 14px;
+    float: bottom;
+    padding: 10px 5px;
 }
 
-#small-info-table{
+#small-info-window{
+    display: none;
+    width: 650px;
+    height: 40px;
+    left: 29%;
+    position: fixed;
+    bottom: 10px;
+    background-color: #343a40;
+    color: lightgrey;
+    overflow-x: hidden;
+    overflow-y: hidden;
     font-size: 14px;
+    float: bottom;
 }
 
 .table{

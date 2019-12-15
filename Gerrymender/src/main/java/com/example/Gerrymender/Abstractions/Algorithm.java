@@ -113,7 +113,6 @@ public class Algorithm {
     }
 
     public void phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
-        System.out.println();
         lock.lock();
         isRunning = true;
         phase1Queue = new LinkedList<>();
@@ -136,7 +135,6 @@ public class Algorithm {
                 BaseCluster c = clusters.get(key);
                 for (BaseCluster neighbor : c.getEdges()) {
                     Tuple2<Double, Double> join = c.joinability(neighbor, minPopPerc, maxPopPerc, avgPop, avgPopEpsilon, races, lastIter, BaseState);
-                    //System.out.println(join);
                     if (BaseCluster.maxJoinability(bestJoinability, join, lastIter)) {
                         bestJoinability = join;
                         bestNeighbor = neighbor;
