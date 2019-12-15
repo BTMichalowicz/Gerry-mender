@@ -296,14 +296,21 @@
     </div>
     <!--Map-->
     <div id="map"></div>
-    <div class="small-info-window" id="small-info-window">
+    <div class="small-info-window" id="small-info-window" style="display:none; padding: 12px 12px;">
         <script id="smallInfoTemplate" type="text/x-jquery-tmpl">
-            <tr>
-                <td width="40%">${Attr}</td>
-                <td width="60%">${Amount}</td>
-            </tr>
+                     <tr>
+                        <td width = "11%">${code}</td>
+                        <td width = "11%">${tPop}</td>
+                        <td width = "11%">${bPop}</td>
+                        <td width = "11%">${wPop}</td>
+                        <td width = "11%">${hPop}</td>
+                        <td width = "11%">${aPop}</td>
+                        <td width = "11%">${nPop}</td>
+                        <td width = "11%">${repV}</td>
+                        <td width = "11%">${demV}</td>
+                    </tr>
         </script>
-        <table class="table" id="small-info-table">
+        <table class="small-info-table" id="small-info-table" style="padding: 12px 12px;">
             <thead>
             <tr>
             </tr>
