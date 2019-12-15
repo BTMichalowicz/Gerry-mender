@@ -1,15 +1,12 @@
 package com.example.Gerrymender.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-@Table(name="Precinct")
+@Table(name = "Precinct")
 @Entity
 public class Precinct implements Serializable {
     private static final long SerializeID = 2L; //or some other ID
@@ -36,10 +33,18 @@ public class Precinct implements Serializable {
     private long nativeamericanpop;
     @Column
     private String neighbors;
+    @Column
+    @Lob
+    private String points;
+
+    public String getPoints() {return points;}
+
+    public void setPoints(String points) {this.points = points;}
 
     public long getNativeAmerican_pop() {
         return nativeamericanpop;
     }
+
     public void setNativeAmerican_pop(long nativeamericanpop) {
         this.nativeamericanpop = nativeamericanpop;
     }
@@ -47,6 +52,7 @@ public class Precinct implements Serializable {
     public long getAsian_pop() {
         return asianpop;
     }
+
     public void setAsian_pop(long asianpop) {
         this.asianpop = asianpop;
     }
@@ -54,6 +60,7 @@ public class Precinct implements Serializable {
     public long getHispanic_pop() {
         return hispanicpop;
     }
+
     public void setHispanic_pop(long hispanicpop) {
         this.hispanicpop = hispanicpop;
     }
@@ -61,6 +68,7 @@ public class Precinct implements Serializable {
     public long getAfricanAmerican_pop() {
         return africanamericanpop;
     }
+
     public void setAfricanAmerican_pop(long africanamericanpop) {
         this.africanamericanpop = africanamericanpop;
     }
@@ -68,16 +76,23 @@ public class Precinct implements Serializable {
     public long getWhite_pop() {
         return whitepop;
     }
+
     public void setWhite_pop(long white_pop) {
         this.whitepop = white_pop;
     }
 
-    public String getNeighbors() { return neighbors; }
-    public void setNeighbors(String neighbors) { this.neighbors = neighbors; }
+    public String getNeighbors() {
+        return neighbors;
+    }
+
+    public void setNeighbors(String neighbors) {
+        this.neighbors = neighbors;
+    }
 
     public String getNameID() {
         return precinctid;
     }
+
     public void setNameID(String nameID) {
         assertNotEquals(nameID, "");
         this.precinctid = nameID;
@@ -88,7 +103,7 @@ public class Precinct implements Serializable {
     }
 
     public void setTotalPop(long totalPop) {
-        if(totalPop <= 0)
+        if (totalPop <= 0)
             this.totalpop = 0;
         else
             this.totalpop = totalPop;
@@ -97,18 +112,24 @@ public class Precinct implements Serializable {
     public String getParty() {
         return party;
     }
+
     public void setParty(String party) {
         this.party = party;
     }
 
 
+    public String getStateName() {
+        return statename;
+    }
 
-    public String getStateName(){return statename;}
-    public void setStateName(String districtID ){this.statename=districtID;}
+    public void setStateName(String districtID) {
+        this.statename = districtID;
+    }
 
     public String getCountyName() {
         return countyname;
     }
+
     public void setCountyName(String countyName) {
         this.countyname = countyName;
     }
