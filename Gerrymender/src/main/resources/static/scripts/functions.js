@@ -148,8 +148,8 @@ function updateState(id) {
         contentType: false,
         dataType: "json",
         async: true,
-        complete: function(){
-            alert("ajax finish");
+        success: function(){
+            enable("phase0Button", "#phase0Button");
         }
     });
 }
