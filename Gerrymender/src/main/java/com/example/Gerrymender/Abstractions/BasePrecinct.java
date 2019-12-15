@@ -48,6 +48,7 @@ public class BasePrecinct implements PrecinctInterface {
             this.majorityRace = maxRace;
             this.edges = new HashSet<BasePrecinct>();
             countyName = p.getCountyName();
+
     }
 
     public BasePrecinct(

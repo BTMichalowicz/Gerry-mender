@@ -84,8 +84,8 @@ public class BaseCluster {
             racePops[i] += c.getRacePops()[i];
         }
         edges.addAll(c.getEdges());
+        edges.remove(c);
         population += c.getPopulation();
-        ID = Integer.parseInt(ID) < Integer.parseInt(c.getID()) ? ID : c.getID();
     }
 
     public void addPrecinct(BasePrecinct p) {
@@ -104,7 +104,7 @@ public class BaseCluster {
             double joinability;
             double demPopPerc = (double) (racePops[r.ordinal()] + c.racePops[r.ordinal()]) / (double) (population + c.getPopulation());
             if(demPopPerc < minPopPerc) {
-                joinability = 2 *Math.exp((demPopPerc - 2*minPopPerc) / minPopPerc);
+                joinability = 2 * Math.exp((demPopPerc - 2*minPopPerc) / minPopPerc);
             }
             else if(demPopPerc < maxPopPerc) {
                 joinability = 1;
@@ -121,7 +121,13 @@ public class BaseCluster {
         double otherJoinability = 0;
         if(lastIteration) {
             if (population + c.getPopulation() <= avgPop + avgPopEpsilon && population + c.getPopulation() >= avgPop - avgPopEpsilon) {
-                otherJoinability++;
+                otherJoinability = 1;
+            }
+            else if (population + c.getPopulation() < avgPop - avgPopEpsilon) {
+                otherJoinability = Math.exp((population + c.getPopulation() - (avgPop - avgPopEpsilon)) / (avgPop - avgPopEpsilon));
+            }
+            else {
+                otherJoinability = Math.exp(((avgPop + avgPopEpsilon) - population + c.getPopulation()) / (avgPop + avgPopEpsilon));
             }
             return Tuples.of(maxRacialJoinability, otherJoinability);
         }

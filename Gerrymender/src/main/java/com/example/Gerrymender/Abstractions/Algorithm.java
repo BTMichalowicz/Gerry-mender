@@ -11,7 +11,9 @@ import org.apache.catalina.Cluster;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Comparator;
 import java.util.concurrent.Semaphore;
@@ -55,14 +57,14 @@ public class Algorithm {
     public Semaphore getPhase2Semaphore() { return phase2Semaphore; }
     private void combine(BaseCluster c1, BaseCluster c2) {
         c1.combine(c2);
-        for (int i = 0; i < c2.getEdges().size(); i++) {
-            BaseCluster c = (BaseCluster)c2.getEdges().toArray()[i];
+        Object edges[] = c2.getEdges().toArray();
+        for (int i = 0; i < edges.length; i++) {
+            BaseCluster c = (BaseCluster)edges[i];
             Set<BaseCluster> edge = c.getEdges();
             edge.remove(c2);
             edge.add(c1);
         }
-        Map<String, BaseCluster> map = BaseState.getClusters();
-        map.entrySet().removeIf(entry -> c2.equals(entry.getValue()));
+        BaseState.getClusters().remove(c2.getID());
     }
 
     /*
@@ -111,34 +113,40 @@ public class Algorithm {
     }
 
     public void phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
+        System.out.println();
         lock.lock();
         isRunning = true;
         phase1Queue = new LinkedList<>();
         lock.unlock();
         initializeClusters();
-        Map<String, BaseCluster> clusters = BaseState.getClusters();
+
         int avgPop = BaseState.getPopulation() / numDistricts;
-        double avgPopEpsilon = avgPop * .25;
+        double avgPopEpsilon = avgPop * .35;
         boolean lastIter = false;
-        while(clusters.size() > numDistricts) {
+        int i = 0;
+        while(BaseState.getClusters().size() > numDistricts) {
+            Map<String, BaseCluster> clusters = BaseState.getClusters();
             if(clusters.size() <= 2 * numDistricts) {
                 lastIter = true;
             }
-            for (int i = 0; i < clusters.size(); i++) {
-                String key = (String)clusters.keySet().toArray()[i];
+
+                String key = (String)clusters.keySet().toArray()[i%clusters.size()];
                 BaseCluster bestNeighbor = null;
                 Tuple2<Double, Double> bestJoinability = Tuples.of(0.0, 0.0);
                 BaseCluster c = clusters.get(key);
                 for (BaseCluster neighbor : c.getEdges()) {
                     Tuple2<Double, Double> join = c.joinability(neighbor, minPopPerc, maxPopPerc, avgPop, avgPopEpsilon, races, lastIter, BaseState);
+                    //System.out.println(join);
                     if (BaseCluster.maxJoinability(bestJoinability, join, lastIter)) {
                         bestJoinability = join;
                         bestNeighbor = neighbor;
                     }
                 }
                 if (bestNeighbor == null) {
+                    i++;
                    continue;
                 }
+
                 List<Tuple2<String, String>> changes = new ArrayList<>();
                 String id = Integer.parseInt(clusters.get(key).getID()) < Integer.parseInt(bestNeighbor.getID()) ? clusters.get(key).getID() : bestNeighbor.getID();
                 for (BasePrecinct p : bestNeighbor.getPrecincts().values()) {
@@ -147,17 +155,18 @@ public class Algorithm {
                 phase1Queue.add(changes);
                 phase1Semaphore.release();
                 combine(clusters.get(key), bestNeighbor);
-            }
+            i++;
         }
         Map<String, BaseDistrict> baseDistricts = new HashMap<>();
-        int i = 1;
+        int id = 1;
+        Map<String, BaseCluster> clusters = BaseState.getClusters();
         for(String clusterKey : clusters.keySet()) {
-            BaseDistrict district = new BaseDistrict("" + i, BaseState);
+            BaseDistrict district = new BaseDistrict("" + id, BaseState);
             for(String precintKey : clusters.get(clusterKey).getPrecincts().keySet()) {
                 district.addPrecinct(clusters.get(clusterKey).getPrecincts().get(precintKey));
             }
-            baseDistricts.put("" + i, district);
-            i++;
+            baseDistricts.put("" + id, district);
+            id++;
         }
         List<Tuple2<String, String>> end = new ArrayList<>();
         end.add(Tuples.of("END", "END"));

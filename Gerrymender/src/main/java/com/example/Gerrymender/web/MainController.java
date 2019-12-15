@@ -16,6 +16,7 @@ import reactor.util.function.Tuple2;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Controller
@@ -104,10 +105,16 @@ public class MainController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            List<Tuple2<String, String>> r = alg.getPhase1Queue().remove();
+            List<Tuple2<String, String>> r = null;
+            if(!alg.getPhase1Queue().isEmpty()) {
+                r = alg.getPhase1Queue().remove();
+            }
             try {
                 if(r != null) {
                     ret = obj.writeValueAsString(r);
+                }
+                else {
+                    ret = obj.writeValueAsString(ret);
                 }
                 alg.lock.unlock();
                 return ret;
@@ -186,7 +193,7 @@ public class MainController {
         alg.lock.lock();
         State s = stateRepository.findById(id).orElse(null);
         List<Precinct> precincts = precinctRepository.findByStatename(s.getNameID());
-        Map<String, BasePrecinct> basePrecincts = new HashMap<>();
+        Map<String, BasePrecinct> basePrecincts = new ConcurrentHashMap<>();
         for(Precinct p : precincts) {
             Map<String, Votes> votes = new HashMap<>();
             votes.put("2016PRESIDENT", new Votes(voteRepository.findByVoteid(new VoteId(p.getNameID(), "2016", "PRESIDENT"))));
