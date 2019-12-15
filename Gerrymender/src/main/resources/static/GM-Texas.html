@@ -47,7 +47,7 @@
     <div class="slide-menu" id="slide-menu">
         <!--Tabs-->
         <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'Help')" 
+            <button class="tablinks" onclick="openTab(event, 'Help')"
                 data-toggle="tooltip" data-placement="bottom" title ="Shows Help Menu">Help</button>
             <button class="tablinks active" onclick="openTab(event, 'Data')"
                 data-toggle="tooltip" data-placement="bottom" title ="Shows Florida Data">Data</button>
@@ -167,7 +167,7 @@
             <div class="tab_subheader">Please Input Values Below:<br></br></div>
             <div class="slider_container">
                 Population Threshold: <span id="popThresh_value"></span>%<br>
-                    <div id = "popSlider"></div><br>                    
+                    <div id = "popSlider"></div><br>
                 Voting Threshold: <span id="voteThresh_value"></span>%<br>
                     <div id = "voteSlider"></div><br>
             </div>
@@ -267,7 +267,8 @@
                         <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx" onclick="iterateMode()">
                         <label class="custom-control-label" for="iterate" style="color: white" >Iterative</label>
                         <button class="enableOnInput_r" id="letRunButton" disabled='disabled' onclick="setEndOnly()">Let Run</button>
-                        <button class="enableOnInput_r" id="iterateButton"  disabled = 'disabled' onclick="phase1Iterate()">Next Iteration</button>
+                        <button class="enableOnInput_r" id="iterateButton" disabled = 'disabled'
+                                onclick="phase1Iterate()">Next Iteration</button>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx" onclick="endOnly()">

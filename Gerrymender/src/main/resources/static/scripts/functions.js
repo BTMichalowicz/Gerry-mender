@@ -82,6 +82,15 @@ function toggleHomeHelp() {
 }
 
 /*State Pages*/
+var stateUpdated = false;
+var phase1Operational = false;
+function setPhase1Operational (){ phase1Operational = true; }
+function setStateUpdated(){
+    //stateUpdated = true;
+    alert("State updated: " + stateUpdated);
+    //enable("phase0Button", "#phase0Button");
+    //alert("enabled phase 0 button");
+}
 window.onload = function () {
     //Threshold Sliders
     var popSlider = document.getElementById('popSlider');
@@ -146,7 +155,10 @@ function updateState(id) {
         processData: false,
         contentType: false,
         dataType: "json",
-        async: true
+        async: true,
+        complete: function(){
+            alert("ajax finish");
+        }
     });
 }
 var currentState;
@@ -231,6 +243,11 @@ function onEachDFeature(feature, layer) {
 
 //Menu Tabs
 function openTab(evt, tabName) {
+    if (stateUpdated){
+        if (phase1Operational){
+            enable("phase1Button", "#phase1Button");
+        }
+    }
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -300,9 +317,11 @@ function precinctItems(result) {
     var items = [
         {Attr: "Code", Amount: result[0].nameID},
         {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
+        {Attr: "Black", Amount: numberWithCommas(result[0].africanAmerican_pop)},
         {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
         {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
         {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
+        {Attr: "Native", Amount: numberWithCommas(result[0].nativeAmerican_pop)},
         {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
         {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
     ];
@@ -310,11 +329,13 @@ function precinctItems(result) {
 }
 function districtItems(result) {
     var items = [
-        {Attr: "District #", Amount: result[0].nameID},
+        {Attr: "Code", Amount: result[0].nameID},
         {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
+        {Attr: "Black", Amount: numberWithCommas(result[0].africanAmerican_pop)},
         {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
         {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
         {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
+        {Attr: "Native", Amount: numberWithCommas(result[0].nativeAmerican_pop)},
         {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
         {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
     ];
@@ -413,16 +434,10 @@ function setVoteSelected() {
 function popUpdated(value) {
     setPopSelected();
     show_value(value, 'popThresh_value');
-    if (popSelected && voteSelected) {
-        enable("phase0Button", "#phase0Button");
-    }
 }
 function voteUpdated(value) {
     setVoteSelected();
     show_value(value, 'voteThresh_value');
-    if (popSelected && voteSelected) {
-        enable("phase0Button", "#phase0Button");
-    }
 }
 function phase0() {
     var year = getYear();
@@ -507,13 +522,15 @@ function setNumDis(value){
 }
 var iterative = false;
 function setIterative() {
+    phase1Operational = true;
     iterative = true;
 }
 function setEndOnly() {
+    setPhase1Operational();
     iterative = false;
 }
 function iterateMode() {
-    enable("phase1Button", "#phase1Button");
+    if (stateUpdated) enable("phase1Button", "#phase1Button");
     setIterative();
 }
 function endOnly() {
@@ -551,10 +568,9 @@ function beginPhase1() {
     disable("iterate", "#iterate");
     disable("endUpdate", "#endUpdate");
     disable("phase1Button", "#phase1Button");
-
+    alert("Phase 1 Begun!");
     phase1Iterate();
 }
-
 var ended = false;
 function setEnded(value){
     ended = value;

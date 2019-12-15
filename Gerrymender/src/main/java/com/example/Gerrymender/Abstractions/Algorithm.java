@@ -121,6 +121,7 @@ public class Algorithm {
         double avgPopEpsilon = avgPop * .25;
         boolean lastIter = false;
         while(clusters.size() > numDistricts) {
+            System.out.println(clusters.size());
             if(clusters.size() <= 2 * numDistricts) {
                 lastIter = true;
             }
@@ -148,6 +149,7 @@ public class Algorithm {
                 phase1Semaphore.release();
                 combine(clusters.get(key), bestNeighbor);
             }
+            System.out.println(clusters.size());
         }
         Map<String, BaseDistrict> baseDistricts = new HashMap<>();
         int i = 1;
