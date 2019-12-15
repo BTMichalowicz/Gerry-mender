@@ -135,7 +135,7 @@ public class BaseCluster {
             temporaryDistrict.addPrecinct(precincts.get(s));
         }
         for(String s : c.getPrecincts().keySet()) {
-            temporaryDistrict.addPrecinct(precincts.get(s));
+            temporaryDistrict.addPrecinct(c.getPrecincts().get(s));
         }
         otherJoinability += temporaryDistrict.getInternalEdges() / (temporaryDistrict.getInternalEdges() + temporaryDistrict.getExternalEdges());
         return Tuples.of(maxRacialJoinability, otherJoinability);
