@@ -19,21 +19,21 @@ public class BaseCluster {
     private int population;
     private int internalEdges = 0;
     private int externalEdges = 0;
-    private Map<Pol_part, Integer> votes;
-    private HashMap<String, BasePrecinct> precincts;
-    private HashSet<BaseCluster> edges;
+    private Map<String, Votes> votes;
+    private Map<String, BasePrecinct> precincts;
+    private Set<BaseCluster> edges;
     private int[] racePops;
     private String countyName;
 
-    public BaseCluster(String ID, BaseState state, int population, int[] racePops, String countyName) {
+    public BaseCluster(String ID, BaseState state, int population, int[] racePops, String countyName, Map<String, Votes> votes) {
         this.ID = ID;
         this.state = state;
         this.population = population;
         this.precincts = new HashMap<>();
-        this.votes = new HashMap<>();
         this.edges = new HashSet<>();
         this.racePops = racePops;
         this.countyName = countyName;
+        this.votes = votes;
     }
 
     public String getCountyName() { return countyName; }
@@ -44,7 +44,7 @@ public class BaseCluster {
         return ID;
     }
 
-    public Map<Pol_part, Integer> getVotes() {
+    public Map<String, Votes> getVotes() {
         return votes;
     }
 
@@ -78,6 +78,11 @@ public class BaseCluster {
             c.getPrecincts().get(s).setClusterId(Integer.parseInt(ID));
             if(countyName != null && c.getPrecincts().get(s).getCountyName() != countyName) {
                 countyName = null;
+            }
+            for(String voteId: c.getPrecincts().get(s).getVotes().keySet()) {
+                Votes v = votes.get(voteId);
+                v.combine(c.getPrecincts().get(s).getVotes().get(voteId));
+                votes.put(voteId, v);
             }
         }
         for(int i = 0; i < racePops.length; i++) {

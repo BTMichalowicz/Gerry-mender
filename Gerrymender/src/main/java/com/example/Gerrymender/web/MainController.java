@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import reactor.util.function.Tuple2;
+import reactor.util.function.Tuple4;
+import reactor.util.function.Tuple5;
+import reactor.util.function.Tuples;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -189,6 +192,42 @@ public class MainController {
         BaseState s = alg.getBaseState();
         alg = new MyAlgorithm();
         alg.setBaseState(s);
+    }
+
+    @RequestMapping(value = "/getCluster", method = RequestMethod.POST)
+    public @ResponseBody String getCluster(String id, String electionId, String whichRaces[]) {
+        BaseState s = alg.getBaseState();
+        BaseCluster c = s.getClusters().get(id);
+        Votes v = c.getVotes().get(electionId);
+        int max = 0;
+        Pol_part maxParty = Pol_part.DEMOCRAT;
+        for(int i = 0; i < v.getVotes().length; i++) {
+            if(v.getVotes()[i] > max) {
+                max = (int)v.getVotes()[i];
+                maxParty = Pol_part.values()[i];
+            }
+        }
+        int maxRacePop = 0;
+        Race maxRace = Race.WHITE;
+        int races[] = c.getRacePops();
+        for(int i = 0; i < whichRaces.length; i++) {
+            if(races[Race.valueOf(whichRaces[i]).ordinal()] > maxRacePop) {
+                maxRacePop = races[Race.valueOf(whichRaces[i]).ordinal()];
+                maxRace = Race.valueOf(whichRaces[i]);
+            }
+        }
+        boolean majMin = false;
+        if((double)maxRacePop / (double)c.getPopulation() > 0.5 && maxRace != Race.WHITE) {
+            majMin = true;
+        }
+        Tuple4<String, Integer, String, Boolean> r = Tuples.of(id, c.getPopulation(), maxParty.name(), majMin);
+        ObjectMapper obj = new ObjectMapper();
+        try {
+            String ret = obj.writeValueAsString(r);
+            return ret;
+        } catch (IOException e) {
+            return "";
+        }
     }
 
     @RequestMapping(value="/updateState", method=RequestMethod.POST)

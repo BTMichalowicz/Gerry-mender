@@ -67,4 +67,10 @@ public class Votes {
     public void setTotalVotes(long totalVotes) {
         this.totalVotes = totalVotes;
     }
+
+    public void combine(Votes v) {
+        for(int i = 0; i < votes.length; i++) {
+            votes[i] += v.getVotes()[i];
+        }
+    }
 }

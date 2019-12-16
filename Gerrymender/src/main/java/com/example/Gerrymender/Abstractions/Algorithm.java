@@ -78,7 +78,7 @@ public class Algorithm {
         HashMap<String, BaseCluster> clusters = new HashMap<>();
         int count = 0;
         for (BasePrecinct p : BaseState.getPrecincts().values()) {
-            BaseCluster c = new BaseCluster("" + count, BaseState, p.getPopulation(), p.getRacePops(), p.getCountyName());
+            BaseCluster c = new BaseCluster("" + count, BaseState, p.getPopulation(), p.getRacePops(), p.getCountyName(), p.getVotes());
             p.setClusterId(count);
             c.addPrecinct(p);
             clusters.put("" + count, c);
