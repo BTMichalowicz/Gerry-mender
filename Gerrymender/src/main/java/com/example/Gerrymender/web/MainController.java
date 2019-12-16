@@ -179,6 +179,13 @@ public class MainController {
         return null;
     }
 
+    @RequestMapping(value = "/resetAlg", method = RequestMethod.GET)
+    public @ResponseBody void resetAlg() {
+        BaseState s = alg.getBaseState();
+        alg = new MyAlgorithm();
+        alg.setBaseState(s);
+    }
+
     @RequestMapping(value="/updateState", method=RequestMethod.POST)
     public @ResponseBody void updateState(String id) {
         if(baseStateMap.containsKey(id)) {
