@@ -249,6 +249,7 @@ public class MainController {
 
     @RequestMapping(value="/updateState", method=RequestMethod.POST)
     public @ResponseBody void updateState(String id) {
+        System.out.println("updating");
         if(baseStateMap.containsKey(id)) {
             alg.lock.lock();
             alg.setBaseState(baseStateMap.get(id));

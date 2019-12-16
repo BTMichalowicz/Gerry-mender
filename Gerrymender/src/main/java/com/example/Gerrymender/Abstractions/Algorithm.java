@@ -171,16 +171,6 @@ public class Algorithm {
                 i++;
                 continue;
             }
-
-            List<Tuple2<String, String>> changes = new ArrayList<>();
-
-                for (BasePrecinct p : bestNeighbor.getPrecincts().values()) {
-                    changes.add(Tuples.of(p.getID(), c.getID()));
-                }
-                lock.lock();
-                phase1Queue.add(changes);
-                lock.unlock();
-                phase1Semaphore.release();
                 combine(clusters.get(key), bestNeighbor);
             i++;
         }
@@ -188,14 +178,23 @@ public class Algorithm {
         int id = 1;
         Map<String, BaseCluster> clusters = BaseState.getClusters();
         for (String clusterKey : clusters.keySet()) {
+            List<Tuple2<String, String>> changes = new ArrayList<>();
             BaseDistrict district = new BaseDistrict("" + id, BaseState);
             for (String precintKey : clusters.get(clusterKey).getPrecincts().keySet()) {
                 district.addPrecinct(clusters.get(clusterKey).getPrecincts().get(precintKey));
+                changes.add(Tuples.of(clusters.get(clusterKey).getPrecincts().get(precintKey).getID(), clusterKey));
             }
             baseDistricts.put("" + id, district);
             id++;
+            lock.lock();
+            phase1Queue.add(changes);
+            lock.unlock();
+            phase1Semaphore.release();
         }
-
+        lock.lock();
+        phase1Queue.add(null);
+        lock.unlock();
+        phase1Semaphore.release();
         System.out.println("Sent END!");
         phase1Queue.add(null);
         BaseState.setDistricts(baseDistricts);
