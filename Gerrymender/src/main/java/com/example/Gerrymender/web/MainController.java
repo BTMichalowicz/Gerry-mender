@@ -114,7 +114,7 @@ public class MainController {
         for(int i = 0; i < whichRaces.length; i++) {
                 races[i] = (Race.valueOf(whichRaces[i]));
         }
-        List<Tuple2<String, String>> r = alg.phase1(races, minPopPerc / 100.0, maxPopPerc / 100.0, numDistricts);
+        List<String> r = alg.phase1(races, minPopPerc / 100.0, maxPopPerc / 100.0, numDistricts);
         try {
             String ret = obj.writeValueAsString(r);
 

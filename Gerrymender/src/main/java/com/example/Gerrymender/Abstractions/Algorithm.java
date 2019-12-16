@@ -134,10 +134,10 @@ public class Algorithm {
         return ret;
     }
 
-    public List<Tuple2<String, String>> phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
+    public List<String> phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
 
         initializeClusters();
-        List<Tuple2<String, String>> changes = new ArrayList<>();
+        List<String> changes = new ArrayList<>();
         int avgPop = BaseState.getPopulation() / numDistricts;
         double avgPopEpsilon = avgPop * .35;
         boolean lastIter = false;
@@ -174,10 +174,10 @@ public class Algorithm {
             BaseDistrict district = new BaseDistrict("" + id, BaseState);
             for (String precintKey : clusters.get(clusterKey).getPrecincts().keySet()) {
                 district.addPrecinct(clusters.get(clusterKey).getPrecincts().get(precintKey));
-                changes.add(Tuples.of(clusters.get(clusterKey).getPrecincts().get(precintKey).getID(), clusterKey));
             }
             baseDistricts.put("" + id, district);
             id++;
+            changes.add(clusterKey);
         }
         BaseState.setDistricts(baseDistricts);
         return changes;
