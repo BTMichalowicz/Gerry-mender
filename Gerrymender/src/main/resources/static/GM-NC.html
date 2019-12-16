@@ -160,7 +160,7 @@
                 Voting Threshold: <span id="voteThresh_value"></span>%<br>
                 <div id = "voteSlider"></div><br>
             </div>
-            <button class="enableOnInput" id="phase0Button" disabled='disabled' onclick="phase0()">Calculate</button>
+            <button class="ctr_button" id="phase0Button" onclick="phase0()">Calculate</button>
             <br>
             <div class="tab_leftheader">Output:</div>
             <table id = "blocSummaryTable" style = "width:100%; font-size: 18px">
@@ -219,7 +219,8 @@
         <div id="GM" class="tabcontent">
             <div class="tab_header">Gerrymending
                 <span class = "glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom"
-                      title ="Phase 1 of Redistricting: Put a range of population percentage and update mode (by iteration or one cumulative update)."></span>
+                      title ="Phase 1 of Redistricting: Put a range of population percentage, what races to consider for minority groups,
+                       the desired number of districts, and update mode (by iteration or one cumulative update)."></span>
             </div>
             <br>
             <div class="tab_subheader">Phase 1: Graph Partitioning</div>
@@ -246,7 +247,7 @@
                 <div id = "desiredNumDisSection" class = "hideable">
                     <h4>Desired # of Districts:
                         <input type="number" class = "numInput" name="districts" id="numDistrictsInput"
-                               min="10" max="17" value="13" onchange="setNumDis(this.value);"></h4>
+                               min="27" max="45" value="36" onchange="setNumDis(this.value);"></h4>
                     <br>
                 </div>
                 <div id = "iterateOrEndSection" class = "hideable">
@@ -255,18 +256,62 @@
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" class="custom-control-input" id="iterate" name="example" value="customEx" onclick="iterateMode()">
                         <label class="custom-control-label" for="iterate" style="color: white" >Iterative</label>
-                        <button class="enableOnInput_r" id="iterateButton"  disabled = 'disabled' onclick="nextIteration()">Next Iteration</button>
+                        <button class="enableOnInput_r" id="letRunButton" disabled='disabled' onclick="setEndOnly()">Let Run</button>
+                        <button class="enableOnInput_r" id="iterateButton" disabled = 'disabled'
+                                onclick="phase1Iterate()">Next Iteration</button>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx" onclick="endOnly()">
                         <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br><br>
                     </div>
                 </div>
-                <button class="enableOnInput" id = "phase1Button" disabled='disabled' onclick="phase1()">Start</button>
+                <button class="enableOnInput" id = "phase1Button" disabled='disabled' onclick="beginPhase1()">Start</button>
                 <br>
-                <div class="tab_leftheader">Output:</div>
-                <button class="enableOnInput" id = "toPhase2" style="display: none;" onclick="openTab(event, 'P2')">To Phase 2</button>
-                <br>
+                <div id="p1Output">
+                    <table id = "clusterSummaryTable" style = "width:100%; font-size: 18px;">
+                        <caption>Cluster Summary:</caption>
+                        <tr>
+                            <th>Type</th>
+                            <th># Clusters</th>
+                        </tr>
+                        <tr>
+                            <td>Democrat:</td>
+                            <td id = "demClusNum"></td>
+                        </tr>
+                        <tr>
+                            <td>Republican:</td>
+                            <td id = "repClusNum"></td>
+                        </tr>
+                        <tr>
+                            <td>Min-Maj:</td>
+                            <td id = "mmClusNum"></td>
+                        </tr>
+                    </table>
+                    <br>
+                    <script id="clusterTemplate" type="text/x-jquery-tmpl">
+                    <tr>
+                        <td width="25%">${clID}</td>
+                        <td width="30%">${clPop}</td>
+                        <td width="25%">${clParty}</td>
+                        <td width="20%">${clMM}</td>
+                    </tr>
+                    </script>
+                    <table id = "clusterTableHeader" style = "width:100%; font-size: 14px;">
+                        <tr>
+                            <th>Cluster ID</th>
+                            <th>Population</th>
+                            <th>Party</th>
+                            <th>Min-Maj?</th>
+                        </tr>
+                    </table>
+                    <table id = "clusterTable" style = "width:100%; font-size: 14px;">
+                        <thead>
+                        </thead>
+                        <tbody><tr></tr></tbody>
+                    </table>
+                    <br>
+                    <button class="enableOnInput" id = "toPhase2" disabled = 'disabled' onclick="openTab(event, 'P2')">To Phase 2</button>
+                </div>
             </div>
         </div>
         <div id="P2" class="tabcontent">
@@ -278,19 +323,31 @@
             </div>
             <br>
             <h4>Objective Function Weights:</h4>
-            <div class="content_centered">
-                <select name="Weights">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-                <input type="number" name="popThresh" style="width: 50px; color: black; ">
+            <div>
+                Partisan Fairness: <span id="parFair_value"></span>%<br>
+                <div id = "parFairSlider"></div><br>
+                Reock Compactness: <span id="reock_value"></span>%<br>
+                <div id = "reockSlider"></div><br>
+                Convex Hull Compactness: <span id="cHull_value"></span>%<br>
+                <div id = "cHullSlider"></div><br>
+                Edge Compactness: <span id="edgeComp_value"></span>%<br>
+                <div id = "edgeCompSlider"></div><br>
+                Efficiency Gap: <span id="effGap_value"></span>%<br>
+                <div id = "effGapSlider"></div><br>
+                Pop Equality: <span id="popEq_value"></span>%<br>
+                <div id = "popEqSlider"></div><br>
+                Competitiveness: <span id="comp_value"></span>%<br>
+                <div id = "compSlider"></div><br>
+                Gerrymander Rep: <span id="gmR_value"></span>%<br>
+                <div id = "gmRSlider"></div><br>
+                Population Homogeneity: <span id="popH_value"></span>%<br>
+                <div id = "popHSlider"></div><br>
+                Gerrymander Dem: <span id="gmD_value"></span>%<br>
+                <div id = "gmDSlider"></div><br>
             </div>
             <br>
             <div class="tab_leftheader">Output:</div>
             <br>
-            <p>((To Be Done: GM Scores, Population/Maj-Min Tables))</p>
             <button class="disabled" disabled>Original Districts</button>
             <button class="disabled" disabled>Generated Districts</button>
         </div>

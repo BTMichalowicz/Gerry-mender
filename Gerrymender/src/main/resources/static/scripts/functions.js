@@ -729,7 +729,7 @@ function phase1Iterate(){
         });
 }
 function addToClusterTable(result){
-    var i=0
+    var i=0;
     while(result[i] != null) {
         var clusterItem = [{
             clID: result[i].t1,
