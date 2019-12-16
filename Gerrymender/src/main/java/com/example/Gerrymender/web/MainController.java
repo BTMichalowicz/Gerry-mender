@@ -173,6 +173,7 @@ public class MainController {
                     ret = obj.writeValueAsString(ret);
                 }
                 alg.lock.unlock();
+                System.out.println(ret);
                 return ret;
             } catch (IOException e) {
                 alg.lock.unlock();

@@ -596,6 +596,7 @@ function phase1Iterate(layerName, clusterLayer){
         var races = formatRL();
         var numDis = document.getElementById("numDistrictsInput").value;
         var formData = new FormData();
+        var iterate = iterative;
         formData.append("whichRaces", races);
         formData.append("minPopPerc", min);
         formData.append("maxPopPerc", max);
@@ -609,28 +610,27 @@ function phase1Iterate(layerName, clusterLayer){
             dataType: "json",
             async: false,
             success: function (results) {
-                processPhase1(results, layerName, clusterLayer);
+                processPhase1(results, iterate);
             },
             error: function (error) {
                 alert("Error: " + error);
             },
-            complete: function(){
-               ended = true;
-            }
         })).responseText;
     }
 }
 var clusters = [];
-function processPhase1(result, layerName, clusterLayer){
-    if (result == ""){
+function processPhase1(result, iterate){
+    alert("Iterate: " + iterate);
+    if (result === ""){
         phase1Iterate();
     }
     else {
         var endTest = result[0].t1;
         alert("endTest: " + endTest);
-        if (endTest == "END") {
+        if (endTest === "END") {
             alert("Phase 1 Completed.");
             setEnded(true);
+            phase1Results();
         }
         //if we have not gotten "END", we want to process the results
         else {
@@ -641,37 +641,18 @@ function processPhase1(result, layerName, clusterLayer){
                 var cID = result[i].t2;               //cluster id
                 var pID = result[i].t1;               //precinct id
                 alert("i: " + i + ", cID: " + cID + ", pID: " + pID);
-                var index = clusters.indexOf(cID);  //get the index of current cluster
-                if (index == -1) {                   //if the index is -1, the cluster isn't yet added.
-                    clusters.push(cID);             //add the new cluster to our array
-                    index = clusters.indexOf(cID);  //get the index again
-                }                                   //otherwise, we just get the index of the existing cluster.
-                alert("Index: " + index);
-                alert("Layer to be added to: " + layerName);                                                                // <-- why undefined?
-                //now, make a new precinct from our precinct layer, filtering the geoJson by pID
-                var newPrecinct = L.geoJson(layerName, {
-                        filter: function (feature) {
-                            if (feature.properties.countypct === pID) return true;
-                        },
-                        style: function () {
-                            return {
-                                color: 'black',
-                                fillColor: district_color.get(index),
-                                weight: 1,
-                                opacity: 0.8,
-                                fillOpacity: 0.5
-                            }
-                        }
-                    });
-                alert("created new precinct")
-                //once the precinct is finished, add it to the layer in its cluster color                                                    // <------ the issue is here
-                clusterLayer.addData(newPrecinct);
-                alert("added to cluster layer");
                 i++;
+                alert("incremented i");
             }
-            if (!isIterative()) phase1Iterate();
+            if (!iterate) {
+                alert("Movin on");
+                phase1Iterate();
+            }
         }
     }
+}
+function phase1Results(){
+    alert("Soon");
 }
 
 //Phase 2
