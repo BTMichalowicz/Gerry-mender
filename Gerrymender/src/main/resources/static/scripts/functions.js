@@ -44,7 +44,7 @@ function toggleSlider() {
     }
 }
 function toggleInfoSlider(feature) {
-    document.getElementById("slide-info").style.width = "250px";
+    document.getElementById("slide-info").style.width = "300px";
     infoStat = feature.properties.id;
     getInfo(feature, true);
 }
@@ -140,10 +140,7 @@ function updateState(id) {
         processData: false,
         contentType: false,
         dataType: "json",
-        async: true,
-        success: function(){
-            alert("State updated.");
-        }
+        async: true
     });
 }
 var currentState;
@@ -183,9 +180,15 @@ function setDLayer() {
 function onEachFeature(feature, layer) {
     var currentColor;
     layer.on("mouseover", function (e) {
-        if(pLayer) currentColor = "red";
-        else currentColor = district_color.get(feature.properties.DISTRICT);
-        layer.setStyle({fillColor: "white"});
+        if(pLayer) {
+            currentColor = "white";
+            layer.setStyle({fillColor: "deepskyblue"});
+        }
+        else {
+            currentColor = district_color.get(feature.properties.DISTRICT);
+            layer.setStyle({fillColor: "white"});
+        }
+
         document.getElementById("small-info-window").style.display = 'block';
         $(getInfo(feature, false));
     });
@@ -279,28 +282,41 @@ function getInfo(feature, clicked) {
     });
 }
 function precinctItems(result) {
+    var totalPop = result[0].totalPop;
+    var blackPop = result[0].africanAmerican_pop;
+    var whitePop = result[0].white_pop;
+    var hisPop = result[0].hispanic_pop;
+    var asiPop = result[0].asian_pop;
+    var natPop = result[0].nativeAmerican_pop;
+
     var items = [
         {Attr: "Code", Amount: result[0].nameID},
         {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
-        {Attr: "Black", Amount: numberWithCommas(result[0].africanAmerican_pop)},
-        {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
-        {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
-        {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
-        {Attr: "Native", Amount: numberWithCommas(result[0].nativeAmerican_pop)},
+        {Attr: "Black", Amount: numberWithCommas(result[0].africanAmerican_pop) + " (" + (100*(blackPop/totalPop)).toFixed(2) + "%)"},
+        {Attr: "White", Amount: numberWithCommas(result[0].white_pop) + " (" + (100*(whitePop/totalPop)).toFixed(2) + "%)"},
+        {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop) + " (" + (100*(hisPop/totalPop)).toFixed(2) + "%)"},
+        {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop) + " (" + (100*(asiPop/totalPop)).toFixed(2) + "%)"},
+        {Attr: "Native", Amount: numberWithCommas(result[0].nativeAmerican_pop) + " (" + (100*(natPop/totalPop)).toFixed(2) + "%)"},
         {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
         {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
     ];
     return items;
 }
 function districtItems(result) {
+    var totalPop = result[0].totalPop;
+    var blackPop = result[0].africanAmerican_pop;
+    var whitePop = result[0].white_pop;
+    var hisPop = result[0].hispanic_pop;
+    var asiPop = result[0].asian_pop;
+    var natPop = result[0].nativeAmerican_pop;
     var items = [
         {Attr: "District #", Amount: result[0].nameID},
         {Attr: "Population", Amount: numberWithCommas(result[0].totalPop)},
-        {Attr: "Black", Amount: numberWithCommas(result[0].africanAmerican_pop)},
-        {Attr: "White", Amount: numberWithCommas(result[0].white_pop)},
-        {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop)},
-        {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop)},
-        {Attr: "Native", Amount: numberWithCommas(result[0].nativeAmerican_pop)},
+        {Attr: "Black", Amount: numberWithCommas(result[0].africanAmerican_pop) + " (" + (100*(blackPop/totalPop)).toFixed(2) + "%)"},
+        {Attr: "White", Amount: numberWithCommas(result[0].white_pop) + " (" + (100*(whitePop/totalPop)).toFixed(2) + "%)"},
+        {Attr: "Hispanic", Amount: numberWithCommas(result[0].hispanic_pop) + " (" + (100*(hisPop/totalPop)).toFixed(2) + "%)"},
+        {Attr: "Asian", Amount: numberWithCommas(result[0].asian_pop) + " (" + (100*(asiPop/totalPop)).toFixed(2) + "%)"},
+        {Attr: "Native", Amount: numberWithCommas(result[0].nativeAmerican_pop) + " (" + (100*(natPop/totalPop)).toFixed(2) + "%)"},
         {Attr: "Republican", Amount: numberWithCommas(result[1].numrepub)},
         {Attr: "Democratic", Amount: numberWithCommas(result[1].numdemocrat)},
     ];
@@ -321,15 +337,21 @@ function getSmolHeader(code){
     return smolHeader;
 }
 function getSmolItems(result){
+    var totalPop = result[0].totalPop;
+    var blackPop = result[0].africanAmerican_pop;
+    var whitePop = result[0].white_pop;
+    var hisPop = result[0].hispanic_pop;
+    var asiPop = result[0].asian_pop;
+    var natPop = result[0].nativeAmerican_pop;
     var smolItems = [{
         code: result[0].nameID,
         tPop: numberWithCommas(result[0].totalPop),
-        bPop: numberWithCommas(result[0].africanAmerican_pop),
-        wPop: numberWithCommas(result[0].white_pop),
-        hPop: numberWithCommas(result[0].hispanic_pop),
-        aPop: numberWithCommas(result[0].asian_pop),
-        nPop: numberWithCommas(result[0].nativeAmerican_pop),
-        repV: numberWithCommas(result[1].numrepub),
+        bPop: numberWithCommas(result[0].africanAmerican_pop) + " (" + (100*(blackPop/totalPop)).toFixed(2) + "%)",
+        wPop: numberWithCommas(result[0].white_pop) + " (" + (100*(whitePop/totalPop)).toFixed(2) + "%)",
+        hPop: numberWithCommas(result[0].hispanic_pop) + " (" + (100*(hisPop/totalPop)).toFixed(2) + "%)",
+        aPop: numberWithCommas(result[0].asian_pop) + " (" + (100*(asiPop/totalPop)).toFixed(2) + "%)",
+        nPop: numberWithCommas(result[0].nativeAmerican_pop) + " (" + (100*(natPop/totalPop)).toFixed(2) + "%)",
+        repV: numberWithCommas(result[1].numrepub) ,
         demV: numberWithCommas(result[1].numdemocrat),
         }];
     return smolItems;
@@ -514,16 +536,13 @@ function setNumDis(value){
     numDis = value;
 }
 var iterative = false;
-function setIterative() {
-    phase1Operational = true;
-    iterative = true;
-}
+function setIterative() { iterative = true; }
+function isIterative() { if(iterative) return true; else return false;}
 function setEndOnly() {
-    setPhase1Operational();
     iterative = false;
 }
 function iterateMode() {
-    if (stateUpdated) enable("phase1Button", "#phase1Button");
+    enable("phase1Button", "#phase1Button");
     setIterative();
 }
 function endOnly() {
@@ -545,8 +564,8 @@ function formatRL(){
     if (raceList[4] === true){ races.push("NATIVE_AMERICAN"); }
     return races;
 }
-function beginPhase1() {
-    //hide user inputs
+function beginPhase1(layerName, clusterLayer) {
+   //hide user inputs
     document.getElementById("minorityPopSection").style.display = 'none';
     document.getElementById("popPercentSection").style.display = 'none';
     document.getElementById("desiredNumDisSection").style.display = 'none';
@@ -562,12 +581,15 @@ function beginPhase1() {
     disable("endUpdate", "#endUpdate");
     disable("phase1Button", "#phase1Button");
     alert("Phase 1 Begun!");
-    phase1Iterate();
+    phase1Iterate(layerName, clusterLayer);
 }
 var ended = false;
-function setEnded(value){ ended = value; }
-function getEnded(){return ended;}
-function phase1Iterate(){
+function setEnded(value){
+    ended = value;
+    alert("End.");
+}
+function getEnded(){ return ended; }
+function phase1Iterate(layerName, clusterLayer){
     if(!getEnded()) {
         var min = document.getElementById("lower-value").innerText;
         var max = document.getElementById("upper-value").innerText;
@@ -585,9 +607,9 @@ function phase1Iterate(){
             processData: false,
             contentType: false,
             dataType: "json",
-            async: true,
+            async: false,
             success: function (results) {
-                processPhase1(results);
+                processPhase1(results, layerName, clusterLayer);
             },
             error: function (error) {
                 alert("Error: " + error);
@@ -599,15 +621,56 @@ function phase1Iterate(){
     }
 }
 var clusters = [];
-function processPhase1(result){
-    if (result[0].t1 == "END") {
-        alert("Phase 1 Completed.");
-        setEnded(true);
+function processPhase1(result, layerName, clusterLayer){
+    if (result == ""){
+        phase1Iterate();
     }
-    //if we have not gotten "END", we want to process the results
     else {
-        //alert("Precinct " + result[0].t1 + " added to cluster " + result[0].t2 + ".");
-        if (!iterative) phase1Iterate();
+        var endTest = result[0].t1;
+        alert("endTest: " + endTest);
+        if (endTest == "END") {
+            alert("Phase 1 Completed.");
+            setEnded(true);
+        }
+        //if we have not gotten "END", we want to process the results
+        else {
+            alert("Not ended.");
+            var i = 0;
+            //while we still are getting responses
+            while (null != result[i].t1) {
+                var cID = result[i].t2;               //cluster id
+                var pID = result[i].t1;               //precinct id
+                alert("i: " + i + ", cID: " + cID + ", pID: " + pID);
+                var index = clusters.indexOf(cID);  //get the index of current cluster
+                if (index == -1) {                   //if the index is -1, the cluster isn't yet added.
+                    clusters.push(cID);             //add the new cluster to our array
+                    index = clusters.indexOf(cID);  //get the index again
+                }                                   //otherwise, we just get the index of the existing cluster.
+                alert("Index: " + index);
+                alert("Layer to be added to: " + layerName);                                                                // <-- why undefined?
+                //now, make a new precinct from our precinct layer, filtering the geoJson by pID
+                var newPrecinct = L.geoJson(layerName, {
+                        filter: function (feature) {
+                            if (feature.properties.countypct === pID) return true;
+                        },
+                        style: function () {
+                            return {
+                                color: 'black',
+                                fillColor: district_color.get(index),
+                                weight: 1,
+                                opacity: 0.8,
+                                fillOpacity: 0.5
+                            }
+                        }
+                    });
+                alert("created new precinct")
+                //once the precinct is finished, add it to the layer in its cluster color                                                    // <------ the issue is here
+                clusterLayer.addData(newPrecinct);
+                alert("added to cluster layer");
+                i++;
+            }
+            if (!isIterative()) phase1Iterate();
+        }
     }
 }
 

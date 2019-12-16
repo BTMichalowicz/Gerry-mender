@@ -18,6 +18,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
     <script src="Content/nouislider.js"></script>
+    <script src="./scripts/ActiveLayers.js"></script>
 
     <!--Links-->
     <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet'/>
@@ -269,14 +270,14 @@
                         <label class="custom-control-label" for="iterate" style="color: white" >Iterative</label>
                         <button class="enableOnInput_r" id="letRunButton" disabled='disabled' onclick="setEndOnly()">Let Run</button>
                         <button class="enableOnInput_r" id="iterateButton" disabled = 'disabled'
-                                onclick="phase1Iterate()">Next Iteration</button>
+                                onclick="phase1Iterate(precinctLayerName, clusterLayer)">Next Iteration</button>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" class="custom-control-input" id="endUpdate" name="example" value="customEx" onclick="endOnly()">
                         <label class="custom-control-label" for="endUpdate" style="color: white">End Only</label><br><br>
                     </div>
                 </div>
-                <button class="enableOnInput" id = "phase1Button" disabled='disabled' onclick="beginPhase1()">Start</button>
+                <button class="enableOnInput" id = "phase1Button" disabled='disabled' onclick="beginPhase1(precinctLayerName, clusterLayer)">Start</button>
                 <br>
                 <div class="tab_leftheader">Output:</div>
                 <button class="enableOnInput" id = "toPhase2" style="display: none;" onclick="openTab(event, 'P2')">To Phase 2</button>
@@ -340,8 +341,8 @@
         <!-- -->
         <script id="itemTemplate" type="text/x-jquery-tmpl">
                 <tr>
-                    <td width="50%">${Attr}</td>
-                    <td width="50%">${Amount}</td>
+                    <td width="40%">${Attr}</td>
+                    <td width="60%">${Amount}</td>
                 </tr>
         </script>
         <!-- -->
@@ -378,12 +379,15 @@
 
     //GeoJsons
     setCurrentState('TX');
+    var precinctLayerName = TX;
+
+    var clusterLayer = L.geoJson();
 
     var precinctLayer = L.geoJson(TX, {
         style: function (feature) {
             return {
                 color: 'black',
-                fillColor: 'red',
+                fillColor: 'white',
                 weight: 1,
                 opacity: 0.8,
                 fillOpacity: 0.5
@@ -396,7 +400,6 @@
             return {
                 color: 'black',
                 fillColor: district_color.get(feature.properties.DISTRICT),
-                //fillColor: colorByVotes();
                 weight: 1,
                 opacity: 0.8,
                 fillOpacity: 0.5
@@ -410,13 +413,16 @@
         "Districts": districtLayer,
         "Precincts": precinctLayer,
     };
+    var overlays = {
+        "Clusters": clusterLayer,
+    }
 
     map.on('baselayerchange', function(){
-        if(!pLayer){setPLayer();}
+        if(map.hasLayer(precinctLayer)) setPLayer();
         else setDLayer();
     });
 
-    L.control.layers(baseLayers, null).addTo(map);
+    L.control.layers(baseLayers, overlays).addTo(map);
 
     map.on('zoomend', function () {
         var zoomlevel = map.getZoom();

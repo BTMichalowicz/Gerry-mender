@@ -281,7 +281,7 @@ html,body{
 
 #small-info-table{
     width: 700px;
-    height: 60px;
+    height: 70px;
     left: 30%;
     position: fixed;
     z-index: 1;
@@ -299,7 +299,7 @@ html,body{
 #small-info-window{
     display: none;
     width: 700px;
-    height: 60px;
+    height: 70px;
     left: 29%;
     position: fixed;
     bottom: 15px;
