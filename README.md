@@ -13,7 +13,6 @@ Our project is created with:
 * JQuery - written for web page functions
 * AJAX - front end content partial update 
 * MySQL - the database, storing the state, district, and precinct information
-* Microsoft Azure - project is deployed into Azure to make it a functioning webapp
 * Java - used in the algorithm that redistricts
 
 ## The Application
