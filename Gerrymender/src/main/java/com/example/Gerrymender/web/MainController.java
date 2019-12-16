@@ -109,51 +109,17 @@ public class MainController {
 
     @RequestMapping(value = "/phase1", method = RequestMethod.POST)
     public @ResponseBody String phase1(String[] whichRaces, double minPopPerc, double maxPopPerc, int numDistricts) {
-        alg.lock.lock();
-        String ret = "";
         ObjectMapper obj = new ObjectMapper();
-        if(alg.isRunning()) {
-            alg.lock.unlock();
-            try {
-                alg.getPhase1Semaphore().acquire();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            List<Tuple2<String, String>> r = null;
-            if(!alg.getPhase1Queue().isEmpty()) {
-                alg.lock.lock();
-                r = alg.getPhase1Queue().remove();
-                alg.lock.unlock();
-                if(r == null) {
-                    alg.setIsRunning(false);
-                    System.out.println("WORDS");
-                }
-
-            }
-            try {
-                    ret = obj.writeValueAsString(ret);
-                return ret;
-            } catch (IOException e) {
-                return "error";
-            }
+        Race[] races = new Race[whichRaces.length];
+        for(int i = 0; i < whichRaces.length; i++) {
+                races[i] = (Race.valueOf(whichRaces[i]));
         }
-        else{
-            alg.lock.unlock();
-            Race[] races = new Race[whichRaces.length];
-            for(int i = 0; i < whichRaces.length; i++) {
-                    races[i] = (Race.valueOf(whichRaces[i]));
-            }
-            Runnable run = () -> {
-                alg.phase1(races, minPopPerc / 100.0, maxPopPerc / 100.0, numDistricts);
-            };
-            new Thread(run).start();
-        }
+        List<String> r = alg.phase1(races, minPopPerc / 100.0, maxPopPerc / 100.0, numDistricts);
         try {
-            ret = obj.writeValueAsString(ret);
+            String ret = obj.writeValueAsString(r);
 
             return ret;
         } catch (IOException e) {
-
             return "error writing to string";
         }
     }
@@ -164,44 +130,20 @@ public class MainController {
         for(int i = 0; i < weights.length; i++) {
             measureMap.put(Measure.values()[i], weights[i]);
         }
+        Race[] races = new Race[whichRaces.length];
+        for(int i = 0; i < whichRaces.length; i++) {
+            races[i] = (Race.valueOf(whichRaces[i]));
+        }
+        alg.setDistrictScoreFunction(DefaultMeasures.defaultMeasuresWithWeights(measureMap));
+        List<Tuple2<String, String>> r = alg.phase2(numIters, races, minPopPerc, maxPopPerc);
         ObjectMapper obj = new ObjectMapper();
-        String ret = "";
-        alg.lock.lock();
-        if(alg.isRunning()) {
-            try {
-                alg.getPhase2Semaphore().acquire();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Tuple2<String, String> r = null;
-            if(!alg.getPhase2Queue().isEmpty()) {
-                r = alg.getPhase2Queue().remove();
-            }
-            try {
-                if(r != null) {
-                    ret = obj.writeValueAsString(r);
-                }
-                else {
-                    ret = obj.writeValueAsString(ret);
-                }
-                alg.lock.unlock();
-                System.out.println(ret);
-                return ret;
-            } catch (IOException e) {
-                alg.lock.unlock();
-                return "";
-            }
+        try {
+            String ret = obj.writeValueAsString(r);
+            return ret;
+        } catch (IOException e) {
+            return "";
         }
-        else {
-            Race[] races = new Race[whichRaces.length];
-            for(int i = 0; i < whichRaces.length; i++) {
-                races[i] = (Race.valueOf(whichRaces[i]));
-            }
-            alg.setDistrictScoreFunction(DefaultMeasures.defaultMeasuresWithWeights(measureMap));
-            Runnable run = () -> { alg.phase2(numIters,races, minPopPerc, maxPopPerc);};
-            new Thread(run).start();
-        }
-        return null;
+
     }
 
     @RequestMapping(value = "/resetAlg", method = RequestMethod.GET)
