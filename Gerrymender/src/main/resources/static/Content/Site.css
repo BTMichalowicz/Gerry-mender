@@ -280,34 +280,34 @@ html,body{
 }
 
 #small-info-table{
-    width: 650px;
-    height: 0px;
+    width: 700px;
+    height: 60px;
     left: 30%;
     position: fixed;
     z-index: 1;
-    bottom: 10px;
+    bottom: 15px;
     background-color: #343a40;
     color: lightgrey;
     overflow-x: hidden;
     overflow-y: hidden;
     text-align: left;
-    font-size: 14px;
+    font-size: 16px;
     float: bottom;
     padding: 10px 5px;
 }
 
 #small-info-window{
     display: none;
-    width: 650px;
-    height: 40px;
+    width: 700px;
+    height: 60px;
     left: 29%;
     position: fixed;
-    bottom: 10px;
+    bottom: 15px;
     background-color: #343a40;
     color: lightgrey;
     overflow-x: hidden;
     overflow-y: hidden;
-    font-size: 14px;
+    font-size: 16px;
     float: bottom;
 }
 

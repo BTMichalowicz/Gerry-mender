@@ -83,14 +83,7 @@ function toggleHomeHelp() {
 
 /*State Pages*/
 var stateUpdated = false;
-var phase1Operational = false;
-function setPhase1Operational (){ phase1Operational = true; }
-function setStateUpdated(){
-    //stateUpdated = true;
-    alert("State updated: ");
-    //enable("phase0Button", "#phase0Button");
-    //alert("enabled phase 0 button");
-}
+
 window.onload = function () {
     //Threshold Sliders
     var popSlider = document.getElementById('popSlider');
@@ -148,8 +141,8 @@ function updateState(id) {
         contentType: false,
         dataType: "json",
         async: true,
-        complete: function(){
-            alert("State Updated.")
+        success: function(){
+            alert("State updated.");
         }
     });
 }
