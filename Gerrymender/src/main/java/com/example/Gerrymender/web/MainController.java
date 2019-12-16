@@ -285,18 +285,30 @@ public class MainController {
         System.out.println("State " + id + " has been updated.");
     }
 
-//    @RequestMapping(value = "/getGerrmander", method = RequestMethod.POST)
-//    public @ResponseBody String getGerrymander(String districtIds[], boolean original, String stateName) {
-//        List<Double> ret = null;
-//        if(original) {
-//
-//        }
-//        else {
-//            for(String id : districtIds) {
-//                BaseDistrict d = alg.getBaseState().getDistrict(id);
-//                ret.add(Measure.PARTISAN_FAIRNESS(d));
-//            }
-//        }
-//        return null;
-//    }
+    @RequestMapping(value = "/getGerrymander", method = RequestMethod.POST)
+    public @ResponseBody String getGerrymander(String districtIds[], boolean original, String stateName, String year, String electionType) {
+        List<Double> ret = null;
+        if(original) {
+                for(String id : districtIds) {
+                    VoteDis dv = voteDisRepository.findByVoteid(new VoteDisId(id, stateName, year, electionType));
+                    BaseDistrict d = new BaseDistrict(id, alg.getBaseState());
+                    d.setGop_vote(dv.getNumrepub());
+                    d.setDem_vote(dv.getNumdemocrat());
+                    ret.add(Measure.PARTISAN_FAIRNESS.calculateMeasure(d));
+                }
+        }
+        else {
+            for(String id : districtIds) {
+                BaseDistrict d = alg.getBaseState().getDistrict(id);
+                ret.add(Measure.PARTISAN_FAIRNESS.calculateMeasure(d));
+            }
+        }
+        ObjectMapper obj = new ObjectMapper();
+        try {
+            String r = obj.writeValueAsString(ret);
+            return r;
+        } catch (IOException e) {
+            return "";
+        }
+    }
 }

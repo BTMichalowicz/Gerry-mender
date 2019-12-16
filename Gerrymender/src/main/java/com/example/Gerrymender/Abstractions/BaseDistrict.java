@@ -57,7 +57,8 @@ public class BaseDistrict implements DistrictInterface<BasePrecinct> {
     public Map<Pol_part, Integer> getVotes() {
         return votes;
     }
-
+    public void setGop_vote(int vote) { gop_vote = vote; }
+    public void setDem_vote(int vote) { dem_vote = vote; }
     public int[] getRacePops() { return racePops; }
 
     //NEW FILE
