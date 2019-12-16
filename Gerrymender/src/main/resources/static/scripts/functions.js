@@ -729,13 +729,18 @@ function phase1Iterate(){
         });
 }
 function addToClusterTable(result){
-    var clusterItem = [{
-        clID: result[i].t1,
-        clPop: numberWithCommas(result[i].t2),
-        clParty: result[i].t3,
-        clMM: result[i].t4,
-    }];
-    $("#blocTemplate").tmpl(clusterItem).appendTo("#clusterTable tbody");
+    var i=0
+    while(result[i] != null) {
+        var clusterItem = [{
+            clID: result[i].t1,
+            clPop: numberWithCommas(result[i].t2),
+            clParty: result[i].t3,
+            clMM: result[i].t4,
+        }];
+        $("#blocTemplate").tmpl(clusterItem).appendTo("#clusterTable tbody");
+        i++;
+    }
+
 }
 function phase1Results(results){
     var clusters = [];
