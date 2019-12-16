@@ -113,6 +113,7 @@ public class MainController {
         String ret = "";
         ObjectMapper obj = new ObjectMapper();
         if(alg.isRunning()) {
+            alg.lock.unlock();
             try {
                 alg.getPhase1Semaphore().acquire();
             } catch (InterruptedException e) {
@@ -120,7 +121,9 @@ public class MainController {
             }
             List<Tuple2<String, String>> r = null;
             if(!alg.getPhase1Queue().isEmpty()) {
+                alg.lock.lock();
                 r = alg.getPhase1Queue().remove();
+                alg.lock.unlock();
                 if(r == null) {
                     alg.setIsRunning(false);
                     System.out.println("WORDS");
@@ -129,14 +132,13 @@ public class MainController {
             }
             try {
                     ret = obj.writeValueAsString(ret);
-                alg.lock.unlock();
                 return ret;
             } catch (IOException e) {
-                alg.lock.unlock();
                 return "error";
             }
         }
         else{
+            alg.lock.unlock();
             Race[] races = new Race[whichRaces.length];
             for(int i = 0; i < whichRaces.length; i++) {
                     races[i] = (Race.valueOf(whichRaces[i]));
@@ -148,10 +150,10 @@ public class MainController {
         }
         try {
             ret = obj.writeValueAsString(ret);
-            alg.lock.unlock();
+
             return ret;
         } catch (IOException e) {
-            alg.lock.unlock();
+
             return "error writing to string";
         }
     }
@@ -282,4 +284,19 @@ public class MainController {
         alg.lock.unlock();
         System.out.println("State " + id + " has been updated.");
     }
+
+//    @RequestMapping(value = "/getGerrmander", method = RequestMethod.POST)
+//    public @ResponseBody String getGerrymander(String districtIds[], boolean original, String stateName) {
+//        List<Double> ret = null;
+//        if(original) {
+//
+//        }
+//        else {
+//            for(String id : districtIds) {
+//                BaseDistrict d = alg.getBaseState().getDistrict(id);
+//                ret.add(Measure.PARTISAN_FAIRNESS(d));
+//            }
+//        }
+//        return null;
+//    }
 }

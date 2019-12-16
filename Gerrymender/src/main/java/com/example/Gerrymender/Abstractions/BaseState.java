@@ -13,7 +13,7 @@ public class BaseState
 
     private Map<String, BaseDistrict> districts;
     private Map<String, BasePrecinct> precincts;
-
+    private Map<String, BaseDistrict> ogDisrticts;
     private int population;
 
     public BaseState(String name, Set<BasePrecinct> inPrecincts) {
@@ -37,6 +37,8 @@ public class BaseState
         //TODO add converting here
         population = (int)(s.getTotalPop());
     }
+    public void setOgDisrticts(Map<String, BaseDistrict> baseDistricts) { ogDisrticts = baseDistricts; }
+    public Map<String, BaseDistrict> getOgDisrticts() { return ogDisrticts; }
     public void setPrecincts(Map<String, BasePrecinct> basePrecincts ) { precincts = basePrecincts; }
     public void setDistricts(Map<String, BaseDistrict> baseDistricts) { districts = baseDistricts; }
     public Map<String, BasePrecinct> getPrecincts() { return precincts; }

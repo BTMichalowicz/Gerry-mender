@@ -159,7 +159,9 @@ public class Algorithm {
                 for (BasePrecinct p : bestNeighbor.getPrecincts().values()) {
                     changes.add(Tuples.of(p.getID(), c.getID()));
                 }
+                lock.lock();
                 phase1Queue.add(changes);
+                lock.unlock();
                 phase1Semaphore.release();
                 combine(clusters.get(key), bestNeighbor);
             i++;
