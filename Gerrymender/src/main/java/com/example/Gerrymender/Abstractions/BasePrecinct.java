@@ -45,17 +45,20 @@ public class BasePrecinct implements PrecinctInterface {
                 maxPop = racePops[i];
                 maxRace = Race.values()[i];
             }
+
             this.majorityRacePop = maxPop;
             this.majorityRace = maxRace;
             this.edges = new HashSet<BasePrecinct>();
             countyName = p.getCountyName();
+
         }
         this.majorityRacePop = maxPop;
         this.majorityRace = maxRace;
         this.edges = new HashSet<BasePrecinct>();
         countyName = p.getCountyName();
         this.points = p.getPoints();
-        //this.geometry = JSONToGeometry(this.points);
+        this.geometry = JSONToGeometry(points);
+
     }
     public BasePrecinct(
             String ID,
@@ -76,7 +79,7 @@ public class BasePrecinct implements PrecinctInterface {
         this.dem_vote = dem_vote;
         this.neighborIDs = neighborIDs;
         this.points = points;
-        //this.geometry = JSONToGeometry(points);
+        this.geometry = JSONToGeometry(points);
     }
     @Override
     public String getID() {
@@ -162,25 +165,25 @@ public class BasePrecinct implements PrecinctInterface {
     public int[] getRacePops() {
         return racePops;
     }
-   /* public Geometry JSONToGeometry(String points) {
+ public Geometry JSONToGeometry(String points) {
         Geometry geom = null;
         GeometryJSON geo = new GeometryJSON();
        // Reader pointReader = new StringReader(points);
+        points = points.replace(points.charAt(1), '\"');
         InputStream polyInput = new ByteArrayInputStream(points.getBytes());
         try {
             geom = geo.readPolygon(polyInput);
             return geom;
         } catch (IOException e) {
-            try {
+            try{
                 geom = geo.readMultiPolygon(polyInput);
                 return geom;
-            } catch (IOException e3){
-                return geom;
-
-            } catch (NullPointerException e2) {
+            }catch(IOException e2){
                 e2.printStackTrace();
             }
+            e.printStackTrace();
         }
         return null;
-    }*/
+    }
+
 }
