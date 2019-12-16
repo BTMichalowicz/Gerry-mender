@@ -737,7 +737,7 @@ function addToClusterTable(result){
             clParty: result[i].t3,
             clMM: result[i].t4,
         }];
-        $("#blocTemplate").tmpl(clusterItem).appendTo("#clusterTable tbody");
+        $("#clusterTemplate").tmpl(clusterItem).appendTo("#clusterTable tbody");
         i++;
     }
 
