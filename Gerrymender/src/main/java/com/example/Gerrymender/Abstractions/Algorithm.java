@@ -50,6 +50,9 @@ public class Algorithm {
     public boolean isRunning() {
         return isRunning;
     }
+    public void setIsRunning(boolean isRunning) {
+        this.isRunning = isRunning;
+    }
 
     public Queue<List<Tuple2<String, String>>> getPhase1Queue() { return phase1Queue; }
     public Semaphore getPhase1Semaphore() { return phase1Semaphore; }
@@ -172,15 +175,11 @@ public class Algorithm {
             baseDistricts.put("" + id, district);
             id++;
         }
-        List<Tuple2<String, String>> end = new ArrayList<>();
-        end.add(Tuples.of("END", "END"));
+
         System.out.println("Sent END!");
-        phase1Queue.add(end);
+        phase1Queue.add(null);
         BaseState.setDistricts(baseDistricts);
         phase1Semaphore.release();
-        lock.lock();
-        isRunning = false;
-        lock.unlock();
     }
 
     public List<VotingBlocInfo> phase0(double popThreshold, double voteThreshold, String election) {

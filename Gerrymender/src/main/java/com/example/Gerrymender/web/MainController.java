@@ -111,14 +111,12 @@ public class MainController {
             List<Tuple2<String, String>> r = null;
             if(!alg.getPhase1Queue().isEmpty()) {
                 r = alg.getPhase1Queue().remove();
+                if(r == null) {
+                    alg.setIsRunning(false);
+                }
             }
             try {
-                if(r != null) {
-                    ret = obj.writeValueAsString(r);
-                }
-                else {
                     ret = obj.writeValueAsString(ret);
-                }
                 alg.lock.unlock();
                 return ret;
             } catch (IOException e) {
