@@ -1,5 +1,4 @@
 package com.example.Gerrymender.Abstractions;
-
 import com.example.Gerrymender.Abstractions.AbstrInterface.PrecinctInterface;
 import com.example.Gerrymender.model.Pol_part;
 import com.example.Gerrymender.model.Precinct;
@@ -10,13 +9,10 @@ import org.locationtech.jts.geom.Geometry;
 import org.geotools.*;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Polygon;
-
 import java.io.*;
 import java.util.*;
 
-
 public class BasePrecinct implements PrecinctInterface {
-
     private String ID;
     private Map<String, Votes> votes;
     private VotingBloc bloc;
@@ -26,7 +22,6 @@ public class BasePrecinct implements PrecinctInterface {
     private Set<BasePrecinct> edges;
     private int[] racePops;
     private String countyName;
-
     //New File imputs
     private Geometry geometry;
     private String geometryJSON;
@@ -50,15 +45,21 @@ public class BasePrecinct implements PrecinctInterface {
                 maxPop = racePops[i];
                 maxRace = Race.values()[i];
             }
+
+            this.majorityRacePop = maxPop;
+            this.majorityRace = maxRace;
+            this.edges = new HashSet<BasePrecinct>();
+            countyName = p.getCountyName();
+
         }
         this.majorityRacePop = maxPop;
         this.majorityRace = maxRace;
         this.edges = new HashSet<BasePrecinct>();
         countyName = p.getCountyName();
         this.points = p.getPoints();
-        this.geometry = JSONToGeometry(this.points);
-    }
+        this.geometry = JSONToGeometry(points);
 
+    }
     public BasePrecinct(
             String ID,
             Geometry geometry,
@@ -80,143 +81,109 @@ public class BasePrecinct implements PrecinctInterface {
         this.points = points;
         this.geometry = JSONToGeometry(points);
     }
-
     @Override
     public String getID() {
         return ID;
     }
-
     public String getGeometryJSON() {
         return geometryJSON;
     }
-
     public Geometry getGeometry() {
         return geometry;
     }
-
-
     public double getPopulationDensity() {
         if (geometry != null && geometry.getArea() != 0)
             return getPopulation() / geometry.getArea();
         return -1;
     }
-
     public String getCountyName() {
         return countyName;
     }
-
     @Override
     public String getOriginalDistrictID() {
         return originalDistrictID;
     }
-
     @Override
     public Set<String> getNeighborIDs() {
         return neighborIDs;
     }
-
     @Override
     public int getPopulation() {
         return population;
     }
-
     @Override
     public int getGOPVote() {
         return gop_vote;
     }
-
     @Override
     public int getDEMVote() {
         return dem_vote;
     }
-
     //END New file
-
     public String getPoints() {
         return points;
     }
-
     public void setPoints(String points) {
         this.points = points;
     }
-
-
     public VotingBloc getBloc() {
         return bloc;
     }
-
     public void setBloc(VotingBloc bloc) {
         this.bloc = bloc;
     }
-
     public Map<String, Votes> getVotes() {
         return votes;
     }
-
     public void setVotes(Map<String, Votes> votes) {
         this.votes = votes;
     }
-
-
     public int getMajorityRacePop() {
         return majorityRacePop;
     }
-
     public Race getMajorityRace() {
         return majorityRace;
     }
-
     public void setMajorityRace(Race majorityRace) {
         this.majorityRace = majorityRace;
     }
-
     public void setMajorityRacePop(int majorityRacePop) {
         this.majorityRacePop = majorityRacePop;
     }
-
     public int getClusterId() {
         return clusterId;
     }
-
     public void setClusterId(int clusterId) {
         this.clusterId = clusterId;
     }
-
     public Set<BasePrecinct> getEdges() {
         return edges;
     }
-
     public void setEdges(Set<BasePrecinct> edges) {
         this.edges = edges;
     }
-
     public int[] getRacePops() {
         return racePops;
     }
-
-    public Geometry JSONToGeometry(String points) {
+ public Geometry JSONToGeometry(String points) {
         Geometry geom = null;
         GeometryJSON geo = new GeometryJSON();
        // Reader pointReader = new StringReader(points);
+        points = points.replace(points.charAt(1), '\"');
         InputStream polyInput = new ByteArrayInputStream(points.getBytes());
-
         try {
             geom = geo.readPolygon(polyInput);
             return geom;
         } catch (IOException e) {
-            try {
+            try{
                 geom = geo.readMultiPolygon(polyInput);
                 return geom;
-            } catch (IOException e3){
-                return geom;
-
-            } catch (NullPointerException e2) {
+            }catch(IOException e2){
                 e2.printStackTrace();
             }
+            e.printStackTrace();
         }
-
         return null;
-
-
     }
+
 }

@@ -171,7 +171,7 @@
                 Voting Threshold: <span id="voteThresh_value"></span>%<br>
                     <div id = "voteSlider"></div><br>
             </div>
-            <button class="enableOnInput" id="phase0Button" disabled='disabled' onclick="phase0()">Calculate</button>
+            <button class="ctr_buttont" id="phase0Button" onclick="phase0()">Calculate</button>
             <br>
             <div class="tab_leftheader">Output:</div>
             <table id = "blocSummaryTable" style = "width:100%; font-size: 18px">
@@ -314,7 +314,7 @@
         <script id="smallInfoTemplate" type="text/x-jquery-tmpl">
                      <tr>
                         <td width = "11%">${code}</td>
-                        <td width = "11%">${tPop}</td>
+                        <td width = "12%">${tPop}</td>
                         <td width = "11%">${bPop}</td>
                         <td width = "11%">${wPop}</td>
                         <td width = "11%">${hPop}</td>
@@ -378,8 +378,31 @@
     //GeoJsons
     setCurrentState('TX');
 
-    var precinctLayer = L.layerGroup();
-    var districtLayer = L.layerGroup().addTo(map);
+    var precinctLayer = L.geoJson(TX, {
+        style: function (feature) {
+            return {
+                color: 'black',
+                fillColor: 'red',
+                weight: 1,
+                opacity: 0.8,
+                fillOpacity: 0.5
+            };
+        },
+        onEachFeature: onEachFeature,
+    });
+    var districtLayer = L.geoJson(txLayer, {
+        style: function (feature) {
+            return {
+                color: 'black',
+                fillColor: district_color.get(feature.properties.DISTRICT),
+                //fillColor: colorByVotes();
+                weight: 1,
+                opacity: 0.8,
+                fillOpacity: 0.5
+            };
+        },
+        onEachFeature: onEachFeature,
+    }).addTo(map);
     setDLayer();
 
     var baseLayers = {
@@ -394,47 +417,20 @@
 
     L.control.layers(baseLayers, null).addTo(map);
 
-    var districts = L.geoJson(txLayer, {
-        style: function (feature) {
-            return {
-                color: 'black',
-                fillColor: district_color.get(feature.properties.DISTRICT),
-                //fillColor: colorByVotes();
-                weight: 1,
-                opacity: 0.8,
-                fillOpacity: 0.5
-            };
-        },
-        onEachFeature: onEachDFeature,
-    }).addTo(map);
-
-    var precincts = L.geoJson(TX, {
-        style: function (feature) {
-            return {
-                color: 'black',
-                fillColor: 'red',
-                weight: 1,
-                opacity: 0.8,
-                fillOpacity: 0.5
-            };
-        },
-        onEachFeature: onEachPFeature,
-    });
-
     map.on('zoomend', function () {
         var zoomlevel = map.getZoom();
         //zoomlevel increases as zoom in
         if (zoomlevel > 7) {
-            if (map.hasLayer(districts)) {
-                map.removeLayer(districts);
-                map.addLayer(precincts);
+            if (map.hasLayer(districtLayer)) {
+                map.removeLayer(districtLayer);
+                map.addLayer(precinctLayer);
                 setPLayer();
             }
         }
         if (zoomlevel <= 7) {
-            if (map.hasLayer(precincts)) {
-                map.removeLayer(precincts);
-                map.addLayer(districts);
+            if (map.hasLayer(precinctLayer)) {
+                map.removeLayer(precinctLayer);
+                map.addLayer(districtLayer);
                 setDLayer();
             }
         }
