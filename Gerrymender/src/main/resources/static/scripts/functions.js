@@ -746,7 +746,6 @@ function phase1Results(results){
     var clusters = [];
     var i = 0;
     while(results[i] != null){
-        alert(results[i]);
         clusters.push(results[i]);
         i++;
     }
