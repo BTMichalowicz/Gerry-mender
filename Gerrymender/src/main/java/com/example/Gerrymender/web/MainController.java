@@ -46,19 +46,29 @@ public class MainController {
     public @ResponseBody String updateSmallInfoWindow(String stateName, String id, String mapLevel, String year, String electionType) {
         ObjectMapper obj = new ObjectMapper();
         List res = new ArrayList();
-        switch(mapLevel){
-            case "district":
-                District founddis = districtRepository.findByDistrictidAndStatename(id, stateName);
-                res.add(founddis);
-                VoteDis dv = voteDisRepository.findByVoteid(new VoteDisId(id, founddis.getStateName(), "" + year, electionType));
-                res.add(dv);
-                break;
-            default:
-                Precinct foundpre = precinctRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("precinct", "id", id));
-                res.add(foundpre);
-                Vote v = voteRepository.findByVoteid(new VoteId(foundpre.getNameID(), "" + year, electionType));
-                res.add(v);
+        try {
+            switch (mapLevel) {
+                case "district":
+                    District founddis = districtRepository.findByDistrictidAndStatename(id, stateName);
+                    res.add(founddis);
+                    VoteDis dv = voteDisRepository.findByVoteid(new VoteDisId(id, founddis.getStateName(), "" + year, electionType));
+                    res.add(dv);
+                    break;
+                default:
+                    Precinct foundpre = precinctRepository.findById(id)
+                            .orElseThrow(() -> new ResourceNotFoundException("precinct", "id", id));
+                    res.add(foundpre);
+                    Vote v = voteRepository.findByVoteid(new VoteId(foundpre.getNameID(), "" + year, electionType));
+                    res.add(v);
+            }
+        }
+        catch(Exception e) {
+            try {
+                String r = obj.writeValueAsString("");
+                return r;
+            } catch (IOException e1) {
+                return "";
+            }
         }
         try {
             String r = obj.writeValueAsString(res);
@@ -113,7 +123,9 @@ public class MainController {
                 r = alg.getPhase1Queue().remove();
                 if(r == null) {
                     alg.setIsRunning(false);
+                    System.out.println("WORDS");
                 }
+
             }
             try {
                     ret = obj.writeValueAsString(ret);
@@ -145,7 +157,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/phase2", method = RequestMethod.POST)
-    public @ResponseBody String phase2(double[] weights, int numIters)  {
+    public @ResponseBody String phase2(double[] weights, int numIters, String[] whichRaces, double minPopPerc, double maxPopPerc)  {
         Map<Measure, Double> measureMap = new HashMap<>();
         for(int i = 0; i < weights.length; i++) {
             measureMap.put(Measure.values()[i], weights[i]);
@@ -179,8 +191,12 @@ public class MainController {
             }
         }
         else {
+            Race[] races = new Race[whichRaces.length];
+            for(int i = 0; i < whichRaces.length; i++) {
+                races[i] = (Race.valueOf(whichRaces[i]));
+            }
             alg.setDistrictScoreFunction(DefaultMeasures.defaultMeasuresWithWeights(measureMap));
-            Runnable run = () -> { alg.phase2(numIters);};
+            Runnable run = () -> { alg.phase2(numIters,races, minPopPerc, maxPopPerc);};
             new Thread(run).start();
         }
         return null;

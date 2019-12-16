@@ -99,7 +99,7 @@ public class Algorithm {
         BaseState.setClusters(clusters);
     }
 
-    public void phase2(int numIterations) {
+    public void phase2(int numIterations, Race[] races, double minPopPerc, double maxPopPerc) {
         Map<String, BaseDistrict> baseDistricts = BaseState.getDistricts();
         lock.lock();
         phase2Queue = new LinkedList<>();
@@ -108,7 +108,7 @@ public class Algorithm {
         int numDistricts = baseDistricts.size();
         for(int i = 0; i < numIterations; i++) {
             BaseDistrict district = baseDistricts.get("" + (i%numDistricts + 1));
-            Move m = getMoveFromDistrict(district);
+            Move m = getMoveFromDistrict(district, races, minPopPerc, maxPopPerc);
             if(m != null) {
                 phase2Queue.add(Tuples.of(m.getPrecinct().getID(), m.getTo().getID()));
                 phase2Semaphore.release();
@@ -398,19 +398,19 @@ public class Algorithm {
         return precinctDistrictMap.get(p.getID());
     }
 
-    public Move<BasePrecinct, BaseDistrict> makeMove() {
-        if (currentDistrict == null) {
-            currentDistrict = getWorstDistrict();
-        }
-        BaseDistrict startDistrict = currentDistrict;
-        Move m = getMoveFromDistrict(startDistrict);
-        if (m == null) {
-            return makeMove_secondary();
-        }
-        return m;
-    }
+//    public Move<BasePrecinct, BaseDistrict> makeMove() {
+//        if (currentDistrict == null) {
+//            currentDistrict = getWorstDistrict();
+//        }
+//        BaseDistrict startDistrict = currentDistrict;
+//        Move m = getMoveFromDistrict(startDistrict);
+//        if (m == null) {
+//            return makeMove_secondary();
+//        }
+//        return m;
+//    }
 
-    public Move getMoveFromDistrict(BaseDistrict startDistrict) {
+    public Move getMoveFromDistrict(BaseDistrict startDistrict, Race[] races, double minPopPerc, double maxPopPerc) {
         Set<BasePrecinct> precincts = startDistrict.getBorderPrecincts();
         //Set<BasePrecinct> precincts = startDistrict.getPrecincts();
         for (BasePrecinct p : precincts) {
@@ -419,13 +419,13 @@ public class Algorithm {
                 if (startDistrict.getPrecinct(n) == null) {
                     BaseDistrict neighborDistrict = BaseState.getDistrict(precinctDistrictMap.get(n));
                     //System.out.println("Start BaseDistrict: " + startDistrict.getID() + ", Neighbor BaseDistrict: " + neighborDistrict.getID() + ", BasePrecinct: " + p.getID());
-                    Move move = testMove(neighborDistrict, startDistrict, p);
+                    Move move = testMove(neighborDistrict, startDistrict, p, races, minPopPerc, maxPopPerc);
                     if (move != null) {
                         System.out.println("Moving p to neighborDistrict(neighborID = " + n + ")");
                         currentDistrict = startDistrict;
                         return move;
                     }
-                    move = testMove(startDistrict, neighborDistrict, neighborDistrict.getPrecinct(n));
+                    move = testMove(startDistrict, neighborDistrict, neighborDistrict.getPrecinct(n), races, minPopPerc, maxPopPerc);
                     if (move != null) {
                         System.out.println("Moving n to Start BaseDistrict: " + startDistrict.getID());
                         currentDistrict = startDistrict;
@@ -439,39 +439,61 @@ public class Algorithm {
     }
 
     // Returns the confirmed move if successful, otherwise returns null.
-    private Move testMove(BaseDistrict to, BaseDistrict from, BasePrecinct p) {
+    private Move testMove(BaseDistrict to, BaseDistrict from, BasePrecinct p, Race[] races, double minPopPerc, double maxPopPerc) {
         Move m = new Move<>(to, from, p);
         double initial_score = currentScores.get(to) + currentScores.get(from);
-        double racePercsTo1[] = new double[to.getRacePops().length];
-        for(int i = 0; i < to.getRacePops().length; i++) {
-            racePercsTo1[i] = (double)(to.getRacePops()[i]) / (double) (to.getPopulation());
+        boolean toMajMin1 = false;
+        for(Race r : races) {
+            double racePerc = (double)(to.getRacePops()[r.ordinal()]) / (double)(to.getPopulation());
+            if(racePerc >= minPopPerc && racePerc <= maxPopPerc) {
+                toMajMin1 = true;
+            }
         }
-        double racePercsFrom1[] = new double[from.getRacePops().length];
-        for(int i = 0; i < from.getRacePops().length; i++) {
-            racePercsFrom1[i] = (double)(from.getRacePops()[i]) / (double) (from.getPopulation());
+        boolean fromMajMin1 = false;
+        for(Race r : races) {
+            double racePerc = (double)(from.getRacePops()[r.ordinal()]) / (double)(from.getPopulation());
+            if(racePerc >= minPopPerc && racePerc <= maxPopPerc) {
+                toMajMin1 = true;
+            }
         }
         m.execute();
         if (!checkContiguity(p, from)) {
             m.undo();
             return null;
         }
-        double racePercsTo2[] = new double[to.getRacePops().length];
-        for(int i = 0; i < to.getRacePops().length; i++) {
-            racePercsTo2[i] = (double)(to.getRacePops()[i]) / (double) (to.getPopulation());
+        boolean toMajMin2 = false;
+        for(Race r : races) {
+            double racePerc = (double)(to.getRacePops()[r.ordinal()]) / (double)(to.getPopulation());
+            if(racePerc >= minPopPerc && racePerc <= maxPopPerc) {
+                toMajMin2 = true;
+            }
         }
-        double racePercsFrom2[] = new double[from.getRacePops().length];
-        for(int i = 0; i < from.getRacePops().length; i++) {
-            racePercsFrom2[i] = (double)(from.getRacePops()[i]) / (double) (from.getPopulation());
+        boolean fromMajMin2 = false;
+        for(Race r : races) {
+            double racePerc = (double)(from.getRacePops()[r.ordinal()]) / (double)(from.getPopulation());
+            if(racePerc >= minPopPerc && racePerc <= maxPopPerc) {
+                toMajMin2 = true;
+            }
         }
-        double raceAcc = 0.0;
-        for(int i = 1; i < racePercsTo1.length; i++) {
-            double init = racePercsTo1[i] + racePercsFrom1[i];
-            double end = racePercsTo2[i] + racePercsFrom2[i];
-            raceAcc += (end - init);
+        if(toMajMin1 && !toMajMin2) { // to degrades
+            if(fromMajMin1 && !fromMajMin2) { // from also degrades
+                m.undo();
+                return null;
+            }
+            if(fromMajMin1 == fromMajMin2) { // from doesn't improves
+                m.undo();
+                return null;
+            }
         }
-        if(raceAcc < 0.0) {
-            m.undo();
-            return null;
+        if(fromMajMin1 && !fromMajMin2) { // from degrades
+            if(toMajMin1 && !toMajMin2) { // to also degrades
+                m.undo();
+                return null;
+            }
+            if(toMajMin1 == toMajMin2) { // to doesn't improves
+                m.undo();
+                return null;
+            }
         }
         double to_score = rateDistrict(to);
         double from_score = rateDistrict(from);
@@ -525,19 +547,19 @@ public class Algorithm {
         return worstDistrict;
     }
 
-    public Move<BasePrecinct, BaseDistrict> makeMove_secondary() {
-        List<BaseDistrict> districts = getWorstDistricts();
-        //districts.remove(0);
-        while (districts.size() > 0) {
-            BaseDistrict startDistrict = districts.get(0);
-            Move m = getMoveFromDistrict(startDistrict);
-            if (m != null) {
-                return m;
-            }
-            districts.remove(0);
-        }
-        return null;
-    }
+//    public Move<BasePrecinct, BaseDistrict> makeMove_secondary() {
+//        List<BaseDistrict> districts = getWorstDistricts();
+//        //districts.remove(0);
+//        while (districts.size() > 0) {
+//            BaseDistrict startDistrict = districts.get(0);
+//            Move m = getMoveFromDistrict(startDistrict);
+//            if (m != null) {
+//                return m;
+//            }
+//            districts.remove(0);
+//        }
+//        return null;
+//    }
 
     // Returns a list of districts sorted from worst to best
     public List<BaseDistrict> getWorstDistricts() {
