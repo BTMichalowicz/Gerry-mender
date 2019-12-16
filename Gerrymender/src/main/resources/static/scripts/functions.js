@@ -564,7 +564,7 @@ function formatRL(){
     if (raceList[4] === true){ races.push("NATIVE_AMERICAN"); }
     return races;
 }
-function beginPhase1(layerName, clusterLayer) {
+function beginPhase1() {
    //hide user inputs
     document.getElementById("minorityPopSection").style.display = 'none';
     document.getElementById("popPercentSection").style.display = 'none';
@@ -581,7 +581,7 @@ function beginPhase1(layerName, clusterLayer) {
     disable("endUpdate", "#endUpdate");
     disable("phase1Button", "#phase1Button");
     alert("Phase 1 Begun!");
-    phase1Iterate(layerName, clusterLayer);
+    phase1Iterate();
 }
 var ended = false;
 function setEnded(value){
@@ -589,14 +589,13 @@ function setEnded(value){
     alert("End.");
 }
 function getEnded(){ return ended; }
-function phase1Iterate(layerName, clusterLayer){
+function phase1Iterate(){
     if(!getEnded()) {
         var min = document.getElementById("lower-value").innerText;
         var max = document.getElementById("upper-value").innerText;
         var races = formatRL();
         var numDis = document.getElementById("numDistrictsInput").value;
         var formData = new FormData();
-        var iterate = iterative;
         formData.append("whichRaces", races);
         formData.append("minPopPerc", min);
         formData.append("maxPopPerc", max);
@@ -610,27 +609,27 @@ function phase1Iterate(layerName, clusterLayer){
             dataType: "json",
             async: false,
             success: function (results) {
-                processPhase1(results, iterate);
+                processPhase1(results);
             },
             error: function (error) {
                 alert("Error: " + error);
             },
+            complete: function(){
+               ended = true;
+            }
         })).responseText;
     }
 }
 var clusters = [];
-function processPhase1(result, iterate){
-    alert("Iterate: " + iterate);
-    if (result === ""){
+function processPhase1(result) {
+    if (result == "") {
         phase1Iterate();
-    }
-    else {
+    } else {
         var endTest = result[0].t1;
         alert("endTest: " + endTest);
-        if (endTest === "END") {
+        if (endTest == "END") {
             alert("Phase 1 Completed.");
             setEnded(true);
-            phase1Results();
         }
         //if we have not gotten "END", we want to process the results
         else {
@@ -642,17 +641,12 @@ function processPhase1(result, iterate){
                 var pID = result[i].t1;               //precinct id
                 alert("i: " + i + ", cID: " + cID + ", pID: " + pID);
                 i++;
-                alert("incremented i");
             }
-            if (!iterate) {
-                alert("Movin on");
+            if (!isIterative()) {
                 phase1Iterate();
             }
         }
     }
-}
-function phase1Results(){
-    alert("Soon");
 }
 
 //Phase 2
