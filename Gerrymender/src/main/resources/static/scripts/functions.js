@@ -728,6 +728,15 @@ function phase1Iterate(){
             }
         });
 }
+function addToClusterTable(result){
+    var clusterItem = [{
+        clID: result[i].t1,
+        clPop: numberWithCommas(result[i].t2),
+        clParty: result[i].t3,
+        clMM: result[i].t4,
+    }];
+    $("#blocTemplate").tmpl(clusterItem).appendTo("#clusterTable tbody");
+}
 function phase1Results(results){
     var clusters = [];
     var i = 0;
@@ -744,7 +753,7 @@ function phase1Results(results){
         formData.append("electionId", elecID);
         formData.append("whichRaces", races);
         $.ajax({
-            url: "http://localhost:8080/phase1",
+            url: "http://localhost:8080/getCluster",
             type: "POST",
             data: formData,
             processData: false,
@@ -752,7 +761,7 @@ function phase1Results(results){
             dataType: "json",
             async: false,
             success: function (results) {
-                alert(results);
+                addToClusterTable(results);
             },
             error: function (error) {
                 alert("Error: " + error);
@@ -762,6 +771,7 @@ function phase1Results(results){
 
     enable("toPhase2", "#toPhase2");
 }
+
 //Phase 2
 function phase2() {
     alert("how did you do this it's not even IMPLEMENTED");
