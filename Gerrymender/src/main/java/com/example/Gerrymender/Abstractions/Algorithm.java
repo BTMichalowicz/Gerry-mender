@@ -28,6 +28,7 @@ public class Algorithm {
     private Semaphore phase1Semaphore;
     private Queue<Tuple2<String, String>> phase2Queue;
     private Semaphore phase2Semaphore;
+
     public Algorithm(BaseState s) {
         BaseState = s;
         lock = new ReentrantLock();
@@ -35,39 +36,56 @@ public class Algorithm {
         phase1Semaphore = new Semaphore(0);
         phase2Semaphore = new Semaphore(0);
     }
+
     public Algorithm() {
         lock = new ReentrantLock();
         isRunning = false;
         phase1Semaphore = new Semaphore(0);
         phase2Semaphore = new Semaphore(0);
     }
+
     public void setBaseState(BaseState s) {
         this.BaseState = s;
     }
+
     public BaseState getBaseState() {
         return BaseState;
     }
+
     public boolean isRunning() {
         return isRunning;
     }
+
     public void setIsRunning(boolean isRunning) {
         this.isRunning = isRunning;
     }
 
-    public Queue<List<Tuple2<String, String>>> getPhase1Queue() { return phase1Queue; }
-    public Semaphore getPhase1Semaphore() { return phase1Semaphore; }
-    public Queue<Tuple2<String, String>> getPhase2Queue() { return phase2Queue; }
-    public Semaphore getPhase2Semaphore() { return phase2Semaphore; }
+    public Queue<List<Tuple2<String, String>>> getPhase1Queue() {
+        return phase1Queue;
+    }
+
+    public Semaphore getPhase1Semaphore() {
+        return phase1Semaphore;
+    }
+
+    public Queue<Tuple2<String, String>> getPhase2Queue() {
+        return phase2Queue;
+    }
+
+    public Semaphore getPhase2Semaphore() {
+        return phase2Semaphore;
+    }
+
     private void combine(BaseCluster c1, BaseCluster c2) {
         c1.combine(c2);
         Object edges[] = c2.getEdges().toArray();
         for (int i = 0; i < edges.length; i++) {
-            BaseCluster c = (BaseCluster)edges[i];
+            BaseCluster c = (BaseCluster) edges[i];
             Set<BaseCluster> edge = c.getEdges();
             edge.remove(c2);
             edge.add(c1);
         }
-        if(!BaseState.getClusters().containsKey(c2.getID())) {
+        if (!BaseState.getClusters().containsKey(c2.getID())) {
             c1.getEdges().remove(c2.getID());
             return;
         }
@@ -106,10 +124,10 @@ public class Algorithm {
         isRunning = true;
         lock.unlock();
         int numDistricts = baseDistricts.size();
-        for(int i = 0; i < numIterations; i++) {
-            BaseDistrict district = baseDistricts.get("" + (i%numDistricts + 1));
+        for (int i = 0; i < numIterations; i++) {
+            BaseDistrict district = baseDistricts.get("" + (i % numDistricts + 1));
             Move m = getMoveFromDistrict(district, races, minPopPerc, maxPopPerc);
-            if(m != null) {
+            if (m != null) {
                 phase2Queue.add(Tuples.of(m.getPrecinct().getID(), m.getTo().getID()));
                 phase2Semaphore.release();
             }
@@ -132,29 +150,29 @@ public class Algorithm {
         double avgPopEpsilon = avgPop * .35;
         boolean lastIter = false;
         int i = 0;
-        while(BaseState.getClusters().size() > numDistricts) {
+        while (BaseState.getClusters().size() > numDistricts) {
             Map<String, BaseCluster> clusters = BaseState.getClusters();
-            if(clusters.size() <= 2 * numDistricts) {
+            if (clusters.size() <= 2 * numDistricts) {
                 lastIter = true;
             }
 
-                String key = (String)clusters.keySet().toArray()[i%clusters.size()];
-                BaseCluster bestNeighbor = null;
-                Tuple2<Double, Double> bestJoinability = Tuples.of(0.0, 0.0);
-                BaseCluster c = clusters.get(key);
-                for (BaseCluster neighbor : c.getEdges()) {
-                    Tuple2<Double, Double> join = c.joinability(neighbor, minPopPerc, maxPopPerc, avgPop, avgPopEpsilon, races, lastIter, BaseState);
-                    if (BaseCluster.maxJoinability(bestJoinability, join, lastIter)) {
-                        bestJoinability = join;
-                        bestNeighbor = neighbor;
-                    }
+            String key = (String) clusters.keySet().toArray()[i % clusters.size()];
+            BaseCluster bestNeighbor = null;
+            Tuple2<Double, Double> bestJoinability = Tuples.of(0.0, 0.0);
+            BaseCluster c = clusters.get(key);
+            for (BaseCluster neighbor : c.getEdges()) {
+                Tuple2<Double, Double> join = c.joinability(neighbor, minPopPerc, maxPopPerc, avgPop, avgPopEpsilon, races, lastIter, BaseState);
+                if (BaseCluster.maxJoinability(bestJoinability, join, lastIter)) {
+                    bestJoinability = join;
+                    bestNeighbor = neighbor;
                 }
-                if (bestNeighbor == null) {
-                    i++;
-                   continue;
-                }
+            }
+            if (bestNeighbor == null) {
+                i++;
+                continue;
+            }
 
-                List<Tuple2<String, String>> changes = new ArrayList<>();
+            List<Tuple2<String, String>> changes = new ArrayList<>();
 
                 for (BasePrecinct p : bestNeighbor.getPrecincts().values()) {
                     changes.add(Tuples.of(p.getID(), c.getID()));
@@ -169,9 +187,9 @@ public class Algorithm {
         Map<String, BaseDistrict> baseDistricts = new HashMap<>();
         int id = 1;
         Map<String, BaseCluster> clusters = BaseState.getClusters();
-        for(String clusterKey : clusters.keySet()) {
+        for (String clusterKey : clusters.keySet()) {
             BaseDistrict district = new BaseDistrict("" + id, BaseState);
-            for(String precintKey : clusters.get(clusterKey).getPrecincts().keySet()) {
+            for (String precintKey : clusters.get(clusterKey).getPrecincts().keySet()) {
                 district.addPrecinct(clusters.get(clusterKey).getPrecincts().get(precintKey));
             }
             baseDistricts.put("" + id, district);
@@ -198,8 +216,8 @@ public class Algorithm {
                 Votes v = p.getVotes().get(election);
                 double votePerc = (double) v.getVotes()[v.getParty().ordinal()] / (double) v.getTotalVotes();
                 if (votePerc >= voteThreshold) {
-                    p.setBloc(new VotingBloc(r, (int)v.getVotes()[v.getParty().ordinal()], v.getParty()));
-                    ret.add(new VotingBlocInfo(p.getID(), v.getParty(), (int)v.getTotalVotes(), (int)v.getVotes()[v.getParty().ordinal()], p.getMajorityRace()));
+                    p.setBloc(new VotingBloc(r, (int) v.getVotes()[v.getParty().ordinal()], v.getParty()));
+                    ret.add(new VotingBlocInfo(p.getID(), v.getParty(), (int) v.getTotalVotes(), (int) v.getVotes()[v.getParty().ordinal()], p.getMajorityRace()));
                 }
             }
         }
@@ -445,17 +463,17 @@ public class Algorithm {
         Move m = new Move<>(to, from, p);
         double initial_score = currentScores.get(to) + currentScores.get(from);
         boolean toMajMin1 = false;
-        for(Race r : races) {
-            double racePerc = (double)(to.getRacePops()[r.ordinal()]) / (double)(to.getPopulation());
-            if(racePerc >= minPopPerc && racePerc <= maxPopPerc) {
+        for (Race r : races) {
+            double racePerc = (double) (to.getRacePops()[r.ordinal()]) / (double) (to.getPopulation());
+            if (racePerc >= minPopPerc && racePerc <= maxPopPerc) {
                 toMajMin1 = true;
             }
         }
         boolean fromMajMin1 = false;
-        for(Race r : races) {
-            double racePerc = (double)(from.getRacePops()[r.ordinal()]) / (double)(from.getPopulation());
-            if(racePerc >= minPopPerc && racePerc <= maxPopPerc) {
-                toMajMin1 = true;
+        for (Race r : races) {
+            double racePerc = (double) (from.getRacePops()[r.ordinal()]) / (double) (from.getPopulation());
+            if (racePerc >= minPopPerc && racePerc <= maxPopPerc) {
+                fromMajMin1 = true;
             }
         }
         m.execute();
@@ -464,35 +482,35 @@ public class Algorithm {
             return null;
         }
         boolean toMajMin2 = false;
-        for(Race r : races) {
-            double racePerc = (double)(to.getRacePops()[r.ordinal()]) / (double)(to.getPopulation());
-            if(racePerc >= minPopPerc && racePerc <= maxPopPerc) {
+        for (Race r : races) {
+            double racePerc = (double) (to.getRacePops()[r.ordinal()]) / (double) (to.getPopulation());
+            if (racePerc >= minPopPerc && racePerc <= maxPopPerc) {
                 toMajMin2 = true;
             }
         }
         boolean fromMajMin2 = false;
-        for(Race r : races) {
-            double racePerc = (double)(from.getRacePops()[r.ordinal()]) / (double)(from.getPopulation());
-            if(racePerc >= minPopPerc && racePerc <= maxPopPerc) {
-                toMajMin2 = true;
+        for (Race r : races) {
+            double racePerc = (double) (from.getRacePops()[r.ordinal()]) / (double) (from.getPopulation());
+            if (racePerc >= minPopPerc && racePerc <= maxPopPerc) {
+                fromMajMin2 = true;
             }
         }
-        if(toMajMin1 && !toMajMin2) { // to degrades
-            if(fromMajMin1 && !fromMajMin2) { // from also degrades
+        if (toMajMin1 && !toMajMin2) { // to degrades
+            if (fromMajMin1 && !fromMajMin2) { // from also degrades
                 m.undo();
                 return null;
             }
-            if(fromMajMin1 == fromMajMin2) { // from doesn't improves
+            if (fromMajMin1 == fromMajMin2) { // from doesn't improves
                 m.undo();
                 return null;
             }
         }
-        if(fromMajMin1 && !fromMajMin2) { // from degrades
-            if(toMajMin1 && !toMajMin2) { // to also degrades
+        if (fromMajMin1 && !fromMajMin2) { // from degrades
+            if (toMajMin1 && !toMajMin2) { // to also degrades
                 m.undo();
                 return null;
             }
-            if(toMajMin1 == toMajMin2) { // to doesn't improves
+            if (toMajMin1 == toMajMin2) { // to doesn't improves
                 m.undo();
                 return null;
             }
