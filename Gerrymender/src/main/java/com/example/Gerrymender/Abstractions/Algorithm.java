@@ -152,9 +152,9 @@ public class Algorithm {
                 }
 
                 List<Tuple2<String, String>> changes = new ArrayList<>();
-                String id = Integer.parseInt(clusters.get(key).getID()) < Integer.parseInt(bestNeighbor.getID()) ? clusters.get(key).getID() : bestNeighbor.getID();
+
                 for (BasePrecinct p : bestNeighbor.getPrecincts().values()) {
-                    changes.add(Tuples.of(p.getID(), id));
+                    changes.add(Tuples.of(p.getID(), c.getID()));
                 }
                 phase1Queue.add(changes);
                 phase1Semaphore.release();
