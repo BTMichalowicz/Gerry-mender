@@ -366,7 +366,7 @@
     /*geoJson Manipulation*/
     setCurrentState('NC');
     updateState('North Carolina');
-    var precinctLayer = L.geoJson(TX, {
+    var precinctLayer = L.geoJson(NC, {
         style: function (feature) {
             return {
                 color: 'black',
@@ -378,7 +378,7 @@
         },
         onEachFeature: onEachFeature,
     });
-    var districtLayer = L.geoJson(txLayer, {
+    var districtLayer = L.geoJson(ncLayer, {
         style: function (feature) {
             return {
                 color: 'black',

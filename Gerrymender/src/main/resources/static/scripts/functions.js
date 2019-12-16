@@ -565,15 +565,10 @@ function beginPhase1() {
     phase1Iterate();
 }
 var ended = false;
-function setEnded(value){
-    ended = value;
-}
-function iterationEnded(){
-    alert("Phase 1 Completed.");
-}
-
+function setEnded(value){ ended = value; }
+function getEnded(){return ended;}
 function phase1Iterate(){
-    if(!ended) {
+    if(!getEnded()) {
         var min = document.getElementById("lower-value").innerText;
         var max = document.getElementById("upper-value").innerText;
         var races = formatRL();
@@ -596,28 +591,23 @@ function phase1Iterate(){
             },
             error: function (error) {
                 alert("Error: " + error);
+            },
+            complete: function(){
+               ended = true;
             }
         })).responseText;
     }
-    else iterationEnded();
 }
 var clusters = [];
 function processPhase1(result){
-    //first iteration of phase 1 returns empty string
-    if (result == ""){
-        phase1Iterate();
+    if (result[0].t1 == "END") {
+        alert("Phase 1 Completed.");
+        setEnded(true);
     }
-    //next iterations return in format [{"t1":"precinctID"},{"t2":"clusterID"}]
+    //if we have not gotten "END", we want to process the results
     else {
-        //get the first element, if the end is met it will be "END"
-        var test = result[0].t1;
-        //if we have not gotten "END", we want to process the results
-        if (test != "END") {
-            //alert("Precinct " + result[0].t1 + " added to cluster " + result[0].t2 + ".");
-            if (!iterative) phase1Iterate();
-        }
-        //if "END", we want to break the loop if it's there
-        else setEnded(true);
+        //alert("Precinct " + result[0].t1 + " added to cluster " + result[0].t2 + ".");
+        if (!iterative) phase1Iterate();
     }
 }
 
