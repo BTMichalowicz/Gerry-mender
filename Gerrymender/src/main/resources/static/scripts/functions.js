@@ -129,6 +129,115 @@ window.onload = function () {
     slider.noUiSlider.on('update', function (values, handle) {
         sliderValues[handle].innerHTML = values[handle];
     });
+    var parFairSlider = document.getElementById('parFairSlider');
+    noUiSlider.create(parFairSlider, {
+        start: [.5],
+        range: {
+            'min': [0],
+            'max': [1]
+        },
+        connect: 'lower'
+    });
+    parFairSlider.noUiSlider.on('update', function (values, handle) {
+        document.getElementById('parFair_value').innerHTML = values[handle];
+    });
+    var reockSlider = document.getElementById('reockSlider');
+    noUiSlider.create(reockSlider, {
+        start: [.5],
+        range: {
+            'min': [0],
+            'max': [1]
+        },
+        connect: 'lower'
+    });
+    reockSlider.noUiSlider.on('update', function (values, handle) {
+        document.getElementById('reock_value').innerHTML = values[handle];
+    });
+    var cHullSlider = document.getElementById('cHullSlider');
+    noUiSlider.create(cHullSlider, {
+        start: [.5],
+        range: {
+            'min': [0],
+            'max': [1]
+        },
+        connect: 'lower'
+    });
+    cHullSlider.noUiSlider.on('update', function (values, handle) {
+        document.getElementById('cHull_value').innerHTML = values[handle];
+    });
+    var edgeCompSlider = document.getElementById('edgeCompSlider');
+    noUiSlider.create(edgeCompSlider, {
+        start: [.5],
+        range: {
+            'min': [0],
+            'max': [1]
+        },
+        connect: 'lower'
+    });
+    edgeCompSlider.noUiSlider.on('update', function (values, handle) {
+        document.getElementById('edgeComp_value').innerHTML = values[handle];
+    });
+    var effGapSlider = document.getElementById('effGapSlider');
+    noUiSlider.create(effGapSlider, {
+        start: [.5],
+        range: {
+            'min': [0],
+            'max': [1]
+        },
+        connect: 'lower'
+    });
+    effGapSlider.noUiSlider.on('update', function (values, handle) {
+        document.getElementById('effGap_value').innerHTML = values[handle];
+    });
+    var popEqSlider = document.getElementById('popEqSlider');
+    noUiSlider.create(popEqSlider, {
+        start: [.5],
+        range: {
+            'min': [0],
+            'max': [1]
+        },
+        connect: 'lower'
+    });
+    popEqSlider.noUiSlider.on('update', function (values, handle) {
+        document.getElementById('popEq_value').innerHTML = values[handle];
+    });
+    var compSlider = document.getElementById('compSlider');
+    noUiSlider.create(compSlider, {
+        start: [.5],
+        range: {
+            'min': [0],
+            'max': [1]
+        },
+        connect: 'lower'
+    });
+    compSlider.noUiSlider.on('update', function (values, handle) {
+        document.getElementById('comp_value').innerHTML = values[handle];
+    });
+    var gmRSlider = document.getElementById('gmRSlider');
+    noUiSlider.create(gmRSlider, {
+        start: [.5],
+        range: {
+            'min': [0],
+            'max': [1]
+        },
+        connect: 'lower'
+    });
+    gmRSlider.noUiSlider.on('update', function (values, handle) {
+        document.getElementById('gmR_value').innerHTML = values[handle];
+    });
+    var gmDSlider = document.getElementById('popHSlider');
+    noUiSlider.create(gmDSlider, {
+        start: [.5],
+        range: {
+            'min': [0],
+            'max': [1]
+        },
+        connect: 'lower'
+    });
+    gmDSlider.noUiSlider.on('update', function (values, handle) {
+        document.getElementById('gmD_value').innerHTML = values[handle];
+    });
+
 };
 function updateState(id) {
     var formData = new FormData();
@@ -551,6 +660,7 @@ function endOnly() {
 }
 //indices refer to race to be used: [WHITE,AFRICAN_AMERICAN,HISPANIC,ASIAN,NATIVE_AMERICAN]
 var raceList = [false, false, true, false, false];
+var formattedRL;
 function addToRaceList(raceIndex){
     if( raceList[raceIndex] == false) { raceList[raceIndex] = true; }
     else { raceList[raceIndex] = false; }
@@ -562,6 +672,7 @@ function formatRL(){
     if (raceList[2] === true){ races.push("HISPANIC"); }
     if (raceList[3] === true){ races.push("ASIAN"); }
     if (raceList[4] === true){ races.push("NATIVE_AMERICAN"); }
+    formattedRL = races;
     return races;
 }
 function beginPhase1() {
@@ -582,6 +693,7 @@ function beginPhase1() {
     disable("phase1Button", "#phase1Button");
     alert("Phase 1 Begun!");
     phase1Iterate();
+    phase1Results();
 }
 var ended = false;
 function setEnded(value){
@@ -590,12 +702,13 @@ function setEnded(value){
 }
 function getEnded(){ return ended; }
 function phase1Iterate(){
-    if(!getEnded()) {
+    while(!ended) {
         var min = document.getElementById("lower-value").innerText;
         var max = document.getElementById("upper-value").innerText;
         var races = formatRL();
         var numDis = document.getElementById("numDistrictsInput").value;
         var formData = new FormData();
+        var iterate = iterative;
         formData.append("whichRaces", races);
         formData.append("minPopPerc", min);
         formData.append("maxPopPerc", max);
@@ -607,48 +720,39 @@ function phase1Iterate(){
             processData: false,
             contentType: false,
             dataType: "json",
-            async: false,
+            async: true,
             success: function (results) {
-                processPhase1(results);
+                processPhase1(results, iterate);
             },
             error: function (error) {
                 alert("Error: " + error);
-            },
-            complete: function(){
-               ended = true;
             }
         })).responseText;
     }
 }
 var clusters = [];
-function processPhase1(result) {
+function processPhase1(result, iterate) {
     if (result == "") {
         phase1Iterate();
-    } else {
-        var endTest = result[0].t1;
-        alert("endTest: " + endTest);
-        if (endTest == "END") {
-            alert("Phase 1 Completed.");
-            setEnded(true);
-        }
-        //if we have not gotten "END", we want to process the results
-        else {
-            alert("Not ended.");
-            var i = 0;
-            //while we still are getting responses
-            while (null != result[i].t1) {
-                var cID = result[i].t2;               //cluster id
-                var pID = result[i].t1;               //precinct id
-                alert("i: " + i + ", cID: " + cID + ", pID: " + pID);
-                i++;
-            }
-            if (!isIterative()) {
-                phase1Iterate();
-            }
-        }
+    }
+    else if(result === null){
+        alert("Phase 1 Completed.");
+        setEnded(true);
+    }
+    else {
+        alert("Not ended.");
+        var i = 0;
+        //while we still are getting responses
+        phase1Iterate();
     }
 }
-
+function phase1Results(){
+    var formData = new FormData();
+    var races = formattedRL;
+    var elecID = getYear() + getEType();
+    alert("races: " + races + ", electID: " + elecID);
+    enable("toPhase2", "#toPhase2");
+}
 //Phase 2
 function phase2() {
     alert("how did you do this it's not even IMPLEMENTED");
