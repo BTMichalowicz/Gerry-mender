@@ -702,7 +702,6 @@ function setEnded(value){
 }
 function getEnded(){ return ended; }
 function phase1Iterate(){
-    while(!ended) {
         var min = document.getElementById("lower-value").innerText;
         var max = document.getElementById("upper-value").innerText;
         var races = formatRL();
@@ -713,7 +712,7 @@ function phase1Iterate(){
         formData.append("minPopPerc", min);
         formData.append("maxPopPerc", max);
         formData.append("numDistricts", numDis);
-        var result = $.parseJSON($.ajax({
+        $.ajax({
             url: "http://localhost:8080/phase1",
             type: "POST",
             data: formData,
@@ -722,35 +721,45 @@ function phase1Iterate(){
             dataType: "json",
             async: true,
             success: function (results) {
-                processPhase1(results, iterate);
+                phase1Results(results);
             },
             error: function (error) {
                 alert("Error: " + error);
             }
-        })).responseText;
-    }
+        });
 }
-var clusters = [];
-function processPhase1(result, iterate) {
-    if (result == "") {
-        phase1Iterate();
+function phase1Results(results){
+    var clusters = [];
+    var i = 0;
+    while(results[i] != null){
+        alert(results[i]);
+        clusters.push(results[i]);
+        i++;
     }
-    else if(result === null){
-        alert("Phase 1 Completed.");
-        setEnded(true);
-    }
-    else {
-        alert("Not ended.");
-        var i = 0;
-        //while we still are getting responses
-        phase1Iterate();
-    }
-}
-function phase1Results(){
-    var formData = new FormData();
     var races = formattedRL;
     var elecID = getYear() + getEType();
-    alert("races: " + races + ", electID: " + elecID);
+    for(var j=0; j<clusters.length; j++){
+        var formData = new FormData();
+        formData.append("id", clusters[j]);
+        formData.append("electionId", elecID);
+        formData.append("whichRaces", races);
+        $.ajax({
+            url: "http://localhost:8080/phase1",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            async: false,
+            success: function (results) {
+                alert(results);
+            },
+            error: function (error) {
+                alert("Error: " + error);
+            }
+        });
+    }
+
     enable("toPhase2", "#toPhase2");
 }
 //Phase 2
