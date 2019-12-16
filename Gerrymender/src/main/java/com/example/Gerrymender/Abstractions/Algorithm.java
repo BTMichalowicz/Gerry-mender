@@ -117,35 +117,27 @@ public class Algorithm {
         BaseState.setClusters(clusters);
     }
 
-    public void phase2(int numIterations, Race[] races, double minPopPerc, double maxPopPerc) {
+    public List<Tuple2<String, String>> phase2(int numIterations, Race[] races, double minPopPerc, double maxPopPerc) {
         Map<String, BaseDistrict> baseDistricts = BaseState.getDistricts();
-        lock.lock();
-        phase2Queue = new LinkedList<>();
-        isRunning = true;
-        lock.unlock();
         int numDistricts = baseDistricts.size();
         for (int i = 0; i < numIterations; i++) {
             BaseDistrict district = baseDistricts.get("" + (i % numDistricts + 1));
-            Move m = getMoveFromDistrict(district, races, minPopPerc, maxPopPerc);
-            if (m != null) {
-                phase2Queue.add(Tuples.of(m.getPrecinct().getID(), m.getTo().getID()));
-                phase2Semaphore.release();
+            getMoveFromDistrict(district, races, minPopPerc, maxPopPerc);
+        }
+        List<Tuple2<String, String>> ret = new ArrayList<>();
+        for(String id : BaseState.getDistricts().keySet()) {
+            BaseDistrict d = BaseState.getDistrict(id);
+            for(BasePrecinct p : d.getPrecincts()) {
+                ret.add(Tuples.of(p.getID(), d.getID()));
             }
         }
-        phase2Queue.add(Tuples.of("END", "END"));
-        phase2Semaphore.release();
-        lock.lock();
-        isRunning = false;
-        lock.unlock();
+        return ret;
     }
 
-    public void phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
-        lock.lock();
-        isRunning = true;
-        phase1Queue = new LinkedList<>();
-        lock.unlock();
-        initializeClusters();
+    public List<Tuple2<String, String>> phase1(Race[] races, double minPopPerc, double maxPopPerc, int numDistricts) {
 
+        initializeClusters();
+        List<Tuple2<String, String>> changes = new ArrayList<>();
         int avgPop = BaseState.getPopulation() / numDistricts;
         double avgPopEpsilon = avgPop * .35;
         boolean lastIter = false;
@@ -178,7 +170,7 @@ public class Algorithm {
         int id = 1;
         Map<String, BaseCluster> clusters = BaseState.getClusters();
         for (String clusterKey : clusters.keySet()) {
-            List<Tuple2<String, String>> changes = new ArrayList<>();
+
             BaseDistrict district = new BaseDistrict("" + id, BaseState);
             for (String precintKey : clusters.get(clusterKey).getPrecincts().keySet()) {
                 district.addPrecinct(clusters.get(clusterKey).getPrecincts().get(precintKey));
@@ -186,19 +178,9 @@ public class Algorithm {
             }
             baseDistricts.put("" + id, district);
             id++;
-            lock.lock();
-            phase1Queue.add(changes);
-            lock.unlock();
-            phase1Semaphore.release();
         }
-        lock.lock();
-        phase1Queue.add(null);
-        lock.unlock();
-        phase1Semaphore.release();
-        System.out.println("Sent END!");
-        phase1Queue.add(null);
         BaseState.setDistricts(baseDistricts);
-        phase1Semaphore.release();
+        return changes;
     }
 
     public List<VotingBlocInfo> phase0(double popThreshold, double voteThreshold, String election) {
