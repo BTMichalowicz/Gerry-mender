@@ -42,6 +42,7 @@ public class BaseDistrict implements DistrictInterface<BasePrecinct> {
     private boolean multiPolygonUpdated=false;
     private boolean convexHullUpdated=false;
 
+    private int[] racePops;
 
     public BaseDistrict(String ID, BaseState state ) {
         this.ID = ID;
@@ -51,14 +52,13 @@ public class BaseDistrict implements DistrictInterface<BasePrecinct> {
         precincts = new HashMap<String, BasePrecinct>();
         borderPrecincts = new HashSet<BasePrecinct>();
         this.state = state;
+        racePops = new int[5];
     }
     public Map<Pol_part, Integer> getVotes() {
         return votes;
     }
 
-
-
-
+    public int[] getRacePops() { return racePops; }
 
     //NEW FILE
     public Set<BasePrecinct> getPrecincts() {
@@ -93,6 +93,9 @@ public class BaseDistrict implements DistrictInterface<BasePrecinct> {
         gop_vote += p.getGOPVote();
         dem_vote += p.getDEMVote();
         borderPrecincts.add(p);
+        for(int i = 0; i < racePops.length; i++) {
+            racePops[i] += p.getRacePops()[i];
+        }
         Set<BasePrecinct> newInternalNeighbors = getInternalNeighbors(p);
         int newInternalEdges = newInternalNeighbors.size();
         internalEdges += newInternalEdges;
@@ -120,7 +123,9 @@ public class BaseDistrict implements DistrictInterface<BasePrecinct> {
         externalEdges -= (p.getNeighborIDs().size() - lostInternalEdges);
         borderPrecincts.remove(p);
         borderPrecincts.addAll(lostInternalNeighbors);
-
+        for(int i = 0; i < racePops.length; i++) {
+            racePops[i] -= p.getRacePops()[i];
+        }
         this.multiPolygonUpdated = false;
         this.convexHullUpdated = false;
         this.boundingCircleUpdated = false;

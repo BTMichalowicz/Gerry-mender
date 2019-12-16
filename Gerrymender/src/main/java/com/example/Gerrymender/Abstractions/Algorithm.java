@@ -64,6 +64,10 @@ public class Algorithm {
             edge.remove(c2);
             edge.add(c1);
         }
+        if(!BaseState.getClusters().containsKey(c2.getID())) {
+            c1.getEdges().remove(c2.getID());
+            return;
+        }
         BaseState.getClusters().remove(c2.getID());
     }
 
@@ -107,6 +111,8 @@ public class Algorithm {
                 phase2Semaphore.release();
             }
         }
+        phase2Queue.add(Tuples.of("END", "END"));
+        phase2Semaphore.release();
         lock.lock();
         isRunning = false;
         lock.unlock();
@@ -146,9 +152,9 @@ public class Algorithm {
                 }
 
                 List<Tuple2<String, String>> changes = new ArrayList<>();
-                String id = Integer.parseInt(clusters.get(key).getID()) < Integer.parseInt(bestNeighbor.getID()) ? clusters.get(key).getID() : bestNeighbor.getID();
+
                 for (BasePrecinct p : bestNeighbor.getPrecincts().values()) {
-                    changes.add(Tuples.of(p.getID(), id));
+                    changes.add(Tuples.of(p.getID(), c.getID()));
                 }
                 phase1Queue.add(changes);
                 phase1Semaphore.release();
@@ -437,8 +443,34 @@ public class Algorithm {
     private Move testMove(BaseDistrict to, BaseDistrict from, BasePrecinct p) {
         Move m = new Move<>(to, from, p);
         double initial_score = currentScores.get(to) + currentScores.get(from);
+        double racePercsTo1[] = new double[to.getRacePops().length];
+        for(int i = 0; i < to.getRacePops().length; i++) {
+            racePercsTo1[i] = (double)(to.getRacePops()[i]) / (double) (to.getPopulation());
+        }
+        double racePercsFrom1[] = new double[from.getRacePops().length];
+        for(int i = 0; i < from.getRacePops().length; i++) {
+            racePercsFrom1[i] = (double)(from.getRacePops()[i]) / (double) (from.getPopulation());
+        }
         m.execute();
         if (!checkContiguity(p, from)) {
+            m.undo();
+            return null;
+        }
+        double racePercsTo2[] = new double[to.getRacePops().length];
+        for(int i = 0; i < to.getRacePops().length; i++) {
+            racePercsTo2[i] = (double)(to.getRacePops()[i]) / (double) (to.getPopulation());
+        }
+        double racePercsFrom2[] = new double[from.getRacePops().length];
+        for(int i = 0; i < from.getRacePops().length; i++) {
+            racePercsFrom2[i] = (double)(from.getRacePops()[i]) / (double) (from.getPopulation());
+        }
+        double raceAcc = 0.0;
+        for(int i = 1; i < racePercsTo1.length; i++) {
+            double init = racePercsTo1[i] + racePercsFrom1[i];
+            double end = racePercsTo2[i] + racePercsFrom2[i];
+            raceAcc += (end - init);
+        }
+        if(raceAcc < 0.0) {
             m.undo();
             return null;
         }

@@ -158,11 +158,16 @@ public class MainController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Tuple2<String, String> r = alg.getPhase2Queue().remove();
+            Tuple2<String, String> r = null;
+            if(!alg.getPhase2Queue().isEmpty()) {
+                r = alg.getPhase2Queue().remove();
+            }
             try {
                 if(r != null) {
                     ret = obj.writeValueAsString(r);
-                    System.out.println(ret);
+                }
+                else {
+                    ret = obj.writeValueAsString(ret);
                 }
                 alg.lock.unlock();
                 return ret;
@@ -174,7 +179,7 @@ public class MainController {
         else {
             alg.setDistrictScoreFunction(DefaultMeasures.defaultMeasuresWithWeights(measureMap));
             Runnable run = () -> { alg.phase2(numIters);};
-
+            new Thread(run).start();
         }
         return null;
     }
